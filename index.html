@@ -4082,7 +4082,8 @@ function buildMatch() {
   const bpm = Math.max(56, Math.min(160, Math.round(best.t.bpm * (PROG.tempoMul || .92) / 2) * 2));
   // how hard they play follows how the matches have been going (PROG.skill, 0 to 1)
   const sk = PROG.skill ?? .2;
-  const cfg = { id: 'built', title: best.t.name, to: 7, yours: open.indexOf('progressions') >= 0 ? (sk > .75 ? 1 : 2) : 1, attack: cap.attack ? .08 + .22 * sk : 0,
+  // (First to 5 until pop-ups open with the 5th: before then a point only comes when they miss, so 7 drags on.)
+  const cfg = { id: 'built', title: best.t.name, to: cap.pops ? 7 : 5, yours: open.indexOf('progressions') >= 0 ? (sk > .75 ? 1 : 2) : 1, attack: cap.attack ? .08 + .22 * sk : 0,
     save: .3 + .35 * sk, pops: cap.pops, gentle: !cap.attack, tracks: [best.t.id], keys: [(best.t.key.root + best.sh) % 12], tempo: [bpm, bpm] };
   const box = boxes.length > 1 && Math.random() < .4 ? boxes[boxes.length - 1] : pick(boxes);
   const venue = venueFor(best.t.style);
