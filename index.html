@@ -752,6 +752,9 @@ try { for (const k of ['mic-device', 'chuck', 'timing']) { const old = 'fret-det
 const MIC_DEVICE_KEY = 'fretball-mic-device', SPEAKERS_KEY = 'fretball-speakers', SENS_KEY = 'fretball-sens';
 try { echoCancel = localStorage.getItem(SPEAKERS_KEY) === '1'; const sv = localStorage.getItem(SENS_KEY); if (sv !== null && sv !== '' && !isNaN(+sv)) { sensVal = +sv; gate = .04 * Math.pow(.6, sensVal); } } catch {}
 const HEADSET_MIC = /airpods|headset|hands-?free|bluetooth|buds|beats|bose|sony wh|jabra/i;
+// An iPhone or iPad. There, switching from a headset's mic to the phone's own also moves the sound from the
+// headphones to the phone's speaker (and the band then bleeds into the mic), so the game keeps the headset's mic.
+const IOS_DEVICE = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 let micOpening = null;   // only one mic opening at a time (starting the game and opening the tuner both ask)
 // What to tell the player when the microphone won't open, by the reason the browser gives.
 function micProblem(e) {
@@ -778,23 +781,26 @@ async function openMic(deviceId) {
     for (const n of [mic.src, mic.an, mic.spec, mic.sink]) try { n && n.disconnect(); } catch {}
   }
   const base = { echoCancellation: echoCancel, noiseSuppression: false, autoGainControl: false };
-  let want = deviceId ?? (() => { try { return localStorage.getItem(MIC_DEVICE_KEY); } catch { return null; } })();
-  // If we can already see the mics' names, don't even open a headphone mic: on Bluetooth that drops the sound to call quality.
-  try {
+  const picked = deviceId ?? (() => { try { return localStorage.getItem(MIC_DEVICE_KEY); } catch { return null; } })();   // (a mic chosen in Tuner, or the one already in use)
+  let want = picked;
+  // Steer away from a headphone mic (on Bluetooth it drops the sound to call quality), but only when the player
+  // hasn't chosen a mic, and never on an iPhone or iPad (see IOS_DEVICE). A mic the player picked is always used.
+  const avoidHeadset = !picked && !IOS_DEVICE;
+  if (avoidHeadset) try {
     const devs = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput' && d.label);
-    const chosen = want && devs.find(d => d.deviceId === want), dflt = devs.find(d => d.deviceId === 'default') || devs[0];
+    const dflt = devs.find(d => d.deviceId === 'default') || devs[0];
     const other = devs.find(d => d.deviceId !== 'default' && d.deviceId !== 'communications' && !HEADSET_MIC.test(d.label));
-    if (other && ((chosen && HEADSET_MIC.test(chosen.label)) || (!want && dflt && HEADSET_MIC.test(dflt.label)))) want = other.deviceId;
+    if (other && dflt && HEADSET_MIC.test(dflt.label)) want = other.deviceId;
   } catch {}
   let stream;
   try { stream = await navigator.mediaDevices.getUserMedia({ audio: want ? { ...base, deviceId: { exact: want } } : base }); }
   catch { stream = await navigator.mediaDevices.getUserMedia({ audio: base }); want = null; }
   // Still on a headphone mic (far from the guitar, and on Bluetooth it makes everything sound muffled)? Use another if there is one.
-  if (stream.getAudioTracks()[0] && HEADSET_MIC.test(stream.getAudioTracks()[0].label)) {
+  if (avoidHeadset && stream.getAudioTracks()[0] && HEADSET_MIC.test(stream.getAudioTracks()[0].label)) {
     const others = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput' && d.deviceId !== 'default' && d.deviceId !== 'communications' && !HEADSET_MIC.test(d.label));
     if (!others.length) setTimeout(() => typeof healthSay === 'function' && healthSay('🎧 Listening through your headphones\u2019 mic. On Bluetooth that can make the sound muffled: wired headphones, or your computer\u2019s own mic, sound better.'), 600);
   }
-  if (!want || (stream.getAudioTracks()[0] && HEADSET_MIC.test(stream.getAudioTracks()[0].label))) {
+  if (avoidHeadset) {
     const tr = stream.getAudioTracks()[0];
     if (tr && HEADSET_MIC.test(tr.label)) {
       const ins = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput' && d.deviceId !== 'default' && d.deviceId !== 'communications' && !HEADSET_MIC.test(d.label));
@@ -3433,7 +3439,7 @@ function summarize() {
 // Matches fair to compare with today: not a practice or eased match, and a similar tempo.
 const comparable = (h, bpm) => !h.g && Math.abs(h.bpm - bpm) <= 16;
 const sumRole = (list, role) => list.reduce((a, h) => { const e = h.r && h.r[role]; if (e) { a[0] += e[0]; a[1] += e[1]; } return a; }, [0, 0]);
-function insightCandidates(today) {
+function insightCandidates(cur) {   // cur: this match's summary (named so it can't hide today(), the date)
   const T = PB.tally, out = [], hist = STATS.hist, add = (type, key, score, icon, text, ev, dots) => out.push({ type, key, score, icon, text, ev, dots });
   // 1. firsts
   if (PB.firstDinkNow) add('first', 'first:dink7', 100, '✦', `Your first 7th dink: ${PB.firstDinkNow.n}, the 7th of ${PB.firstDinkNow.label}. Hard to return, and you found it.`, 'The first 7th that’s landed in any of your matches.');
@@ -3449,7 +3455,7 @@ function insightCandidates(today) {
   const misses = T.sil + T.wr;
   if (T.sil >= 3 && T.sil >= PB.tries * .25 && T.sil >= T.wr * 1.5) add('mic', 'mic', 95, '🎙', `${T.sil} of your balls got no note at all. If you played them, the mic may not have heard you: Settings → Microphone.`, `A wrong note gets heard and named. These ${T.sil} had nothing, out of ${misses} misses.`);
   // 3. a weakness overcome: a shot (or a chord) that used to go badly, and today didn't
-  const comp = hist.filter(h => comparable(h, today.bpm)).slice(-10), rates = {};
+  const comp = hist.filter(h => comparable(h, cur.bpm)).slice(-10), rates = {};
   for (const role of ROLE_LIST) { const [n, ok] = sumRole(comp, role); if (n >= 15) rates[role] = ok / n; }
   const weakest = Object.entries(rates).sort((a, b) => a[1] - b[1])[0];
   for (const role of ROLE_LIST) {
@@ -3471,7 +3477,7 @@ function insightCandidates(today) {
     add('levelup', 'up:' + u.k + ':' + u.lv, 80, '★', text, 'Two clean finds in a row, on the beat and without the help showing, move a chord tone up a level.');
   } else if (newKnown.length && boxBefore) add('levelup', 'known:' + newKnown.join(','), 70, '★', `You found ${andList(newKnown.map(nm))} with the board down today.`, 'From now on, those notes start with less help in this spot on the neck.');
   // 5. a trend across comparable matches (today plus the last four, against the five before)
-  const series = [...comp, today].filter(h => comparable(h, today.bpm));
+  const series = [...comp, cur].filter(h => comparable(h, cur.bpm));
   for (const role of ['3rd', 'root', '5th']) {
     const recent = series.slice(-5), older = series.slice(-10, -5); if (older.length < 3) break;
     const [rn, rok] = sumRole(recent, role), [on, ook] = sumRole(older, role); if (rn < 20 || on < 20) continue;
@@ -3570,7 +3576,7 @@ function soundcheckRender() {
   const S = SOUNDCHECK, btn = (id, txt, cls = '') => `<button class="btn ${cls}" id="${id}">${txt}</button>`;
   if (S.step === 'ask') scEl.innerHTML = `<div class="sc-in"><h2 id="scTitle">Fretball listens to your guitar</h2>
     <p>Every note you play is a shot, so the game needs your microphone to hear it. Your browser will ask next.</p>
-    <p class="sc-hint">Keep your phone near the guitar. A headphone mic (like AirPods) sounds muffled, so use the phone’s own.</p>
+    <p class="sc-hint">Keep your phone near the guitar.${IOS_DEVICE ? '' : ' A headphone mic (like AirPods) sounds muffled, so use the phone’s own.'}</p>
     <div class="row">${btn('sc-mic', 'Turn on the microphone', 'primary')}<button class="link" id="sc-later">Not now</button></div></div>`;
   else if (S.step === 'fail') scEl.innerHTML = `<div class="sc-in"><h2 id="scTitle">The microphone didn’t start</h2>
     <p>${esc(micProblem(S.err).replace(/,? then tap Play again\.$/, '.'))}</p>
@@ -3645,7 +3651,7 @@ function soundcheckTick() {
   if (st.textContent !== msg) st.textContent = msg;
   if (row.dataset.k !== rowHtml) { const had = row.contains(document.activeElement); row.innerHTML = rowHtml; row.dataset.k = rowHtml; if (had || heard) { const g = document.getElementById('sc-go'); if (g) g.focus({ preventScroll: true }); } }
   const label = mic && mic.label ? mic.label : '';
-  const mtxt = label ? `Listening through: ${label}${HEADSET_MIC.test(label) ? ' (a headset mic: the phone’s own will hear the guitar better)' : ''}` : '';
+  const mtxt = label ? `Listening through: ${label}${HEADSET_MIC.test(label) && !IOS_DEVICE ? ' (a headset mic: the phone’s own will hear the guitar better)' : ''}` : '';
   if (mi.textContent !== mtxt) mi.textContent = mtxt;
   S.raf = requestAnimationFrame(soundcheckTick);
 }
