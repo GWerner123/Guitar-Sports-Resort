@@ -1664,7 +1664,7 @@ function micHealth(t) {
   let peak = 0; for (let i = 0; i < mic.buf.length; i += 8) peak = Math.max(peak, Math.abs(mic.buf[i]));
   // Pure silence: a mic that's warming up or switching modes does this for a moment, so never re-open it
   // (that restarts the switch and loops). Just say so if it lasts, and point to the fix.
-  HEALTH.zeroFor = peak === 0 ? HEALTH.zeroFor + dt : 0;
+  HEALTH.zeroFor = peak === 0 && !G.paused ? HEALTH.zeroFor + dt : 0;   // (a pause isn't the mic dying)
   if (peak > 0 && HEALTH.tries && t - HEALTH.lastReconnect > 60) HEALTH.tries = 0;   // a minute of sound since the last reconnect: it may recover on its own again
   // Dead silence for a while (not quiet: exactly nothing) during play: the input has gone, even if the browser didn't say so. Reopen it.
   if (HEALTH.zeroFor > 6 && !G.paused && ctx && ctx.state === 'running' && (HEALTH.tries || 0) < 2) reconnectMic('no sound was coming in');
@@ -3839,7 +3839,10 @@ function gamePause() {
   if (G.paused || !inPlay()) return;
   G.paused = true; G.pausedAt = performance.now() / 1000; G.pausedCtx = ctx ? ctx.currentTime : 0;
   bandHush(true);
-  const c = ctx; setTimeout(() => { try { if (G.paused && !TUNER.busy && c && c.state === 'running') c.suspend(); } catch {} }, 60);
+  // (Not on an iPhone or iPad: there, stopping the audio with the mic open can hand the sound to the phone's own
+  // speaker and mic when it starts again, dropping AirPods. The clock runs on instead, the band stays hushed, and
+  // Resume restarts the rally, as it does after the tuner.)
+  const c = ctx; if (!IOS_DEVICE) setTimeout(() => { try { if (G.paused && !TUNER.busy && c && c.state === 'running') c.suspend(); } catch {} }, 60);
   render();
 }
 function gameResume() {
