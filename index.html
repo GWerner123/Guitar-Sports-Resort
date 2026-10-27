@@ -551,8 +551,47 @@ let NAMES = SHARP_NAMES;          // flat keys (F, Bb, Eb, Ab, Db) spell their n
 const pc = m => ((Math.round(m) % 12) + 12) % 12;
 const nameOf = m => NAMES[pc(m)];
 const hz = m => 440 * Math.pow(2, (m - 69) / 12);
-const TRIAD = { maj: [0, 4, 7], min: [0, 3, 7], dom7: [0, 4, 7, 10], min7: [0, 3, 7, 10], maj7: [0, 4, 7, 11], m7b5: [0, 3, 6, 10] };
-const CHORD_SUFFIX = { maj: '', min: 'm', dom7: '7', min7: 'm7', maj7: 'maj7', m7b5: 'm7b5' };
+/* Every chord the game knows, in one table: its id, how a chart writes it, how it's printed, its core (root, the
+   3rd's slot, the 5th's slot and, if it has one, the 7th) and its colours (6th, 9th, 11th, 13th and altered tones).
+   The 3rd's slot is the volley (a sus chord's 4th or 2nd takes it), the 5th's slot spikes, and the 7th and every
+   colour dink. A chord asks only for the tones written in it: C9 has a 9th to dink with, C doesn't. */
+const CHORD_DEFS = [
+  ['maj', '', '', [0, 4, 7]], ['min', 'm', 'm', [0, 3, 7]], ['dom7', '7', '7', [0, 4, 7, 10]], ['min7', 'm7', 'm7', [0, 3, 7, 10]],
+  ['maj7', 'maj7', 'maj7', [0, 4, 7, 11]], ['m7b5', 'm7b5', 'm7♭5', [0, 3, 6, 10]],
+  ['maj6', '6', '6', [0, 4, 7], [[9, '6th']]], ['min6', 'm6', 'm6', [0, 3, 7], [[9, '6th']]], ['six9', '6/9', '6/9', [0, 4, 7], [[9, '6th'], [14, '9th']]],
+  ['add9', 'add9', 'add9', [0, 4, 7], [[14, '9th']]], ['madd9', 'madd9', 'm(add9)', [0, 3, 7], [[14, '9th']]],
+  ['dom9', '9', '9', [0, 4, 7, 10], [[14, '9th']]], ['maj9', 'maj9', 'maj9', [0, 4, 7, 11], [[14, '9th']]], ['min9', 'm9', 'm9', [0, 3, 7, 10], [[14, '9th']]],
+  ['min11', 'm11', 'm11', [0, 3, 7, 10], [[14, '9th'], [17, '11th']]], ['maj7s11', 'maj7#11', 'maj7♯11', [0, 4, 7, 11], [[18, '♯11']]], ['dom7s11', '7#11', '7♯11', [0, 4, 7, 10], [[18, '♯11']]],
+  ['dom13', '13', '13', [0, 4, 7, 10], [[14, '9th'], [21, '13th']]], ['maj13', 'maj13', 'maj13', [0, 4, 7, 11], [[14, '9th'], [21, '13th']]], ['min13', 'm13', 'm13', [0, 3, 7, 10], [[14, '9th'], [21, '13th']]],
+  ['dom7b9', '7b9', '7♭9', [0, 4, 7, 10], [[13, '♭9']]], ['dom7s9', '7#9', '7♯9', [0, 4, 7, 10], [[15, '♯9']]], ['dom7b13', '7b13', '7♭13', [0, 4, 7, 10], [[20, '♭13']]],
+  ['sus4', 'sus4', 'sus4', [0, 5, 7]], ['sus2', 'sus2', 'sus2', [0, 2, 7]], ['dom7sus4', '7sus4', '7sus4', [0, 5, 7, 10]], ['dom9sus4', '9sus4', '9sus4', [0, 5, 7, 10], [[14, '9th']]],
+  ['dim', 'dim', 'dim', [0, 3, 6]], ['dim7', 'dim7', 'dim7', [0, 3, 6, 9]],
+  ['aug', 'aug', 'aug', [0, 4, 8]], ['aug7', '7#5', '7♯5', [0, 4, 8, 10]], ['maj7s5', 'maj7#5', 'maj7♯5', [0, 4, 8, 11]], ['mmaj7', 'mMaj7', 'm(maj7)', [0, 3, 7, 11]],
+];
+const TRIAD = Object.fromEntries(CHORD_DEFS.map(d => [d[0], d[3]]));                    // the core: root, 3rd's slot, 5th's slot (, 7th)
+const CHORD_SUFFIX = Object.fromEntries(CHORD_DEFS.map(d => [d[0], d[1]]));             // as a chart writes it
+const CHORD_PRETTY = Object.fromEntries(CHORD_DEFS.map(d => [d[0], d[2]]));             // as it's printed
+const COLOURS = Object.fromEntries(CHORD_DEFS.map(d => [d[0], d[4] || []]));            // [offset, role] for each colour tone
+const TONES = Object.fromEntries(CHORD_DEFS.map(d => [d[0], [...d[3], ...(d[4] || []).map(c => c[0])]]));   // everything the band plays
+const MINOR_Q = new Set(['min', 'min7', 'min6', 'madd9', 'min9', 'min11', 'min13', 'mmaj7']);
+// the name of a core slot on this chord (a sus chord's 3rd's slot is its 4th or 2nd)
+const slotRole = (q, i) => i === 0 ? 'root' : i === 1 ? ((TRIAD[q] || [0, 4])[1] === 5 ? '4th' : (TRIAD[q] || [0, 4])[1] === 2 ? '2nd' : '3rd') : i === 2 ? '5th' : '7th';
+const VOLLEY_ROLES = new Set(['3rd', '4th', '2nd']);
+const COLOUR_ROLES = ['6th', '9th', '11th', '13th', '♯11', '♭9', '♯9', '♭13'];
+// every tone a chord can ask for, in order: its core, then its colours
+const rolesOf = q => [...(TRIAD[q] || TRIAD.maj).map((_, i) => slotRole(q, i)), ...(COLOURS[q] || []).map(c => c[1])];
+// how far above the root a role sits on this chord (null if the chord hasn't got it)
+function toneOff(q, role) {
+  const tq = TRIAD[q] || TRIAD.maj;
+  if (role === 'root') return 0; if (VOLLEY_ROLES.has(role)) return tq[1]; if (role === '5th') return tq[2]; if (role === '7th') return tq[3] ?? null;
+  const c = (COLOURS[q] || []).find(c => c[1] === role); return c ? c[0] : null;
+}
+// The dinks: the 7th and each colour, its shot code, how often they get it back, and how it flies.
+const DINK_OUT = { '7th': 'dink7', '6th': 'dink6', '9th': 'dink9', '11th': 'dink11', '13th': 'dink13', '♯11': 'dinks11', '♭9': 'dinkb9', '♯9': 'dinks9', '♭13': 'dinkb13' };
+const OUT_ROLE = Object.fromEntries(Object.entries(DINK_OUT).map(([r, o]) => [o, r]));
+const isDink = out => !!out && OUT_ROLE[out] !== undefined;
+const DINK_SAVE = { dink6: .15, dink9: .1, dink11: .08, dink13: .08, dinks11: .06, dinkb9: .05, dinks9: .05, dinkb13: .06 };   // (the 7th's is the court's own, LOC.dink7.save: rarer colours come back less)
+const dinkShort = role => role === '7th' ? '7' : role.replace(/th$/, '');   // 9th -> 9, ♭9 stays
 
 // Set from the current location's content (see enterLocation).
 let LOC = null;                 // the location you're in
@@ -627,7 +666,7 @@ function soundingTones() {
   if (!backing.on || !ctx) return null;
   const beat = 60 / BACKING_BPM;
   const [root, q] = groundAt(Math.max(0, backing.beat - Math.ceil((backing.next - ctx.currentTime) / beat)));
-  return TRIAD[q].map(x => pc(root + x));
+  return (TONES[q] || TONES.maj).map(x => pc(root + x));
 }
 /* ---------- Self-awareness ----------
    The backing schedules its own notes ahead of time, so we log exactly which pitch
@@ -664,7 +703,7 @@ function scheduleBacking() {
     if (LOC.backing.style && LOC.backing.style !== 'classical') { bandBeat(LOC.backing.style, i, root, q, t, beat, songIdx(backing.beat)); backing.next += beat; backing.beat++; continue; }
     cello(root, t, beat * .95);
     logBacking([root], t, beat * .95);
-    const tones = TRIAD[q].map(x => 62 + ((root + x - 62) % 12 + 12) % 12).sort((a, b) => a - b);
+    const tones = (TONES[q] || TONES.maj).map(x => 62 + ((root + x - 62) % 12 + 12) % 12).sort((a, b) => a - b);
     strings(tones.map(n => n - 12), t, beat);
     logBacking(tones, t, beat);
     pluck(tones[0] + 12, t, beat * .5, .2, backing.bus, true);
@@ -1398,7 +1437,7 @@ const KIT = {
 // ---------- chords, voiced like a player, moving smoothly ----------
 const RICH = { maj: [4, 7, 9, 14], min: [3, 7, 10, 14], dom7: [4, 10, 14, 21], maj7: [4, 7, 11, 14], min7: [3, 7, 10, 14], m7b5: [3, 6, 10, 12] };
 function voicing(root, q, rich, lo = 52, hi = 74) {
-  const r = pc(root), offs = rich ? RICH[q] : TRIAD[q], pcs = offs.map(o => (r + o) % 12), last = backing.lastVoice || [];
+  const r = pc(root), offs = rich ? (RICH[q] || (TONES[q].length > 3 ? TONES[q].slice(1) : TONES[q])) : (TONES[q] || TONES.maj), pcs = offs.map(o => (r + o) % 12), last = backing.lastVoice || [];
   let best = null, bestCost = 1e9;
   for (let rot = 0; rot < pcs.length; rot++) {
     const order = pcs.slice(rot).concat(pcs.slice(0, rot)); let m = lo + ((order[0] - lo) % 12 + 12) % 12; const v = [m];
@@ -1707,10 +1746,10 @@ function drawMicMeter(t) {
    ===================================================================== */
 
 // A chord written the way a chart writes it ("F#m7b5") -> [bass midi in E2..D#3, quality]
-const CHORD_Q = { '': 'maj', m: 'min', '7': 'dom7', m7: 'min7', maj7: 'maj7', m7b5: 'm7b5' };
+const CHORD_Q = Object.fromEntries(CHORD_DEFS.map(d => [d[1], d[0]]));
 function chordOf(name) {
   const m = /^([A-G])([#b]?)(.*)$/.exec(name), base = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0);
-  const p = (base + 12) % 12; return [40 + ((p - 4 + 12) % 12), CHORD_Q[m[3]]];
+  const p = (base + 12) % 12; return [40 + ((p - 4 + 12) % 12), CHORD_Q[m[3]] || 'maj'];
 }
 const MAJOR_STEPS = [0, 2, 4, 5, 7, 9, 11], MINOR_STEPS = [0, 2, 3, 5, 7, 8, 10, 11];   // (minor: natural, plus the raised 7th its V7 uses)
 /* A track is a lead sheet: one entry per bar (4/4). A bar holds one chord ("Am7") for all four beats,
@@ -1863,7 +1902,7 @@ const TRACK = Object.fromEntries(TRACKS.map(t => [t.id, t]));
 const COURT_LOC = {
   id: 'court', type: 'pickleball', look: 'minimal', props: [],
   key: TRACKS[0].key, backing: { bpm: 76, ground: TRACKS[0].ground, beats_per_chord: 4, chords: TRACKS[0].chords, style: 'resort', start_bar: 0 },
-  window: 'wide', pop_late: .15, spike_save: .6, dink7: { window: .1, save: .2 }, dink9: { window: .055, save: .03 },
+  window: 'wide', spike_save: .6, dink7: { window: .1, save: .2 },
   match: { to: 11, win_by: 2, slip: .04 }, shots: { spike: 0, pop: 2, window: 'normal' },
   groove: { drain: .11, refill: .35, miss: .3, wrong: .04, grace: 6, through: .5 },
 };
@@ -2251,7 +2290,7 @@ const PB = { phase: 'intro', cfg: null, notes: null, sel: null, shots: [], rally
 const pbLevel = () => PB.cfg;   // this match: how many balls are yours, how hard they attack and save
 const pbWin = s => WINDOWS[s && s.kind === 'spike' ? LOC.shots.window : LOC.window];
 const pbOff = kind => kind === 'spike' ? -LOC.shots.spike : kind === 'pop' ? LOC.shots.pop : 0;   // a spike lands on the change (shots.spike: beats early, 0 now); a pop-up floats down two beats late, mid-bar
-const pbHigh = kind => ({ spike: .3, dink7: .45, dink9: .45, normal: .8, pop: 1.75, serve: 1.1 }[kind] ?? .8);   // read the ball by its height
+const pbHigh = kind => ({ spike: .3, dink7: .45, dink6: .7, dink9: .5, dink11: .6, dink13: 1.05, dinks11: .5, dinkb9: .45, dinks9: .45, dinkb13: .62, normal: .8, pop: 1.75, serve: 1.1 }[kind] ?? .8);   // read the ball by its height
 // A light paddle pop on every hit: a short burst of filtered noise (no pitch, so the mic won't take it for a note).
 let popNoise = null;
 function paddlePop(at = 0, bright = false) {
@@ -2264,30 +2303,47 @@ function paddlePop(at = 0, bright = false) {
 }
 // After a miss: the note that would have done it.
 function pbAnswer(s) {
-  const tq = TRIAD[s.q] || TRIAD.maj, n = s.kind === 'spike' ? [s.root, 'root'] : s.kind === 'pop' ? [(s.root + tq[2]) % 12, '5th'] : [(s.root + tq[1]) % 12, '3rd'];
+  const tq = TRIAD[s.q] || TRIAD.maj, n = s.kind === 'spike' ? [s.root, 'root'] : s.kind === 'pop' ? [(s.root + tq[2]) % 12, '5th'] : [(s.root + tq[1]) % 12, slotRole(s.q, 1)];
   return `${s.label}\u2019s ${n[1]} is ${NAMES[n[0]]}`;
 }
+// What each colour's dink does in the air (said with the first one you land).
+const DINK_LINES = { '6th': 'A floaty lob', '9th': 'It curls as it drops', '11th': 'It hangs, then falls', '13th': 'A high lazy arc', '♯11': 'It shimmers over', '♭9': 'A wobbly knuckleball', '♯9': 'A wobbly knuckleball', '♭13': 'It dips late' };
+const dinkLine = role => DINK_LINES[role] || 'Hard to return';
 // The 7th dink, introduced once: the first match with 7th chords says so on its card, the pop-up tag
 // names the shot for the first few chances, and the first one landed gets its own moment.
 const has7th = q => TRIAD[q] && TRIAD[q][3] != null;
 const dinkNew = () => (PROG.dink7 || 0) < 3;   // (chances seen; 99 once one has landed)
+// the dink on this chord that's still new to you (its first few chances), for the pop-up's banner: the newest colour first
+function newDinkRole(q) {
+  const cs = (COLOURS[q] || []).map(c => c[1]).filter(r => ((PROG.dinks || {})[r] || 0) < 3);
+  return cs.length ? cs[cs.length - 1] : has7th(q) && dinkNew() ? '7th' : null;
+}
+// The pop-up's tag: both its big options, "SPIKE 5 · DINK 9" (the 3rd always plays it safe, so it isn't named).
+// The dink named is the one it asks for, or else the one you know least; the asked one carries its note early on.
+function popTag(s, a) {
+  const ds = pbDinks(s); if (!ds.length) return null;
+  const r = s.root, d = OUT_ROLE[DINK_OUT[a.role]] ? [a.role, a.want] : ds.reduce((b, x) => itemEff(itemKey(r, s.q, x[0]), x[1]) < itemEff(itemKey(r, s.q, b[0]), b[1]) ? x : b);
+  const note = p => a.lv <= 1 && p === a.want ? ` ${nm(p)}` : '';
+  return `SPIKE 5${note((r + (TRIAD[s.q] || TRIAD.maj)[2]) % 12)} \u00b7 DINK ${dinkShort(d[0])}${note(d[1])}`;
+}
 function pbSay(msg) { PB.banner = msg; PB.bannerAt = performance.now() / 1000; PB.bannerDur = sayDur(msg); }
 // How a chord is written on the ball: short, the way a jazz chart writes it.
-function pbLabel(root, q) { return NAMES[pc(root)] + (CHORD_SUFFIX[q] ?? ''); }
+function pbLabel(root, q) { return NAMES[pc(root)] + (CHORD_PRETTY[q] ?? ''); }
 // Which notes return a ball, and what shot each one makes.
-// The chord's 7th and 9th, only if they're written into the chord (null when it hasn't one).
-function pbExt(s) {
-  const tq = TRIAD[s.q], r = s.root;
-  return { seventh: tq[3] != null ? (r + tq[3]) % 12 : null, ninth: tq[4] != null ? (r + tq[4]) % 12 : null };
+// The chord's dinks: its 7th and its colours, only the ones written into the chord. [role, pitch class]
+function pbDinks(s) {
+  const tq = TRIAD[s.q] || TRIAD.maj, r = s.root, out = [];
+  if (tq[3] != null) out.push(['7th', (r + tq[3]) % 12]);
+  for (const [off, role] of COLOURS[s.q] || []) out.push([role, (r + off) % 12]);
+  return out;
 }
 function pbAccept(s) {
   if (s.target !== undefined) return { [s.target]: 'normal' };   // a lesson ball naming one note: that note returns it
-  const tq = TRIAD[s.q], r = s.root, third = (r + tq[1]) % 12, fifth = (r + tq[2]) % 12, { seventh, ninth } = pbExt(s);
+  const tq = TRIAD[s.q] || TRIAD.maj, r = s.root, third = (r + tq[1]) % 12, fifth = (r + tq[2]) % 12;
   if (s.kind === 'spike') return { [r]: 'normal' };                                                   // their spike: only the root saves it
-  if (s.kind === 'pop') {   // they popped it up: your chance (a dink only with a tone the chord really has)
+  if (s.kind === 'pop') {   // they popped it up: the 3rd plays it safe, the 5th spikes, and the 7th or any colour the chord really has dinks
     const out = { [third]: 'normal', [fifth]: 'spike' };
-    if (seventh != null) out[seventh] = 'dink7';
-    if (ninth != null) out[ninth] = 'dink9';
+    for (const [role, p] of pbDinks(s)) if (out[p] === undefined) out[p] = DINK_OUT[role];
     return out;
   }
   return { [third]: 'normal' };                                                                        // a normal ball: the 3rd volleys it
@@ -2356,18 +2412,18 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   const flowing = PB.gapPlay >= LOC.groove.through, gapAmt = PB.gapPlay; PB.flowing = flowing; PB.gapPlay = 0; weak = false;
   const bpc = BPC(), half = bpc / 2;
   if (s.armed && !s.hung && !PB.hang && !PB.reveal) backing.holdReq = false;   // (it was ready to hang, but you found it in time)
-  // a dink has to be dead on the beat; a hair off and it dies on your side of the net
-  const dinkWin = out === 'dink9' ? LOC.dink9.window : LOC.dink7.window;
-  const badDink = ok && (out === 'dink7' || out === 'dink9') && s.who === 'you' && Math.abs(s.offset ?? 0) > dinkWin;
+  // a dink has to be dead on the beat; a hair off and it dies on your side of the net (every dink, the 7th's window)
+  const dinkWin = LOC.dink7.window;
+  const badDink = ok && isDink(out) && s.who === 'you' && Math.abs(s.offset ?? 0) > dinkWin;
   if (badDink) s.mistimed = true;
   if (s.who === 'you') {   // the clipboard's record of every ball of yours
-    const how = badDink ? ((s.offset ?? 0) < 0 ? 'early' : 'late') : !ok ? (s.cands?.length ? 'wrong' : 'missed') : (s.offset ?? 0) > LOC.pop_late ? 'late' : 'hit';
+    const how = badDink ? ((s.offset ?? 0) < 0 ? 'early' : 'late') : !ok ? (s.cands?.length ? 'wrong' : 'missed') : 'hit';
     PB.tries++; if (ok && !badDink) PB.hits++;
     statShot(s, ok && !badDink, out, how, flowing);
     let mark = null;
     if (s.ask) {   // the help ladder: how it went for what this ball asked (another right tone counts as a hit, but not for this item)
       const right = ok && !badDink && s.playedP === s.ask.want;
-      mark = !ok ? 'miss' : badDink || (s.offset ?? 0) > LOC.pop_late ? 'late' : !right ? null : s.helped || s.boardShown ? 'helped' : 'clean';
+      mark = !ok ? 'miss' : badDink ? 'late' : !right ? null : s.helped || s.boardShown ? 'helped' : 'clean';
       if (mark) itemMark(s.ask, mark);
     }
     tallyShot(s, ok && !badDink, how, mark, flowing);
@@ -2388,12 +2444,16 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   }
   paddlePop(0, s.who === 'you');   // the hit
   s.state = 'hit'; s.at = t;
-  // a beat late and there's no snap in it: whatever note you played, it floats up for them to attack
-  if (s.who === 'you' && (s.offset ?? 0) > LOC.pop_late) { out = 'pop'; s.late = true; pbSay('Too late'); }
   s.out = out;
   if (s.who === 'you' && s.kind === 'pop' && has7th(s.q)) {
     if (out === 'dink7' && (PROG.dink7 || 0) < 99) { PROG.dink7 = 99; PB.firstDink = true; PB.firstDinkNow = { label: s.label, n: nm((s.root + TRIAD[s.q][3]) % 12) }; pbSay('First 7th dink! Hard to return'); }
     else if ((PROG.dink7 || 0) < 99) PROG.dink7 = (PROG.dink7 || 0) + 1;
+    store(SAVE.prog, PROG);
+  }
+  if (s.who === 'you' && s.kind === 'pop' && (COLOURS[s.q] || []).length) {   // the colours, each introduced the same way: named on the tag for a few chances, a moment for the first one landed
+    const D = PROG.dinks || (PROG.dinks = {}), role = OUT_ROLE[out];
+    if (role && role !== '7th' && (D[role] || 0) < 99) { D[role] = 99; PB.firstDink = true; pbSay(`First ${role} dink! ${dinkLine(role)}`); }
+    for (const [, r] of COLOURS[s.q]) if ((D[r] || 0) < 99) D[r] = (D[r] || 0) + 1;
     store(SAVE.prog, PROG);
   }
   PB.rally++; PB.k++; if (s.who === 'you') PB.returns++;
@@ -2403,19 +2463,19 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   }
   if (PB.rally > PB.best) { PB.best = PB.rally; PB.newBest = true; }
   const late = s.kind === 'pop' ? LOC.shots.pop : 0;   // a pop-up came down mid-bar, so your shot goes back that much later
-  s.h = s.beat + late + half + (out === 'pop' ? 0 : pbOff(out));       // when it reaches them
+  s.h = s.beat + late + half + pbOff(out);       // when it reaches them
   s.to = pbOpp(s.beat + bpc);
-  const lv = pbLevel(), attack = out === 'spike', dink = out === 'dink7' || out === 'dink9';
-  if (s.who === 'you' && !s.late && s.target !== undefined) pbSay(`Nice ${s.label}`);
-  else if (s.who === 'you' && !s.late) { const deg = s.kind === 'spike' ? 'root' : { normal: '3rd', spike: '5th', dink7: '7th', dink9: '9th' }[out]; if (deg) { if (PB.firstDink) PB.firstDink = false; else pbSay(`${attack || dink ? 'Great' : 'Nice'} ${deg}`); PB.found.add(`${deg} of ${s.kind === 'spike' ? s.label : s.label}`); } }   // short and clear: which tone you played
-  if (s.who === 'you' && s.setup && !s.late) {   // the set-up: explained the first few times, then just named
+  const lv = pbLevel(), attack = out === 'spike', dink = isDink(out);
+  if (s.who === 'you' && s.target !== undefined) pbSay(`Nice ${s.label}`);
+  else if (s.who === 'you') { const deg = s.kind === 'spike' ? 'root' : out === 'normal' ? slotRole(s.q, 1) : out === 'spike' ? '5th' : OUT_ROLE[out]; if (deg) { if (PB.firstDink) PB.firstDink = false; else pbSay(`${attack || dink ? 'Great' : 'Nice'} ${deg}`); PB.found.add(`${deg} of ${s.kind === 'spike' ? s.label : s.label}`); } }   // short and clear: which tone you played
+  if (s.who === 'you' && s.setup) {   // the set-up: explained the first few times, then just named
     const n = PROG.seen.setups = (PROG.seen.setups || 0) + 1; store(SAVE.prog, PROG);
     pbSay(n <= 3 ? `Set-up: stepping into the ${s.ask && s.ask.role !== 'note' ? s.ask.role : 'note'} adds spin` : 'Set-up!');
   }
   if (dink) s.dink = true;
   if (PB.intro && PB.intro.phase === 'revealDue') { PB.intro.phase = 'reveal'; PB.revealAt = s.h; return; }   // they let this one go: the reveal
-  // can they get it back? A spike sometimes; a 7th dink now and then; a 9th dink almost never.
-  let save = out === 'dink9' ? LOC.dink9.save : out === 'dink7' ? LOC.dink7.save : attack ? Math.min(.9, lv.save * LOC.spike_save * (lv.saveMul || 1)) : 1 - (lv.slip ?? LOC.match.slip);
+  // can they get it back? A spike sometimes; a 7th dink now and then; a colour dink less often, the rarer the colour.
+  let save = out === 'dink7' ? LOC.dink7.save : isDink(out) ? DINK_SAVE[out] : attack ? Math.min(.9, lv.save * LOC.spike_save * (lv.saveMul || 1)) : 1 - (lv.slip ?? LOC.match.slip);
   if (s.setup) save = attack || dink ? save * .75 : save - .1;   // a set-up: the spin makes it harder to get back
   if (Math.random() > save) {
     s.oppFail = true; PB.winners += s.who === 'you' && (attack || dink) ? 1 : 0;
@@ -2426,8 +2486,7 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   }
   // what comes back
   let kind = 'normal';
-  if (out === 'pop') kind = Math.random() < .85 && lv.attack > 0 ? 'spike' : 'normal';   // you floated one: they spike it at you (once they spike at all)
-  else if (attack || dink) kind = 'normal';                                   // they scraped your attack back
+  if (attack || dink) kind = 'normal';                                   // they scraped your attack back
   else if (s.kind === 'spike') kind = 'normal';                               // you saved their spike
   else {
     /* POWER: a return builds a little; what you played between shots builds the most (chord tones, approaches:
@@ -2436,7 +2495,7 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
     PB.press += (.5 + Math.min(1.5, gapAmt) * .9 + (s.setup ? .75 : 0)) * (lv.pressMul || 1);
     if (!PROG.seen.pressure && PB.pressNeed < 1e9 && s.who === 'you') { PROG.seen.pressure = true; store(SAVE.prog, PROG); pbSay('Returns build power. Full power: a pop-up'); }   // (said once, the first time it happens)
     if (PB.press >= PB.pressNeed) { kind = 'pop'; PB.press = 0; PB.pressNeed = 2 + Math.floor(Math.random() * 3); }
-    else if (Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) kind = 'spike';   // (they attack a bit more when you need root saves)
+    else if (Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) { kind = 'spike'; s.float = true; }   // (they attack a bit more when you need root saves; the return floats up to set up their spike)
   }
   if ((kind !== 'normal' && kind !== 'pop') || dink) PB.press = 0;
   pbQueue(s.beat + (late ? 2 : 1) * bpc, kind, s.h);   // after a pop-up, their reply comes a bar later: room to breathe
@@ -2555,10 +2614,10 @@ function pbBall() {
       if (cur.oppFail && cur.dink) { const v = (tv - cur.T) / fly; if (v < 1.8) return { from: cur.who, to: 'kitchen', u: Math.min(1, v), label: '', shot: cur, high: .45 }; }
       else if (cur.oppFail && cur.land) {   // a winner: it lands in their court, bounces, and skips away past them
         const v = (tv - cur.T) / fly;
-        if (v < 1) return { from: cur.who, to: 'landThem', land: cur.land, u: v, label: '', shot: cur, high: pbHigh(cur.out) };
+        if (v < 1) return { from: cur.who, to: 'landThem', land: cur.land, u: v, label: '', shot: cur, high: pbHigh(cur.float ? 'pop' : cur.out) };
         const w = (v - 1) / .8; if (w < 1) return { fromPt: cur.land, to: 'pastThem', u: w, label: '', shot: cur, high: cur.out === 'spike' ? .25 : .4 };
       }
-      else if (tv < cur.Th) return { from: cur.who, to: cur.to, u: (tv - cur.T) / fly, label: after ? after.label : '', shot: cur, high: pbHigh(cur.out) };
+      else if (tv < cur.Th) return { from: cur.who, to: cur.to, u: (tv - cur.T) / fly, label: after ? after.label : '', shot: cur, high: pbHigh(cur.float ? 'pop' : cur.out) };
     }
   }
   return null;
@@ -2633,7 +2692,7 @@ function drawnPose(who, pose, t) {
     if (who === 'you' && ctx) {   // the shot you're making: from the note you played, even before it's decided
       const tv = viewCtx() - outLat(), s = PB.shots.filter(x => x.who === 'you' && x.T !== undefined && Math.abs(tv - x.T) < .5).sort((a, b) => Math.abs(tv - a.T) - Math.abs(tv - b.T))[0];
       let out = s && s.out; if (s && !out && s.cands && s.cands.length) { const c = s.cands.reduce((a, b) => b.d < a.d ? b : a); out = pbAccept(s)[c.p]; }
-      if (out === 'spike') return 'smash'; if (out === 'dink7' || out === 'dink9') return 'dink';
+      if (out === 'spike') return 'smash'; if (isDink(out)) return 'dink';
     }
     return 'forehand';
   }
@@ -2689,6 +2748,11 @@ function drawBall(t) {
   const B = b.to === 'landThem' ? b.land : b.to === 'pastThem' ? [VW + 80, (b.fromPt ? b.fromPt[1] : COURT.nearG) - 6] : b.to === 'pastUs' ? [-80, COURT.nearG - 10] : b.to === 'netBack' ? [COURT.netX - 150, COURT.nearG - 6] : b.to === 'kitchen' ? [COURT.netX + 70, COURT.nearG - 14] : paddleAt(b.to);
   let u = Math.max(0, Math.min(1, b.u));
   if (b.shot && b.shot.state === 'hit' && b.from === 'you' && b.to !== 'you') u = u < .1 ? u * .35 : .035 + (u - .1) * (.965 / .9);   // it sits on the paddle an instant, then goes
+  // your dink in the air: each colour flies its own way (the arc's height is pbHigh's; the rest is here)
+  const dk = b.shot && b.shot.who === 'you' && b.from === 'you' && b.shot.state === 'hit' && isDink(b.shot.out) ? OUT_ROLE[b.shot.out] : null;
+  if (dk === '11th') u = u + .55 / (2 * Math.PI) * Math.sin(2 * Math.PI * u);        // it hangs at the top, then falls
+  else if (dk === '6th') u = u + .3 / (2 * Math.PI) * Math.sin(2 * Math.PI * u);     // a floaty lob
+  else if (dk === '♭13') u = Math.pow(u, 1.45);                                       // slow off the paddle, dipping late
   const popping = b.shot && b.shot.kind === 'pop' && b.to === 'you';   // they've popped it up to you: it floats, hanging at the top
   if (popping) u = u + .35 / (2 * Math.PI) * Math.sin(2 * Math.PI * u);   // a gentle hang at the top; it has time to float now
   let x, y, gy;
@@ -2704,6 +2768,11 @@ function drawBall(t) {
     const A0 = spikeIn ? [A[0] - 8, A[1] - 74] : A, h = spikeIn ? 10 : (90 + Math.abs(B[0] - A[0]) * .12) * b.high;
     const at = w => [A0[0] + (B[0] - A0[0]) * w, A0[1] + (B[1] - A0[1]) * w - 4 * h * w * (1 - w)];
     [x, y] = at(u);
+    if (dk) { const env = Math.sin(Math.PI * u);
+      if (dk === '9th') { x += 12 * Math.sin(4 * Math.PI * u) * env; y -= 9 * Math.sin(2 * Math.PI * u) * env; }   // it curls with spin as it drops
+      else if (dk === '♭9' || dk === '♯9') { x += 4 * Math.sin(u * 55) * env; y += 5 * Math.sin(u * 71) * env; }   // a wobbly knuckleball
+      else if (dk === '7th' && b.shot.q === 'dim7') { const z = Math.abs((u * 8) % 2 - 1) * 2 - 1; y += 10 * z * env; }   // a diminished 7th zigzags
+    }
     if (spikeIn) for (let k = 6; k >= 1; k--) { const w = u - k * .03; if (w < 0) continue; const [tx, ty] = at(w); c2.fillStyle = `rgba(229,72,63,${.5 - k * .07})`; c2.beginPath(); c2.arc(tx, ty, 11 - k, 0, 7); c2.fill(); }
     const gA = b.fromPt ? b.fromPt[1] + 4 : b.from === 'you' || b.from === 'oppNear' ? COURT.nearG : COURT.farG;
     const gB = b.to === 'landThem' ? b.land[1] + 4 : b.to === 'pastThem' && b.fromPt ? b.fromPt[1] + 10 : b.to === 'partner' || b.to === 'oppFar' ? COURT.farG : COURT.nearG;
@@ -2719,6 +2788,10 @@ function drawBall(t) {
   }
   if (b.to === 'landThem' && u > .92) { c2.fillStyle = 'rgba(255,255,255,.7)'; for (let k = 0; k < 5; k++) mDisc(B[0] - 14 + k * 7, B[1] + 2 - (k % 2) * 4, 3, '#FFFFFF'); }   // the bounce
   fxBall(b, x, y, u, gy);   // (with its trail, and squashed on impact)
+  if (dk === '♯11' || dk === '13th') for (let k = 0; k < 4; k++) {   // a shimmer of sparks round a ♯11 (and a 13th's high arc)
+    const a = t * 5 + k * Math.PI / 2, rr = 20 + 4 * Math.sin(t * 7 + k), sx = x + Math.cos(a) * rr, sy = y + Math.sin(a) * rr;
+    c2.fillStyle = ROLE_COL[dk]; c2.beginPath(); c2.moveTo(sx, sy - 5); c2.lineTo(sx + 3, sy); c2.lineTo(sx, sy + 5); c2.lineTo(sx - 3, sy); c2.closePath(); c2.fill();
+  }
   // the chord rides on a label above the ball: big, dark, on white. Just the chord: which note to play is up to you.
   drawBallLabel(b, x, y);
 }
@@ -2747,7 +2820,7 @@ function drawBallLabel(b, x, y) {
     // the tag: which tone this ball wants, while you're still learning it (and the note itself, early on). See pbAsk.
     const a = b.shot && b.shot.ask;
     if (mine && a && a.role !== 'note' && a.lv <= 2) {
-      const tag = (a.role === 'root' ? 'ROOT' : a.role.toUpperCase()) + (a.lv <= 1 ? ` = ${nm(a.want)}` : '');
+      const tag = (b.shot.kind === 'pop' && popTag(b.shot, a)) || (a.role === 'root' ? 'ROOT' : a.role.toUpperCase()) + (a.lv <= 1 ? ` = ${nm(a.want)}` : '');
       c2.font = `800 12px ${MONO}`; const gw = c2.measureText(tag).width + 14; c2.fillStyle = ROLE_COL[a.role]; c2.fillRect(lx + w - gw / 2 - 4, ly - 14, gw, 18); c2.strokeStyle = dark; c2.lineWidth = 2; c2.strokeRect(lx + w - gw / 2 - 4, ly - 14, gw, 18); mText(tag, lx + w - 4, ly, 12, ROLE_INK[a.role]);
     }
     c2.restore();
@@ -2785,7 +2858,7 @@ function fxScan() {
   const tv = fxTv();
   for (const s of PB.shots) if (s.state === 'hit' && !s.fxDone && s.T !== undefined) {
     s.fxDone = true;
-    const kind = s.who === 'partner' ? 'partner' : s.out === 'spike' ? 'spike' : s.out === 'dink7' || s.out === 'dink9' ? 'dink7' : s.kind === 'spike' ? 'save' : 'volley';
+    const kind = s.who === 'partner' ? 'partner' : s.out === 'spike' ? 'spike' : isDink(s.out) ? 'dink7' : s.kind === 'spike' ? 'save' : 'volley';
     const at = paddleAt(s.who), off = s.offset ?? 0;
     FX.fx.push({ kind, setup: !!s.setup, x: at[0], y: at[1] - 6, t0: s.T, who: s.who, timing: s.who === 'you' && !s.helped && Math.abs(off) >= .05 ? (off < 0 ? 'A LITTLE EARLY' : 'A LITTLE LATE') : null });
     s.fxKind = kind;
@@ -3017,7 +3090,7 @@ function pickleHud(t) {
     const next = PB.shots.filter(s => s.state === 'coming' && s.T !== undefined && !s.ourServe).sort((a, b) => a.T - b.T)[0];
     if (next && next.who === 'you') {
       const left = next.T + outLat() - ctx.currentTime, beat = 60 / BACKING_BPM;
-      const kind = next.kind === 'spike' ? 'SPIKE \u2014 ROOT' : next.kind === 'pop' ? (has7th(next.q) && dinkNew() ? 'POP-UP \u2014 7TH DINKS!' : 'POP-UP') : 'YOURS';
+      const kind = next.kind === 'spike' ? 'SPIKE \u2014 ROOT' : next.kind === 'pop' ? (newDinkRole(next.q) ? `POP-UP \u2014 ${newDinkRole(next.q).toUpperCase()} DINKS!` : 'POP-UP') : 'YOURS';
       mText(kind, CX(), 44, 22, INK);
       const beats = Math.max(0, Math.ceil(left / beat)), n = Math.min(8, Math.max(4, beats));
       for (let i = 0; i < n; i++) { c2.fillStyle = i < beats ? INK : '#D0D0D0'; c2.fillRect(CX() - (n - 1) * 8 + i * 16 - 3, 58, 6, 6); }
@@ -3040,10 +3113,9 @@ function pickleHud(t) {
    ===================================================================== */
 const disc = (x, y, r, col) => { c2.fillStyle = col; c2.beginPath(); c2.arc(x, y, r, 0, 7); c2.fill(); };
 // Colours mean the same thing everywhere: root red, 3rd yellow, 5th blue, 7th green (and a lone note, the ball's yellow).
-const ROLE_COL = { root: '#E5483F', '3rd': '#F2C230', '5th': '#3A7DC9', '7th': '#3E9E4A', '9th': '#8B5CF6', note: '#E3E85A' };
-const ROLE_INK = { root: '#FFFFFF', '3rd': '#1d1a17', '5th': '#FFFFFF', '7th': '#FFFFFF', '9th': '#FFFFFF', note: '#1d1a17' };
-const ROLES = ['root', '3rd', '5th', '7th'];
-const chordTones = (root, q) => TRIAD[q].map((off, i) => ({ pc: (root + off) % 12, role: ROLES[i] }));
+const ROLE_COL = { root: '#E5483F', '3rd': '#F2C230', '4th': '#F2C230', '2nd': '#F2C230', '5th': '#3A7DC9', '7th': '#3E9E4A', '6th': '#F08A3C', '9th': '#8B5CF6', '11th': '#1FA6A0', '13th': '#E0569B', '♯11': '#2FB6E3', '♭9': '#B23A5E', '♯9': '#B23A5E', '♭13': '#8A6F4E', note: '#E3E85A' };
+const ROLE_INK = { root: '#FFFFFF', '3rd': '#1d1a17', '4th': '#1d1a17', '2nd': '#1d1a17', '5th': '#FFFFFF', '7th': '#FFFFFF', '6th': '#1d1a17', '9th': '#FFFFFF', '11th': '#FFFFFF', '13th': '#FFFFFF', '♯11': '#1d1a17', '♭9': '#FFFFFF', '♯9': '#FFFFFF', '♭13': '#FFFFFF', note: '#1d1a17' };
+const chordTones = (root, q) => TRIAD[q].map((off, i) => ({ pc: (root + off) % 12, role: slotRole(q, i) }));
 const noteName = (p, flats) => lsName(p, '', flats).replace('#', '♯').replace(/^([A-G])b/, '$1♭');
 const nm = p => noteName(p, NAMES === FLAT_NAMES);   // a note's name in the key being played
 const andList = a => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`;
@@ -3081,8 +3153,11 @@ if (PROG.learned && !PROG.itemsFromLearned) {
     chordTones(root, q).forEach(t => { const key = itemKey(root, q, t.role); if (!PROG.items[key]) PROG.items[key] = { lv: 2, run: 0, n: 0, ok: 0 }; PROG.known[`0|${t.pc}`] = true; }); }
   PROG.itemsFromLearned = true; delete PROG.learned; delete PROG.spots; delete PROG.review; delete PROG.lvl; store(SAVE.prog, PROG);
 }
-function TRI(q) { return q === 'min' || q === 'min7' ? 'min' : q === 'm7b5' ? 'dim' : 'maj'; }   // the triad under a chord
-function itemKey(root, q, role) { return role === 'note' ? `n|${root}` : role === '7th' ? `${root}:${q}|7th` : `${root}:${TRI(q)}|${role}`; }
+function TRI(q) {   // the triad under a chord (C7's is C, C7sus4's is Csus4, Cm7♭5's is Cdim)
+  const t = TRIAD[q] || TRIAD.maj, k = t[1] + ',' + t[2];
+  return { '4,7': 'maj', '3,7': 'min', '3,6': 'dim', '4,8': 'aug', '5,7': 'sus4', '2,7': 'sus2' }[k] || 'maj';
+}
+function itemKey(root, q, role) { return role === 'note' ? `n|${root}` : role === '7th' || COLOUR_ROLES.includes(role) ? `${root}:${q}|${role}` : `${root}:${TRI(q)}|${role}`; }
 const knownAt = (box, p) => !!PROG.known[`${box}|${p}`];
 function itemEff(key, want) {   // the help level this item gets here, now
   const r = PROG.items[key], box = PB.box || 0;
@@ -3096,10 +3171,10 @@ function pbAsk(s) {
   else {
     const tq = TRIAD[s.q] || TRIAD.maj, r = s.root;
     if (s.kind === 'spike') { role = 'root'; want = r; }
-    else if (s.kind === 'pop') {   // a pop-up: the 5th spikes it, or (on a chord with a 7th) the 7th dinks it. It asks for whichever you know less well.
-      role = '5th'; want = (r + tq[2]) % 12;
-      if (tq[3] != null) { const w7 = (r + tq[3]) % 12; if (itemEff(itemKey(r, s.q, '7th'), w7) <= itemEff(itemKey(r, s.q, '5th'), want)) { role = '7th'; want = w7; } }
-    } else { role = '3rd'; want = (r + tq[1]) % 12; }
+    else if (s.kind === 'pop') {   // a pop-up: the 5th spikes it, or the 7th or a colour the chord has dinks it. It asks for whichever you know least (on a tie, the newer one).
+      role = '5th'; want = (r + tq[2]) % 12; let best = itemEff(itemKey(r, s.q, '5th'), want);
+      for (const [dr, dp] of pbDinks(s)) { const e = itemEff(itemKey(r, s.q, dr), dp); if (e <= best) { best = e; role = dr; want = dp; } }
+    } else { role = slotRole(s.q, 1); want = (r + tq[1]) % 12; }
   }
   const key = itemKey(role === 'note' ? want : s.root, s.q, role);
   return { role, want, key, lv: itemEff(key, want) };
@@ -3126,7 +3201,7 @@ function dueInKey(m, k) {
   let n = 0;
   for (const tid of m.tracks) { const tr = TRACK[tid]; if (!tr) continue; const sh = ((k - tr.key.root) % 12 + 12) % 12, seen = new Set();
     for (const [b, q] of tr.ground) { const root = (pc(b) + sh) % 12, key = root + ':' + q; if (seen.has(key)) continue; seen.add(key);
-      for (const role of ['root', '3rd', '5th', '7th']) if ((role !== '7th' || TRIAD[q][3] != null) && itemDue(itemKey(root, q, role))) n++; } }
+      for (const role of rolesOf(q)) if (itemDue(itemKey(root, q, role))) n++; } }
   return n;
 }
 function pickKey(m) {
@@ -3235,12 +3310,14 @@ function hangCaption(s) {
   const a = s.ask, first = k => { if (PROG.seen[k]) return false; PROG.seen[k] = true; store(SAVE.prog, PROG); return true; };
   if (a.role === 'note') return first('hang') ? 'The ball waits. Take your time' : '';
   if (a.role === '7th' && first('7th')) return 'A 7 chord adds a 7th. It dinks the ball';
+  if (COLOUR_ROLES.includes(a.role) && first(a.role)) return `${s.label} adds a ${a.role}. It dinks too: ${dinkLine(a.role).toLowerCase()}`;
+  if ((a.role === '4th' || a.role === '2nd') && first('sus')) return `A sus chord has no 3rd: its ${a.role} volleys instead`;
   if (a.role === 'root' && first('root')) return 'Save their spike with the root: the chord’s own note';
   if (a.role === '5th' && first('5th')) return 'A pop-up! Spike it with the 5th';
   if (a.role === '3rd' && TRI(s.q) === 'min' && first('minor')) return 'Minor: its 3rd is a fret lower than major';
   return '';
 }
-const ROLE_WORD = { root: 'root', '3rd': '3rd', '5th': '5th', '7th': '7th' };
+const ROLE_WORD = new Proxy({}, { get: (_, k) => k });   // (a role's word is the role itself: root, 3rd, 4th, 9th, ♭9...)
 const askLine = s => s.ask.role === 'note' ? `Find ${nm(s.ask.want)}` : `${s.label}: its ${ROLE_WORD[s.ask.role]} is ${nm(s.ask.want)}`;
 
 /* ---------- THE REVEAL: the first match's notes were a chord all along ----------
@@ -3391,9 +3468,9 @@ function wilson(ok, n, z = 1) { if (!n) return [0, 1]; const p = ok / n, d = 1 +
 function itemParts(key) {
   const [a, role] = key.split('|');
   if (a === 'n') return { role: 'note', want: +role, label: nm(+role) };
-  const [r, q] = a.split(':'), root = +r, tri = { maj: 'maj', min: 'min', dim: 'm7b5' }[q] || q, tq = TRIAD[tri] || TRIAD.maj;
-  const want = (root + (role === 'root' ? 0 : role === '3rd' ? tq[1] : role === '5th' ? tq[2] : tq[3] ?? 0)) % 12;
-  return { role, want, label: q === 'dim' ? nm(root) + 'dim' : pbLabel(root, tri) };
+  const [r, q] = a.split(':'), root = +r, qq = TRIAD[q] ? q : 'maj';
+  const want = (root + (toneOff(qq, role) ?? 0)) % 12;
+  return { role, want, label: pbLabel(root, qq) };
 }
 const ORD = n => n + (['th', 'st', 'nd', 'rd'][n % 100 >> 3 ^ 1 && n % 10] || 'th');
 const where = p => boxSpots(PB.box || 0).filter(x => x.pc === p).sort((a, b) => a.s - b.s).slice(0, 2).map(x => x.f ? `the ${STR_WORD[x.s]} string, ${ORD(x.f)} fret` : `the open ${STR_WORD[x.s]} string`).join(' or ');
@@ -3986,7 +4063,21 @@ const CONCEPTS = [
   { id: 'colors', title: 'Major 7 and minor 7', line: 'New: major 7 and minor 7 chords', cap: { q: ['maj7', 'min7'] }, ready: () => nAt('dom7', '7th') >= 3 },
   { id: 'twofive', title: 'The ii–V–I', line: 'New: the ii–V–I, jazz’s key move', cap: { iiV: true, chords: 8 }, ready: () => nAt('maj7', '7th') + nAt('min7', '7th') >= 2 },
   { id: 'halfdim', title: 'Minor ii–V', line: 'New: the minor ii–V', cap: { q: ['m7b5'] }, ready: () => nAt(null, '7th') >= 6 },
+  // the colours and the rest of the chord family: each one's tones open as its chords do (only the tones written in a chord are asked for)
+  { id: 'sixth', title: 'The 6th', line: 'New: 6 chords. The 6th dinks: a floaty lob', cap: { q: ['maj6', 'min6'] }, ready: () => nAt(null, '7th') >= 8 },
+  { id: 'ninth', title: 'The 9th', line: 'New: 9 chords. The 9th dinks with a curl', cap: { q: ['dom9', 'maj9', 'min9', 'add9', 'madd9', 'six9'] }, ready: () => colourN() >= 2 || nAt(null, '7th') >= 12 },
+  { id: 'sus', title: 'Sus chords', line: 'New: sus chords. No 3rd: the 4th volleys', cap: { q: ['sus4', 'sus2', 'dom7sus4', 'dom9sus4'] }, ready: () => nAt(null, '9th') >= 2 || colourN() >= 5 },
+  { id: 'dim', title: 'Diminished', line: 'New: dim chords. The ♭5 spikes', cap: { q: ['dim', 'dim7'] }, ready: () => nAt('sus4', '4th') + nAt('sus2', '2nd') >= 2 || colourN() >= 6 },
+  { id: 'aug', title: 'Augmented', line: 'New: aug chords. The ♯5 spikes', cap: { q: ['aug', 'aug7', 'maj7s5'] }, ready: () => nAt('dim', '5th') >= 3 || colourN() >= 7 },
+  { id: 'minmaj', title: 'Minor major 7', line: 'New: m(maj7). A minor chord with a major 7th', cap: { q: ['mmaj7'] }, ready: () => nAt('aug', '5th') >= 1 || colourN() >= 8 },
+  { id: 'eleventh', title: 'The 11th', line: 'New: 11ths. The 11th hangs; the ♯11 shimmers', cap: { q: ['min11', 'maj7s11', 'dom7s11'] }, ready: () => nAt(null, '9th') >= 4 },
+  { id: 'thirteenth', title: 'The 13th', line: 'New: 13 chords. The 13th lobs high', cap: { q: ['dom13', 'maj13', 'min13'] }, ready: () => nAt(null, '11th') + nAt(null, '♯11') >= 2 || nAt(null, '9th') >= 8 },
+  { id: 'altered', title: 'Altered dominants', line: 'New: 7♭9, 7♯9, 7♭13. Knuckleballs', cap: { q: ['dom7b9', 'dom7s9', 'dom7b13'] }, ready: () => nAt(null, '13th') >= 2 || colourN() >= 14 },
 ];
+const colourN = (lv = 2) => COLOUR_ROLES.reduce((n, r) => n + nAt(null, r, lv), 0);   // colour tones you know
+// An idea that brings in chords no song uses yet waits (it opens once a song with them is written)
+const conceptPlayable = k => !(k.cap.q || []).length || TRACKS.some(t => trackAllowedQ(t, k.cap.q));
+const trackAllowedQ = (t, qs) => t.ground.some(([, q]) => qs.includes(q));
 const STALL = 8;   // matches at the frontier without it opening: open it anyway (a rule that's too strict mustn't stall anyone)
 function conceptsOpen() { return PROG.concepts || (PROG.concepts = []); }
 function capNow() {
@@ -3999,7 +4090,7 @@ function capNow() {
 function conceptsUpdate() {
   const open = conceptsOpen(); let opened = null;
   for (const k of CONCEPTS) {
-    if (open.includes(k.id)) continue;
+    if (open.includes(k.id) || !conceptPlayable(k)) continue;
     if ((k.ready() && (PROG.sinceOpen ?? 2) >= 2) || (open.length && (PROG.sinceOpen || 0) >= STALL)) { /* (each new idea gets at least two matches before the next) */ open.push(k.id); PROG.sinceOpen = 0; opened = k; FBA.track('concept_open', { concept: k.id }); }
     break;   // (only the next one in line)
   }
@@ -4068,8 +4159,8 @@ function buildMatch() {
     for (const k of keys) {
       const sh = shiftFor(t, k); let due = 0, practice = 0;
       for (const [r, q] of f.chords) { const root = (r + sh) % 12;
-        for (const role of ['3rd', '5th', 'root', '7th']) { if (role === '7th' && TRIAD[q][3] == null) continue; const key = itemKey(root, q, role), it = PROG.items[key];
-          if (itemDue(key)) due++; else if (!it || it.lv < 3) practice += role === '3rd' ? 1 : .5; } }
+        for (const role of rolesOf(q)) { const key = itemKey(root, q, role), it = PROG.items[key];
+          if (itemDue(key)) due++; else if (!it || it.lv < 3) practice += VOLLEY_ROLES.has(role) ? 1 : .5; } }
       let score = Math.min(due, 4) * 3 + Math.min(practice, 6) + Math.random() * 2.5;   // (capped: a song with more chords mustn't always win)
       if (freshK) { const p = freshK.cap; if ((p.q || []).some(q => f.q.has(q)) || (p.blues && f.blues) || (p.iiV && f.iiV) || (p.chords && f.distinct > 1 && f.distinct <= p.chords && f.distinct > (p.chords === 2 ? 1 : 2))) score += 8; }
       if (k === newestKey) score += 1.5;
@@ -4217,7 +4308,7 @@ function masteryNeckSvg() {
 function masteryChords() {   // chords met, from the help ladder: a dot per tone, its fill the level (0 to 3)
   const ch = new Map();
   for (const [k, r] of Object.entries(PROG.items)) {
-    if (k.startsWith('n|')) continue; const [a, role] = k.split('|'), [root, q] = a.split(':'), tri = role === '7th' ? TRI(q) : q, id = root + ':' + tri;
+    if (k.startsWith('n|')) continue; const [a, role] = k.split('|'), [root, q] = a.split(':'), tri = role === '7th' || COLOUR_ROLES.includes(role) ? TRI(q) : q, id = root + ':' + tri;
     const c = ch.get(id) || { root: +root, tri, lv: {} }; c.lv[role] = Math.max(c.lv[role] ?? -1, r.lv); ch.set(id, c);
   }
   const order = KEY_ORDER;
@@ -4227,8 +4318,8 @@ function masteryHtml() {
   const open = conceptsOpen(), nextC = CONCEPTS.find(k => !open.includes(k.id)), got = PROG.disc || {};
   const path = CONCEPTS.map(k => `<span class="idea ${open.includes(k.id) ? 'on' : k === nextC ? 'next' : ''}">${open.includes(k.id) ? '✓ ' : k === nextC ? 'next: ' : ''}${esc(k.title)}</span>`).join('');
   const chords = masteryChords(), dot = (role, lv) => `<i class="cd" style="--c:${ROLE_COL[role]};--f:${lv < 0 ? 0 : [.12, .4, .7, 1][lv]}" title="${role}"></i>`;
-  const chordHtml = chords.length ? `<div class="chordgrid">${chords.map(c => `<div class="cchip"><b>${esc(noteName(c.root))}${c.tri === 'min' ? 'm' : c.tri === 'dim' ? 'ø' : ''}</b><span>${['root', '3rd', '5th', '7th'].filter(r => r !== '7th' || c.lv['7th'] !== undefined).map(r => dot(r, c.lv[r] ?? -1)).join('')}</span></div>`).join('')}</div>
-    <p class="meta legend"><i class="cd" style="--c:${ROLE_COL.root};--f:1"></i> root <i class="cd" style="--c:${ROLE_COL['3rd']};--f:1"></i> 3rd <i class="cd" style="--c:${ROLE_COL['5th']};--f:1"></i> 5th <i class="cd" style="--c:${ROLE_COL['7th']};--f:1"></i> 7th · fuller the better you know it</p>` : '<p class="line muted">Chords appear here as you meet them in matches.</p>';
+  const chordHtml = chords.length ? `<div class="chordgrid">${chords.map(c => `<div class="cchip"><b>${esc(noteName(c.root))}${esc(CHORD_PRETTY[c.tri] ?? '')}</b><span>${['root', slotRole(c.tri, 1), '5th', '7th', ...COLOUR_ROLES].filter(r => !(r === '7th' || COLOUR_ROLES.includes(r)) || c.lv[r] !== undefined).map(r => dot(r, c.lv[r] ?? -1)).join('')}</span></div>`).join('')}</div>
+    <p class="meta legend"><i class="cd" style="--c:${ROLE_COL.root};--f:1"></i> root <i class="cd" style="--c:${ROLE_COL['3rd']};--f:1"></i> 3rd <i class="cd" style="--c:${ROLE_COL['5th']};--f:1"></i> 5th <i class="cd" style="--c:${ROLE_COL['7th']};--f:1"></i> 7th <i class="cd" style="--c:${ROLE_COL['9th']};--f:1"></i> colours · fuller the better you know it</p>` : '<p class="line muted">Chords appear here as you meet them in matches.</p>';
   const keys = KEY_ORDER.map(k => `<span class="kchip ${keysOpen().includes(k) ? 'on' : ''}">${esc(noteName(k, FLAT_KEYS.has(k)))}</span>`).join('');
   const found = DISCOVERIES.filter(d => got[d.id]);
   const discs = `<div class="disclist">${found.map(d => `<div class="dchip"><span aria-hidden="true">${d.icon}</span><b>${esc(d.title)}</b><small>${esc(d.line)}</small></div>`).join('')}${DISCOVERIES.length > found.length ? `<div class="dchip hidden"><span aria-hidden="true">?</span><b>${DISCOVERIES.length - found.length} still to find</b><small>Keep playing.</small></div>` : ''}</div>`;
@@ -4342,7 +4433,7 @@ function clipboardHtml() {
   const bar = (v, col) => `<span class="meter"><i style="width:${Math.round(v * 100)}%;background:${col}"></i></span>`;
   const sc = k => D.sc[k] || { n: 0, ok: 0 };
   const fav = Object.entries(D.pop).sort((a, b) => b[1] - a[1])[0];
-  const favName = fav ? { spike: 'the 5th spike', dink7: 'the 7th dink', dink9: 'the 9th dink', normal: 'a safe 3rd' }[fav[0]] : null;
+  const favName = fav ? (fav[0] === 'spike' ? 'the 5th spike' : fav[0] === 'normal' ? 'a safe 3rd' : isDink(fav[0]) ? `the ${OUT_ROLE[fav[0]]} dink` : null) : null;
   const avg = D.tim.n ? D.tim.sum / D.tim.n : 0;
   const timing = !D.tim.n ? 'Not enough shots yet.' : avg > .04 ? `You tend to play a touch late, about ${Math.round(avg * 1000)} ms after the beat. Try landing your note as the ball touches the paddle.` : avg < -.04 ? `You tend to jump in early, about ${Math.round(-avg * 1000)} ms before the beat. Let the ball come to you.` : 'Right on the beat. Your timing is solid.';
   const rows = [
@@ -4417,6 +4508,7 @@ const howToHtml = () => `<div class="howto">
   <p class="ht"><i style="background:${ROLE_COL['3rd']}"></i><span><b>3rd</b> volleys it back: the everyday return</span></p>
   <p class="ht"><i style="background:${ROLE_COL['5th']}"></i><span><b>5th</b> spikes a pop-up for a winner</span></p>
   <p class="ht"><i style="background:${ROLE_COL['7th']}"></i><span><b>7th</b> dinks a pop-up just over the net (on 7 chords)</span></p>
+  <p class="ht"><i style="background:${ROLE_COL['9th']}"></i><span><b>6th, 9th, 11th, 13th</b> and other colours dink too, each with its own flight (on chords that have them)</span></p>
   <p class="ht"><i style="background:${ROLE_COL.root}"></i><span><b>Root</b> saves their spike: the note the chord is named after</span></p>
   <p class="hp">Every return builds your <b>power</b>; playing between shots builds it fastest (chord tones most). Full power forces a pop-up.</p>
   <p class="hp"><b>Set-up:</b> make the note before your shot a half or whole step from the one you hit it with. The shot spins, and it's harder to return.</p>
@@ -5634,7 +5726,7 @@ function trailerBot() {   // plays the right note, a moment after each ball arri
       s.botDone = true;
       if (TRAILER.scene === 'first' && s.ask && s.ask.lv === 0 && hangOk(s)) continue;   // (new: let it hang, then find it)
       const acc = pbAccept(s); let p = null;
-      for (const k of ['dink7', 'dink9', 'spike', 'save', 'normal']) { const e = Object.entries(acc).find(([, v]) => v === k); if (e) { p = +e[0]; break; } }
+      for (const k of [...Object.values(DINK_OUT).reverse(), 'spike', 'save', 'normal']) { const e = Object.entries(acc).find(([, v]) => v === k); if (e) { p = +e[0]; break; } }
       if (p == null) p = +Object.keys(acc)[0];
       const midi = 52 + ((p - 4) % 12 + 12) % 12;
       trailerPluck(midi); pickleNote({ midi, name: NAMES[p] }, performance.now() / 1000);
@@ -5836,10 +5928,19 @@ function edMotionClick(b, d) {
    Bars: "Am7" (the whole bar) or "C G" (two beats each). Chords the band can play: major, m, 7, m7, maj7, m7♭5.
    (A melody line could later sit above each bar; the chart is drawn by lsChart() alone to leave room for it.)
    ===================================================================== */
-const LS_Q = [['', 'maj'], ['m', 'min'], ['7', '7'], ['m7', 'm7'], ['maj7', 'maj7'], ['m7b5', 'm7♭5']];
+const LS_Q = CHORD_DEFS.map(d => [d[1], d[2] || 'maj']);   // (every chord the band plays: the picker's buttons)
 const LS_ALIAS = { '': '', maj: '', M: '', major: '', m: 'm', min: 'm', mi: 'm', '-': 'm', minor: 'm', '7': '7', dom7: '7', dom: '7',
   m7: 'm7', min7: 'm7', mi7: 'm7', '-7': 'm7', maj7: 'maj7', M7: 'maj7', ma7: 'maj7', 'Δ': 'maj7', 'Δ7': 'maj7', j7: 'maj7',
-  m7b5: 'm7b5', 'ø': 'm7b5', 'ø7': 'm7b5', min7b5: 'm7b5', mi7b5: 'm7b5', '-7b5': 'm7b5' };
+  m7b5: 'm7b5', 'ø': 'm7b5', 'ø7': 'm7b5', min7b5: 'm7b5', mi7b5: 'm7b5', '-7b5': 'm7b5',
+  // (and the rest of the family, the ways charts write them)
+  ...Object.fromEntries(CHORD_DEFS.map(d => [d[1], d[1]])),
+  '69': '6/9', '6add9': '6/9', maj6: '6', M6: '6', min6: 'm6', '-6': 'm6', 'add2': 'add9', 'madd2': 'madd9', 'm(add9)': 'madd9', '-add9': 'madd9',
+  dom9: '9', M9: 'maj9', 'Δ9': 'maj9', ma9: 'maj9', min9: 'm9', '-9': 'm9', mi9: 'm9', min11: 'm11', '-11': 'm11', mi11: 'm11',
+  'Δ#11': 'maj7#11', 'maj7(#11)': 'maj7#11', 'Δ7#11': 'maj7#11', '7(#11)': '7#11', dom13: '13', M13: 'maj13', 'Δ13': 'maj13', min13: 'm13', '-13': 'm13',
+  '7(b9)': '7b9', '7-9': '7b9', '7(#9)': '7#9', '7+9': '7#9', '7(b13)': '7b13', '7-13': '7b13',
+  sus: 'sus4', '4': 'sus4', '2': 'sus2', '7sus': '7sus4', '9sus': '9sus4', '11': '9sus4',
+  '°': 'dim', o: 'dim', '°7': 'dim7', o7: 'dim7', '+': 'aug', '+7': '7#5', '7+': '7#5', aug7: '7#5', 'maj7+': 'maj7#5', 'Δ#5': 'maj7#5',
+  mmaj7: 'mMaj7', mM7: 'mMaj7', 'm(maj7)': 'mMaj7', '-Δ': 'mMaj7', 'mΔ7': 'mMaj7', minmaj7: 'mMaj7' };
 const LS_FEELS = [
   ['Smooth', [['bossa', 'Bossa nova', 'nylon guitar, upright bass, brushes'], ['lofi', 'Lo-fi', 'warm keys, lazy beat, a little vinyl'], ['neosoul', 'Neo-soul', 'electric piano, laid-back groove'], ['ballad', 'Jazz ballad', 'soft piano, brushes, slow and open']]],
   ['Swinging', [['swing', 'Swing', 'walking bass, ride cymbal, piano'], ['blues', 'Blues shuffle', 'clean guitar shuffle, backbeat']]],
@@ -5857,8 +5958,8 @@ function lsParseChord(raw) {
   if (!m) return { ok: false, msg: `“${raw}” isn’t a chord: start with a note, A to G.` };
   const root = m[1].toUpperCase(), acc = m[2], rest = m[3], q = LS_ALIAS[rest] ?? LS_ALIAS[rest.toLowerCase()];
   if (q === undefined) {
-    const hint = /^(9|11|13|7sus|add)/.test(rest) ? `${root}${acc}7` : /^(m9|m11|min9|-9)/.test(rest) ? `${root}${acc}m7` : /^(maj9|maj13|M9)/.test(rest) ? `${root}${acc}maj7` : /^(dim|°|o)/.test(rest) ? `${root}${acc}m7b5` : /^(6|sus|add9|5)/.test(rest) ? `${root}${acc}` : /^(m6|min6|-6)/.test(rest) ? `${root}${acc}m` : null;
-    return { ok: false, msg: `The band can’t play “${raw}” yet (it plays major, m, 7, m7, maj7 and m7♭5).${hint ? ` Try ${hint.replace('#', '♯').replace(/^([A-G])b/, '$1♭').replace('m7b5', 'm7♭5')}.` : ''}` };
+    const hint = /^5/.test(rest) ? 'A power chord has no 3rd to volley with. Try the plain major or minor chord.' : /\//.test(rest) ? 'Slash chords (C/E) aren’t in yet: write the chord without its bass note.' : 'Try one of the chords in the picker.';
+    return { ok: false, msg: `The band can’t play “${raw}” yet. ${hint}` };
   }
   return { ok: true, name: root + acc + q, pc: (({ C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 })[root] + (acc === '#' ? 1 : acc === 'b' ? -1 : 0) + 12) % 12, q };
 }
@@ -5883,7 +5984,7 @@ const lsChartText = t => { const rows = []; for (let i = 0; i < t.chords.length;
 function lsTranspose(bar, semis, flats) { return bar.split(' ').map(c => { const p = lsParseChord(c); return p.ok ? lsName(p.pc + semis, p.q, flats) : c; }).join(' '); }
 function lsPretty(name) {   // a chord as a guitarist reads it: the root large, the quality small and raised
   const p = lsParseChord(name); if (!p.ok) return esc(name);
-  const r = name.match(/^[A-G][#b]?/)[0], qd = { '': '', m: 'm', '7': '7', m7: 'm7', maj7: 'maj7', m7b5: 'm7♭5' }[p.q];
+  const r = name.match(/^[A-G][#b]?/)[0], qd = CHORD_PRETTY[CHORD_Q[p.q]] ?? '';
   return `<span class="cs"><span class="cr">${r[0]}${r[1] === '#' ? '<span class="ca">♯</span>' : r[1] === 'b' ? '<span class="ca">♭</span>' : ''}</span>${qd ? `<span class="cq">${qd}</span>` : ''}</span>`;
 }
 // ---------- state, undo, live sound ----------
@@ -5930,7 +6031,7 @@ function libFacts(raw) {
   for (let i = 0; i < CONCEPTS.length && stage < 0; i++) { const p = CONCEPTS[i].cap; (p.q || []).forEach(q => cap.q.add(q)); if (p.chords) cap.chords = Math.max(cap.chords, p.chords); if (p.blues) cap.blues = true; if (p.iiV) cap.iiV = true; if (trackAllowed(T, cap)) stage = i; }
   return { ...f, stage };
 }
-const LIB_Q = { maj: 'major', min: 'minor', dom7: '7', maj7: 'maj7', min7: 'm7', m7b5: 'm7♭5', dim: 'dim' };
+const LIB_Q = { ...CHORD_PRETTY, maj: 'major', min: 'minor' };
 function edTrackList() {
   const facts = ED.tracks.map(libFacts);
   // the shape of the library: how many songs each idea brings in, so thin spots show
@@ -5973,7 +6074,7 @@ function lsBarEditor(t) {
 }
 function edTrackEditor() {
   const t = lsT(), feel = LS_FEEL[bandStyle(t.style)] || { name: t.style, desc: '' }, used = lsUsedIn(t), first = lsParseChord(t.chords[0].split(' ')[0]);
-  const keyHint = first.ok && !EDV.keyAsk && (first.pc !== t.root || (first.q === 'm' || first.q === 'm7') !== t.minor) ? { root: first.pc, minor: first.q === 'm' || first.q === 'm7' } : null;
+  const keyHint = first.ok && !EDV.keyAsk && (first.pc !== t.root || MINOR_Q.has(CHORD_Q[first.q]) !== t.minor) ? { root: first.pc, minor: MINOR_Q.has(CHORD_Q[first.q]) } : null;
   return `<div class="ls-top"><button class="eback" id="ed-tracks">← All tracks</button>
       <span class="ls-saved">${lsEdited(t) ? '● Changed since the live game' : '✓ Same as the live game'}</span>
       <span class="ebtns"><button class="btn" id="ls-undo" ${(EDV.lsUndo || []).length ? '' : 'disabled'} aria-label="Undo">↶</button><button class="btn" id="ls-redo" ${(EDV.lsRedo || []).length ? '' : 'disabled'} aria-label="Redo">↷</button></span></div>
