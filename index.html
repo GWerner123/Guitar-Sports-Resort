@@ -106,6 +106,7 @@
   .scroll { overflow: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
   .sheet-bg { position: absolute; inset: 0; background: rgba(20,16,12,.45); z-index: 8; }
   .sheet { position: absolute; z-index: 9; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 24px); overflow: auto; }
+  .sheet, .ebody, #admin, .card.match, .card.match .mbody { touch-action: pan-x pan-y; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
   .sheet .sub { margin: 6px 40px 0 0; color: var(--muted); font-size: 14px; }
   .sheet .note { margin: 10px 0 0; font-size: 14px; font-weight: 700; }
   .xbtn { position: absolute; right: 14px; top: 14px; }
@@ -224,6 +225,7 @@
   .es-pic.pd { background: #A6D8F6; display: grid; place-items: center; } .es-pic svg { position: absolute; inset: 0; width: 100%; height: 100%; } .es-pic img { height: 92%; image-rendering: pixelated; }
   .sitem .erow-main { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
   .es-big { margin: 10px 0; } .es-big .es-pic { width: 100%; height: auto; aspect-ratio: 2 / 1; } .es-big .es-pic img { height: 90%; }
+  .es-pic img, .pd-pic img, .es-pic svg, .ct-pic svg { pointer-events: none; -webkit-user-drag: none; user-select: none; }   /* (a finger starting on a picture still scrolls the list) */
   .shop-tabs { display: flex; gap: 6px; margin-top: 12px; padding: 4px; border-radius: 14px; background: var(--cream); border: 2px solid var(--ink); width: fit-content; }
   .shop-tabs button { font: inherit; font-weight: 800; font-size: 14.5px; padding: 7px 16px; border-radius: 10px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
   .shop-tabs button.on { background: var(--ink); color: var(--paper); }
@@ -4093,7 +4095,10 @@ let installEvt = null;
     if (rq && !document.fullscreenElement && !matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches)
       Promise.resolve(rq.call(el, { navigationUI: 'hide' })).then(() => screen.orientation?.lock?.('landscape')).catch(() => {}).finally(() => setTimeout(appFit, 300));
   }, { capture: true });
-  addEventListener('touchmove', e => { if (!e.target.closest('#panel, #ui .scroll, #tuner, #editor')) e.preventDefault(); }, { passive: false });   // no rubber-banding the page
+  // No rubber-banding the page, but anything that can scroll (the store, a long card, the editor, the admin pages) still does.
+  const scrollsHere = el => { for (let n = el; n && n !== document.body; n = n.parentElement) { const st = getComputedStyle(n);
+    if (/auto|scroll/.test(st.overflowY) && n.scrollHeight > n.clientHeight + 1) return true; if (/auto|scroll/.test(st.overflowX) && n.scrollWidth > n.clientWidth + 1) return true; } return false; };
+  addEventListener('touchmove', e => { if (!e.target.closest('#panel, #ui .scroll, #tuner, #editor, #admin') && !scrollsHere(e.target)) e.preventDefault(); }, { passive: false });
 })();
 
 // ---------- pause ----------
@@ -4624,7 +4629,7 @@ function courtsHtml() {
         <span class="ct-foot" aria-hidden="true">${shopFoot(own, on, can, price, n, 'Play here')}</span></button>`; }).join('');
   } else { const kind = tab === 'paddles' ? 'paddle' : 'trail', cur = itemOn(kind);
     tiles = SHELF[kind].map(it => { const own = itemOwned(kind, it), on = it === cur, can = !own && n >= it.price;
-      const pic = kind === 'paddle' ? `<span class="pd-pic"><img src="${paddlePreview(it)}" alt=""></span>` : trailPreview(it);
+      const pic = kind === 'paddle' ? `<span class="pd-pic"><img src="${paddlePreview(it)}" alt="" draggable="false"></span>` : trailPreview(it);
       return `<button class="ct${shopState(own, on, can)}" data-item="${kind}:${esc(it.id)}" aria-label="${esc(it.name)}: ${shopSay(own, on, can, it.price, n)}">
         <span class="ct-pic${kind === 'paddle' ? ' pd' : ''}" aria-hidden="true">${pic}${!own && !can ? `<span class="ct-lock">${ICON.lock}</span>` : ''}</span>
         <span class="ct-body" aria-hidden="true"><b>${esc(it.name)}</b>${it.line ? `<small>${esc(it.line)}</small>` : ''}</span>
@@ -5326,7 +5331,7 @@ const edSec = (title, body, open) => `<details class="es" ${open ? 'open' : ''}>
 
 // ---------- Store: the paddles and trails players can buy (the courts are under Courts) ----------
 const edShelf = kind => { const k = kind === 'paddle' ? 'paddles' : 'trails'; if (ED[k]) ED[k] = ED[k].filter(noRainbow); if (!ED[k] || !ED[k].length) ED[k] = edClone(kind === 'paddle' ? PADDLES_DEFAULT : TRAILS_DEFAULT); return ED[k]; };
-const edItemPic = (kind, it, i) => kind === 'paddle' ? `<span class="es-pic pd"><img src="${paddlePreview(paddleFix(it, i))}" alt=""></span>` : `<span class="es-pic">${trailPreview(trailFix(it, i))}</span>`;
+const edItemPic = (kind, it, i) => kind === 'paddle' ? `<span class="es-pic pd"><img src="${paddlePreview(paddleFix(it, i))}" alt="" draggable="false"></span>` : `<span class="es-pic">${trailPreview(trailFix(it, i))}</span>`;
 function edStorePanel() {
   if (EDV.sItem) { const [kind, si] = EDV.sItem.split(':'), list = edShelf(kind), i = +si, it = list[i]; if (it) return edStoreItem(kind, list, i, it); EDV.sItem = null; }
   const shelf = (kind, title, what) => { const list = edShelf(kind);
