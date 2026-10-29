@@ -2604,6 +2604,11 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   if (PB.intro && PB.intro.phase === 'notes' && s.who === 'you' && s.target !== undefined) {   // the first match: enough of each note, and it's time for the reveal
     const I = PB.intro; I.returns++; I.hit.add(s.target); if (I.returns >= INTRO_RETURNS && I.hit.size >= I.tones.length) I.phase = 'revealDue';
   }
+  if (s.who === 'you' && PB.intro && PB.intro.phase === 'rules') {   // the first match, after the reveal: the next tone, when this one's settled
+    const I = PB.intro;
+    if (I.stage === 'third' && ++I.thirds >= INTRO_THIRDS && PB.cfg.pops !== false) { I.stage = 'fifth'; PB.press = 0; PB.pressNeed = 1.5; }
+    else if (I.stage === 'fifth' && s.kind === 'pop') I.stage = 'root';   // (the first pop-up's been played: spikes can come)
+  }
   if (PB.rally > PB.best) { PB.best = PB.rally; PB.newBest = true; }
   const late = s.kind === 'pop' ? LOC.shots.pop : 0;   // a pop-up came down mid-bar, so your shot goes back that much later
   s.h = s.beat + late + half + pbOff(out);       // when it reaches them
@@ -2637,8 +2642,10 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
        decides WHEN the chance comes, and the chance (5th or 7th, whichever you know less) is what you need. */
     PB.press += (.5 + Math.min(1.5, gapAmt) * .9 + (s.setup ? .75 : 0)) * (lv.pressMul || 1);
     if (!PROG.seen.pressure && PB.pressNeed < 1e9 && s.who === 'you') { PROG.seen.pressure = true; store(SAVE.prog, PROG); pbSay('Returns build power. Full power: a pop-up'); }   // (said once, the first time it happens)
-    if (PB.press >= PB.pressNeed) { kind = 'pop'; PB.press = 0; PB.pressNeed = 2 + Math.floor(Math.random() * 3); }
-    else if (!introQuiet() && Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) { kind = 'spike'; s.float = true; }   // (they attack a bit more when you need root saves; the return floats up to set up their spike)
+    if (PB.press >= PB.pressNeed) { kind = 'pop'; PB.press = 0; PB.pressNeed = 2 + Math.floor(Math.random() * 3);
+      if (PB.intro && PB.intro.stage === 'fifth' && !PB.intro.popSaid && s.who === 'you') { PB.intro.popSaid = true; pbSay(`A pop-up! Spike it with the 5th, ${PB.intro.names[2]}`); PB.bannerDur = 4; } }
+    else if (introStage() === 'root' && Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) { kind = 'spike'; s.float = true;
+      if (PB.intro && !PB.intro.spikeSaid) { PB.intro.spikeSaid = true; pbSay(`They spiked it! Save it with the root, ${PB.intro.names[0]}`); PB.bannerDur = 4; } }   // (they attack a bit more when you need root saves; the return floats up to set up their spike)
   }
   if ((kind !== 'normal' && kind !== 'pop') || dink) PB.press = 0;
   pbQueue(s.beat + (late ? 2 : 1) * bpc, kind, s.h);   // after a pop-up, their reply comes a bar later: room to breathe
@@ -3292,7 +3299,7 @@ function pickleHud(t) {
   const bd = PB.bannerDur || 2.6;
   if (PB.banner && ba < bd && !PB.reveal && !hanging) { c2.save(); c2.globalAlpha = Math.min(1, (bd - ba) * 1.5); mBanner(PB.banner, CX(), 514, 28); c2.restore(); }   // (front and centre, on the ground below the players' feet: where the eye already is, never over the ball's path)
   if (PB.phase === 'countdown' && ctx) { const n = Math.ceil((PB.goCtx - ctx.currentTime) / PB.cBeat - .001); mText(n > 4 ? 'Ready' : n > 0 ? String(n) : '', CX(), VH / 2 - 60, n > 4 ? 48 : 80, INK); }
-  if (PB.phase === 'playing' && !introQuiet() && !hanging && !PB.boardUp) drawPressure(t);   // (the board, when it's up, takes that corner)   // how close they are to popping one up (and whether you're in the flow) builds faster
+  if (PB.phase === 'playing' && !introQuiet() && introStage() !== 'third' && !hanging && !PB.boardUp) drawPressure(t);   // (the board, when it's up, takes that corner)   // how close they are to popping one up (and whether you're in the flow) builds faster
   if (PB.phase === 'over') { mText(PB.won ? 'Y O U   W I N' : 'T H E Y   W I N', CX(), 190, 30, INK); mText(`${PB.us} \u2013 ${PB.them}`, CX(), 224, 20, INK); }
 }   // (what went wrong is said once, in the message line above the court)
 
@@ -3366,7 +3373,7 @@ function pbAsk(s) {
     } else { role = slotRole(s.q, 1); want = (r + tq[1]) % 12; }
   }
   const key = itemKey(role === 'note' ? want : s.root, s.q, role);
-  return { role, want, key, lv: itemEff(key, want) };
+  return { role, want, key, lv: itemEff(key, want), root: s.root };
 }
 // After the ball: how it went for the item it asked about. how: clean | helped | late | miss
 /* ---------- Spaced review ----------
@@ -3400,7 +3407,7 @@ function pickKey(m) {
 function itemMark(a, how) {
   const r = PROG.items[a.key] || (PROG.items[a.key] = { lv: a.lv, run: 0, n: 0, ok: 0 }), before = r.lv;
   r.n++; if (how !== 'miss') r.ok++;
-  if (how === 'clean') PROG.known[`${PB.box || 0}|${a.want}`] = true;
+  if (how === 'clean') { PROG.known[`${PB.box || 0}|${a.want}`] = true; const sk = `${PB.box || 0}|${a.want}`; (PROG.spotN ||= {})[sk] = (PROG.spotN[sk] || 0) + 1; }   // (clean hits per note: see hintSpots)
   if (r.lv === 0 && (how === 'clean' || how === 'helped')) { r.lv = 1; r.run = 0; }
   else if (how === 'clean') { if (++r.run >= 2) { r.lv = Math.min(3, r.lv + 1); r.run = 0; } }
   else if (how === 'miss') { r.run = 0; r.lv = Math.max(0, r.lv - 1); }
@@ -3513,7 +3520,10 @@ const askLine = s => s.ask.role === 'note' ? `Find ${nm(s.ask.want)}` : `${s.lab
    After a few of each of the chord's notes, the other pair lets one go, the band drops back, and the three
    notes sound low to high, then together. Then the real rules start: the 3rd volleys it back. */
 const INTRO_RETURNS = 6;
-const introQuiet = () => !!(PB.intro && PB.intro.phase !== 'rules');   // (the first notes and the reveal: no spikes yet)
+const introQuiet = () => !!(PB.intro && PB.intro.phase !== 'rules');   // (the first notes and the reveal: no pop-ups or spikes yet)
+// Where the first match is after the reveal: 'third' (volleys only), 'fifth' (pop-ups too), then 'root' (spikes too).
+const introStage = () => !PB.intro ? 'root' : PB.intro.phase !== 'rules' ? 'notes' : PB.intro.stage || 'root';
+const INTRO_THIRDS = 4;   // (returns with just the 3rd before the first pop-up)
 function introNext() {   // the next note on the ball: the 5th, the 3rd, the root (two open strings first, in C), then any, never twice running
   const I = PB.intro, tones = I.tones;
   const p = I.i < 3 ? [tones[2], tones[1], tones[0]][I.i] : (() => { const pool = tones.filter(x => x !== I.last); return pool[Math.floor(Math.random() * pool.length)]; })();
@@ -3541,8 +3551,10 @@ function revealStep() {
   backing.holdUntil = R; if (backing.beat > R) { backing.holdReq = false; backing.holdUntil = null; }
   if (backing.beat <= R - 1) backing.fillAt = R - 1;
   pbQueue(R + bar, 'serve', R + bar / 2);   // they serve, and the rules are on
-  if (PB.cfg.pops !== false) { PB.press = 0; PB.pressNeed = 2; }   // (the whole chord comes into play: the first pop-up, for the 5th, comes quickly)
-  pbSay(`${V.label}\u2019s 3rd volleys. Pop-ups: its 5th. Spikes: its root`); PB.bannerDur = 5;
+  // (then the chord comes in one tone at a time: a few returns with just the 3rd, then the first pop-up for the 5th,
+  //  then, once that's been played, spikes for the root. Each gets its own line when it first arrives.)
+  Object.assign(PB.intro, { stage: 'third', thirds: 0, names: V.tones.map(x => nm(x.pc)) });
+  pbSay(`Now return ${V.label} with its 3rd, ${nm(V.tones[1].pc)}`); PB.bannerDur = 4;
 }
 function drawReveal() {
   const V = PB.reveal; if (!V) return;
@@ -3555,7 +3567,7 @@ function drawReveal() {
     mText(tn.role === 'root' ? 'ROOT' : tn.role.toUpperCase(), x, y + 54, 13, INK);
   });
   if (e > 2.3 && e < 5.4) mBanner(`${andList(V.tones.map(x => nm(x.pc)))}: together, the ${V.label === pbLabel(V.root, 'maj') ? `${nm(V.root)} major` : V.label} chord`, cx, 262, 22);
-  else if (e >= 5.4) mBanner(`3rd ${nm(V.tones[1].pc)} volleys · 5th ${nm(V.tones[2].pc)} spikes · root ${nm(V.tones[0].pc)} saves`, cx, 262, 22);
+  else if (e >= 5.4) mBanner(`${nm(V.tones[1].pc)} is its 3rd. The 3rd volleys the ball back`, cx, 262, 22);
 }
 
 /* ---------- THE BOARD: where the note is, in this club's spot on the neck ----------
@@ -3563,7 +3575,20 @@ function drawReveal() {
    look down at your guitar. In four frets every pitch has exactly one place, so every dot is honest:
    play any of them (any octave counts). */
 const NB = { cw: 50, sh: 19 };
-function drawNeckBoard(cx, top, box, want, role, t) {
+/* Where the board shows a note. At first just one spot, the one the chord's usual shape uses: the root on the
+   lowest string that has it, every other tone on the nearest string above the root (in open C: C on the A string,
+   3rd fret; E on the D string, 2nd; G on the open G string). Once a note has been played cleanly a few times, the
+   board shows its other spots too, dimmer: more places to find it. Any spot on the neck still counts. */
+const SPOTS_ALL_AFTER = 3;
+function hintSpots(box, want, root) {
+  const all = boxSpots(box).filter(sp => sp.pc === want).sort((a, b) => a.s - b.s);
+  if (all.length <= 1) return { home: all[0], more: [] };
+  const n = PROG.spotN && PROG.spotN[`${box}|${want}`], showAll = (n ?? (knownAt(box, want) ? 99 : 0)) >= SPOTS_ALL_AFTER;
+  let home = all[0];
+  if (root != null && pc(root) !== want) { const r = boxSpots(box).filter(sp => sp.pc === pc(root)).sort((a, b) => a.s - b.s)[0]; home = (r && all.find(sp => sp.s > r.s)) || all[0]; }
+  return { home, more: showAll ? all.filter(sp => sp !== home) : [] };
+}
+function drawNeckBoard(cx, top, box, want, role, t, root) {
   const { cw, sh } = NB, w = 4 * cw, x0 = cx - w / 2 + 6, y0 = top + 24, cardX = x0 - 34, cardW = w + 84, cardH = sh * 5 + 56;
   c2.fillStyle = 'rgba(0,0,0,.22)'; c2.fillRect(cardX + 4, top + 5, cardW, cardH);
   c2.fillStyle = '#FFFDF7'; c2.fillRect(cardX, top, cardW, cardH); c2.strokeStyle = INK; c2.lineWidth = 3; c2.strokeRect(cardX, top, cardW, cardH);
@@ -3574,11 +3599,11 @@ function drawNeckBoard(cx, top, box, want, role, t) {
   if (box === 0) mText('open', x0 + cw / 2, y0 - 12, 10, '#6E6255');
   if (want == null) return cardH;
   const col = ROLE_COL[role] || ROLE_COL.note, ink = ROLE_INK[role] || INK, a = .5 + .5 * Math.sin(t * 6);
-  for (const sp of boxSpots(box)) if (sp.pc === want) {
-    const x = x0 + (sp.f - box) * cw + cw / 2, y = y0 + (5 - sp.s) * sh;
+  const H = hintSpots(box, want, root), at = sp => [x0 + (sp.f - box) * cw + cw / 2, y0 + (5 - sp.s) * sh];
+  for (const sp of H.more) { const [x, y] = at(sp); c2.globalAlpha = .55; disc(x, y, 10, INK); disc(x, y, 8.5, col); mText(nm(want), x, y + 4, 9, ink); c2.globalAlpha = 1; }   // (other places it is: quieter)
+  if (H.home) { const [x, y] = at(H.home);
     c2.fillStyle = `rgba(255,214,60,${.25 + .3 * a})`; c2.beginPath(); c2.arc(x, y, 13 + 3 * a, 0, 7); c2.fill();
-    disc(x, y, 11, INK); disc(x, y, 9.5, col); mText(nm(want), x, y + 4, 10, ink);
-  }
+    disc(x, y, 11, INK); disc(x, y, 9.5, col); mText(nm(want), x, y + 4, 10, ink); }
   return cardH;
 }
 // The help over the court: the board for the ball coming to you (or hanging), and in a hang, what it asks.
@@ -3590,8 +3615,8 @@ function boardPanel() {
   const L = HL() + (HR() - HL()) * BOARD_PANEL.from, R = HR(), f = Math.min((R - L) / 290, BOARD_PANEL.maxH / 151);
   return { cx: (L + R) / 2, top: BOARD_PANEL.top, f, h: 151 * f };
 }
-function drawBigBoard(box, want, role, t) {
-  const P = boardPanel(); c2.save(); c2.translate(P.cx, P.top); c2.scale(P.f, P.f); drawNeckBoard(-14, 0, box, want, role, t); c2.restore();   // (the card sits 14 to the right of the point it's given)
+function drawBigBoard(box, want, role, t, root) {
+  const P = boardPanel(); c2.save(); c2.translate(P.cx, P.top); c2.scale(P.f, P.f); drawNeckBoard(-14, 0, box, want, role, t, root); c2.restore();   // (the card sits 14 to the right of the point it's given)
   return P;
 }
 function drawHelp(t) {
@@ -3602,7 +3627,7 @@ function drawHelp(t) {
     return;
   }
   PB.boardUp = true;
-  const P = drawBigBoard(PB.box || 0, s.ask.want, s.ask.role, t);
+  const P = drawBigBoard(PB.box || 0, s.ask.want, s.ask.role, t, s.ask.root ?? s.root);
   if (!H) return;
   const open = H.phase === 'open';
   mBanner(open ? askLine(s) : H.phase === 'found' ? `${nm(H.p)}. Here it comes…` : 'Next ball', P.cx, P.top - 26, 26);
