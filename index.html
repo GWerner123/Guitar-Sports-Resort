@@ -84,7 +84,7 @@
   .unlock .link { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; color: var(--red2); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
   .morelinks { display: inline-block; margin: 14px 0 0; padding: 2px 10px; border-radius: 999px; background: rgba(29,26,23,.78); font-size: 14px; color: var(--paper); }
   .morelinks .link { background: none; border: 0; padding: 4px 6px; font: inherit; font-weight: 800; color: var(--paper); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; } .streak.cold { font-weight: 600; color: var(--muted); }
-  .corner { position: absolute; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: calc(16px + env(safe-area-inset-right, 0px)); }
+  .corner { position: absolute; z-index: 5; top: calc(12px + env(safe-area-inset-top, 0px)); right: calc(16px + env(safe-area-inset-right, 0px)); display: flex; align-items: center; gap: 10px; }
   .center { position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%); text-align: center; width: min(640px, 86vw); pointer-events: none; }
   .center > * { pointer-events: auto; }
   .logo { margin: 0; font: italic 900 clamp(54px, 13vh, 104px)/.9 var(--ui); letter-spacing: -.045em; color: var(--paper); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 0 5px 0 var(--ink); transform: rotate(-3deg); }
@@ -104,8 +104,8 @@
   /* ---------- full screens: settings, the clipboard ---------- */
   .screen { position: absolute; inset: 0; background: var(--cream); }
   .scroll { overflow: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
-  .sheet-bg { position: absolute; inset: 0; background: rgba(20,16,12,.45); z-index: 3; }
-  .sheet { position: absolute; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 24px); overflow: auto; }
+  .sheet-bg { position: absolute; inset: 0; background: rgba(20,16,12,.45); z-index: 8; }
+  .sheet { position: absolute; z-index: 9; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 24px); overflow: auto; }
   .sheet .sub { margin: 6px 40px 0 0; color: var(--muted); font-size: 14px; }
   .sheet .note { margin: 10px 0 0; font-size: 14px; font-weight: 700; }
   .xbtn { position: absolute; right: 14px; top: 14px; }
@@ -184,21 +184,60 @@
   .courtbtn b { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .courtbtn .coins { display: inline-flex; align-items: center; gap: 5px; font-weight: 900; font-size: 15px; background: var(--cream); border: 2px solid var(--ink); border-radius: 999px; padding: 3px 10px; }
   .sw { flex: 0 0 38px; height: 38px; border-radius: 9px; border: 2px solid var(--ink); display: block; }
-  .coin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #F2C230; border: 2px solid var(--ink); box-shadow: inset -2px -2px 0 #C99A16; vertical-align: -2px; margin-right: 3px; }
+  .coin { display: inline-block; width: 16px; height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14.4' fill='%23D9920F' stroke='%231d1a17' stroke-width='2.6'/%3E%3Ccircle cx='16' cy='16' r='10.4' fill='%23F8C93A' stroke='%23B5770A' stroke-width='1.6'/%3E%3Cpath d='M16 9.4l1.95 4.15 4.55.5-3.4 3.1.95 4.5L16 19.4l-4.05 2.25.95-4.5-3.4-3.1 4.55-.5z' fill='%23D9920F'/%3E%3Cpath d='M9 12.2a8 8 0 0 1 5.2-4.6' stroke='%23FFF3BD' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat; vertical-align: -3px; margin-right: 3px; flex: none; }
   .court-row { width: 100%; } .court-row.on { outline: 4px solid var(--ball); outline-offset: -1px; }
   .court-row[aria-disabled="true"] { opacity: .6; box-shadow: 0 2px 0 var(--ink); }
   .court-row .st { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; } .court-row .st .ic { width: 14px; height: 14px; }
   .coinline { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; margin: 12px 0 0; padding: 8px 12px; background: #FFF3C4; border: 2px solid var(--ink); border-radius: 12px; font-weight: 700; font-size: 14px; }
-  .coin.cbig { width: 26px; height: 26px; border-width: 3px; box-shadow: inset -3px -3px 0 #C99A16; margin: 0; }
+  .coin.cbig { width: 30px; height: 30px; margin: 0; }
   .coinline .cgot b { font-size: 24px; font-weight: 900; font-variant-numeric: tabular-nums; } .coinline .cgot { font-size: 20px; font-weight: 900; color: #8A6400; }
   .coinline .ctot b { font-variant-numeric: tabular-nums; } .coinline .cnext { flex-basis: 100%; font-weight: 600; color: var(--muted); } .coinline .cnext b { color: var(--ink); }
   .coinline.done .coin.cbig { animation: coinpop .45s ease-out; } .coinline.done .cgot { animation: coinglow .6s ease-out; }
-  .cfly { position: absolute; left: 22px; top: 14px; width: 14px; height: 14px; pointer-events: none; animation: cfly .9s cubic-bezier(.2,.7,.4,1) forwards; }
+  .cfly { position: absolute; left: 22px; top: 14px; width: 18px; height: 18px; pointer-events: none; animation: cfly .9s cubic-bezier(.2,.7,.4,1) forwards; }
   @keyframes cfly { 0% { transform: translate(0, 0) scale(.5); opacity: 1; } 70% { opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(1.1) rotate(200deg); opacity: 0; } }
   @keyframes coinpop { 0% { transform: scale(1); } 40% { transform: scale(1.5) rotate(-18deg); } 100% { transform: scale(1); } }
   @keyframes coinglow { 0% { transform: scale(1); } 35% { transform: scale(1.18); } 100% { transform: scale(1); } }
-  .courtbtn .coins.bump { animation: coinglow .5s ease-out 2; background: #FFE58A; }
-  @media (prefers-reduced-motion: reduce) { .cfly, .coinline.done .coin.cbig, .coinline.done .cgot, .courtbtn .coins.bump { animation: none; } }
+  .coinchip { display: inline-flex; align-items: center; gap: 4px; height: 44px; padding: 0 14px 0 10px; border: 3px solid var(--ink); border-radius: 999px; background: var(--paper); box-shadow: 0 3px 0 var(--ink); font: inherit; font-weight: 900; font-size: 17px; color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; }
+  .coinchip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); } .coinchip .coin { width: 22px; height: 22px; }
+  .coinchip.bump { animation: coinglow .5s ease-out 2; background: #FFE58A; }
+    .shop { width: min(760px, calc(100vw - 24px)); padding: 16px 18px 18px; }
+  .shop-head { display: flex; align-items: center; gap: 10px; } .shop-head h2 { margin: 0; flex: 1; }
+  .coinchip.static { height: 38px; font-size: 16px; cursor: default; box-shadow: none; }
+  .shop .sub { margin: 4px 0 0; }
+  .shop-msg { margin: 10px 0 0; padding: 8px 12px; border-radius: 10px; background: #FFF3C4; border: 2px solid var(--ink); font-weight: 700; font-size: 14px; }
+  .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+  .ct { display: flex; flex-direction: column; text-align: left; padding: 0; border: 3px solid var(--ink); border-radius: 16px; background: #fff; box-shadow: 0 4px 0 var(--ink); overflow: hidden; font: inherit; color: var(--ink); cursor: pointer; transition: transform .08s; }
+  .ct:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+  .ct.on { box-shadow: 0 4px 0 var(--ink), 0 0 0 4px var(--ball); }
+  .ct-pic { position: relative; display: block; aspect-ratio: 16 / 8; border-bottom: 3px solid var(--ink); background: #ccc; }
+  .ct-pic svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .ct-lock { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(29,26,23,.78); } .ct-lock svg { position: static; width: 18px; height: 18px; color: #fff; }
+  .ct-body { display: block; padding: 9px 12px 2px; } .ct-body b { display: block; font-size: 16px; line-height: 1.15; } .ct-body small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .ct-foot { display: flex; align-items: center; gap: 8px; padding: 8px 12px 11px; margin-top: auto; }
+  .ctag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 11px; border-radius: 999px; font-weight: 800; font-size: 13.5px; background: var(--cream); border: 2px solid var(--ink); white-space: nowrap; }
+  .ctag svg { width: 14px; height: 14px; }
+  .ctag.on { background: #DDF5E5; color: #0E6B3A; border-color: #0E6B3A; }
+  .ctag.buy { background: #FFD84A; } .ct.can { animation: canbuy 2.2s ease-in-out infinite; }
+  .ctag.lock { background: transparent; border-color: transparent; padding-left: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .ct-foot .cbar { all: unset; display: block; flex: 1; min-width: 30px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; } .ct-foot .cbar > i { all: unset; display: block; height: 100%; background: #F2B620; border-radius: 99px; }
+  .es-pic { position: relative; flex: none; width: 76px; height: 40px; border-radius: 8px; border: 2px solid var(--ink); overflow: hidden; display: block; background: #22304F; }
+  .es-pic.pd { background: #A6D8F6; display: grid; place-items: center; } .es-pic svg { position: absolute; inset: 0; width: 100%; height: 100%; } .es-pic img { height: 92%; image-rendering: pixelated; }
+  .sitem .erow-main { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
+  .es-big { margin: 10px 0; } .es-big .es-pic { width: 100%; height: auto; aspect-ratio: 2 / 1; } .es-big .es-pic img { height: 90%; }
+  .shop-tabs { display: flex; gap: 6px; margin-top: 12px; padding: 4px; border-radius: 14px; background: var(--cream); border: 2px solid var(--ink); width: fit-content; }
+  .shop-tabs button { font: inherit; font-weight: 800; font-size: 14.5px; padding: 7px 16px; border-radius: 10px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .shop-tabs button.on { background: var(--ink); color: var(--paper); }
+  .ct-pic.pd { background: radial-gradient(circle at 50% 120%, #4C8FD6 0 45%, #A6D8F6 46%); display: grid; place-items: center; }
+  .pd-pic { position: absolute; inset: 0; display: grid; place-items: center; } .pd-pic img { height: 88%; image-rendering: pixelated; filter: drop-shadow(0 3px 0 rgba(0,0,0,.25)); }
+  @keyframes canbuy { 0%, 100% { box-shadow: 0 4px 0 var(--ink); } 50% { box-shadow: 0 4px 0 var(--ink), 0 0 0 4px #FFD84A; } }
+  .courtbtn { display: flex; width: fit-content; margin: 12px auto 0; gap: 10px; padding: 5px 6px 5px 5px; border-radius: 16px; }
+  .cb-pic { position: relative; flex: none; width: 66px; height: 38px; border-radius: 10px; border: 2px solid var(--ink); overflow: hidden; }
+  .cb-pic svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cb-txt { flex: 1; min-width: 0; } .cb-txt small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); line-height: 1.1; }
+  .cb-txt b { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cb-go { flex: none; padding: 6px 12px; border-radius: 10px; background: var(--cream); border: 2px solid var(--ink); font-weight: 800; font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { .ct.can { animation: none; box-shadow: 0 4px 0 var(--ink), 0 0 0 4px #FFD84A; } }
+  @media (prefers-reduced-motion: reduce) { .cfly, .coinline.done .coin.cbig, .coinline.done .cgot, .coinchip.bump { animation: none; } }
   .ccards { display: flex; gap: 12px; overflow-x: auto; padding: 10px 6px 12px; scroll-snap-type: x mandatory; }
   .ccard { flex: 0 0 168px; scroll-snap-align: start; padding: 0; border: 3px solid var(--ink); border-radius: 16px; background: var(--paper); overflow: hidden; text-align: left; box-shadow: 0 4px 0 var(--ink); position: relative; }
   .ccard .pic { display: block; height: 82px; position: relative; border-bottom: 3px solid var(--ink); }
@@ -560,7 +599,7 @@
     <div class="rp-turn"><span class="rot" aria-hidden="true">📱</span><span>Turn your phone sideways to play</span></div>
   </div></div>
 </main>
-<script type="application/json" id="fb-data">{"version":1,"tracks":[{"id":"conly","name":"One Chord","style":"bossa","bpm":72,"root":0,"minor":false,"chords":["C","C","C","C"]},{"id":"vamp","name":"Two-Chord Vamp","style":"bossa","bpm":76,"root":0,"minor":false,"chords":["C","C","G","G"]},{"id":"three","name":"Three Chords","style":"pop","bpm":84,"root":0,"minor":false,"chords":["C","F","G","C"]},{"id":"beach","name":"Beach Rock","style":"pop","bpm":92,"root":0,"minor":false,"chords":["C","G","Am","F"]},{"id":"blues12","name":"Twelve-Bar Blues","style":"swing","bpm":100,"root":0,"minor":false,"chords":["C7","F7","C7","C7","F7","F7","C7","C7","G7","F7","C7","G7"]},{"id":"chicago","name":"Chicago Shuffle","style":"blues","bpm":96,"root":9,"minor":false,"chords":["A7","D7","A7","A7","D7","D7","A7","A7","E7","D7","A7","E7"]},{"id":"texas","name":"Texas Shuffle","style":"blues","bpm":108,"root":4,"minor":false,"chords":["E7","A7","E7","E7","A7","A7","E7","E7","B7","A7","E7","B7"]},{"id":"slow","name":"Slow Burn","style":"ballad","bpm":64,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"swing","name":"Swing ii–V–I","style":"swing","bpm":116,"root":0,"minor":false,"chords":["Dm7","G7","Cmaj7","Cmaj7","Em7","A7","Dm7","G7"]},{"id":"turn","name":"Island Turnaround","style":"bossa","bpm":112,"root":0,"minor":false,"chords":["Cmaj7","A7","Dm7","G7","Em7","A7","Dm7","G7"]},{"id":"jumpst","name":"Jump Street","style":"swing","bpm":136,"root":5,"minor":false,"chords":["Fmaj7","D7","Gm7","C7","Am7","D7","Gm7","C7"]},{"id":"westside","name":"Westside Minor","style":"neosoul","bpm":92,"root":9,"minor":true,"chords":["Am7","Am7","Am7","Am7","Dm7","Dm7","Am7","Am7","E7","Dm7","Am7","E7"]},{"id":"bossa","name":"Sunset Bossa","style":"bossa","bpm":108,"root":4,"minor":true,"chords":["Am7","D7","Gmaj7","Cmaj7","F#m7b5","B7","Em7","Em7"]},{"id":"desert","name":"Desert Wind","style":"lofi","bpm":96,"root":9,"minor":true,"chords":["Am","F","G","Am","Dm","Am","E7","Am"]},{"id":"boogie","name":"Stadium Boogie","style":"blues","bpm":120,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"anthem","name":"Stadium Anthem","style":"pop","bpm":126,"root":2,"minor":false,"chords":["D","A","Bm","G","D","A","G","A"]},{"id":"c7","name":"Seventh Heaven","style":"blues","bpm":84,"root":0,"minor":false,"chords":["C7","C7","C7","C7"]},{"id":"amonly","name":"One Minor Chord","style":"lofi","bpm":80,"root":9,"minor":true,"chords":["Am","Am","Am","Am"]},{"id":"ifour","name":"Front Porch","style":"folk","bpm":88,"root":0,"minor":false,"chords":["C","C","F","F"]},{"id":"minorvamp","name":"Night Walk","style":"neosoul","bpm":84,"root":9,"minor":true,"chords":["Am","Am","Dm","Dm"]},{"id":"isix","name":"Slow Dance","style":"ballad","bpm":70,"root":0,"minor":false,"chords":["C","C","Am","Am"]},{"id":"rockabilly","name":"Diner Jukebox","style":"pop","bpm":104,"root":0,"minor":false,"chords":["C","F","G","F"]},{"id":"sadpop","name":"Radio Heart","style":"pop","bpm":88,"root":9,"minor":true,"chords":["Am","F","C","G"]},{"id":"fifties","name":"Doo-Wop","style":"ballad","bpm":76,"root":0,"minor":false,"chords":["C","Am","F","G"]},{"id":"andalusian","name":"Flamenco Steps","style":"bossa","bpm":96,"root":9,"minor":true,"chords":["Am","G","F","E7"]},{"id":"minorpop","name":"Neon Rain","style":"pop","bpm":100,"root":9,"minor":true,"chords":["Am","F","G","Am"]},{"id":"shuffle","name":"Kansas City Shuffle","style":"blues","bpm":92,"root":5,"minor":false,"chords":["F7","F7","F7","F7","Bb7","Bb7","F7","F7","C7","Bb7","F7","C7"]},{"id":"sevens","name":"Two-Chord Blues","style":"blues","bpm":96,"root":0,"minor":false,"chords":["C7","C7","F7","F7"]},{"id":"majsevens","name":"Sunday Morning","style":"bossa","bpm":96,"root":0,"minor":false,"chords":["Cmaj7","Cmaj7","Fmaj7","Fmaj7"]},{"id":"twofive","name":"Two-Five","style":"swing","bpm":112,"root":0,"minor":false,"chords":["Dm7","Dm7","G7","G7"]},{"id":"minor251","name":"Midnight Minor","style":"bossa","bpm":104,"root":9,"minor":true,"chords":["Bm7b5","E7","Am7","Am7"]},{"id":"ladder","name":"Circle Ladder","style":"swing","bpm":120,"root":0,"minor":false,"chords":["Em7","A7","Dm7","G7","Cmaj7","Cmaj7","Dm7","G7"]}],"clubs":[{"id":"island","name":"Island Club","place":"A court on the sand","blurb":"Where everyone starts: a tiki stage, a trio, and the sea.","look":{"sky":["#7CCBEF","#A5DCF3","#CDEEF9"],"horizon":236,"sun":{"show":"sun","x":0.8,"height":165,"size":34,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#F2DFA6","ground2":"#E5CC86","court":{"around":"#5FAE48","court":"#3A7DC9","kitchen":"#4C8FD6","front":"#F2DFA6","front2":"#E5CC86"}},"pair":{"name":"The Sunbathers","style":"They miss now and then.","attackMul":1,"saveMul":1,"pressMul":1,"highMul":1,"slip":0.07},"matches":[{"id":"island-1","title":"First Serve","tip":"Play the note on the ball. If you need to look, the ball waits for you.","to":5,"yours":1,"attack":0.14,"save":0.3,"pops":true,"tracks":["conly"],"keys":[0],"tempo":[68,72],"gentle":true,"intro":true,"slip":0.16}],"box":0,"price":0},{"id":"juke","name":"Riverside Juke","place":"Down by the river at dusk","blurb":"Twelve-bar blues and a shack band that swings.","look":{"sky":["#5B3A6E","#8E4E7A","#D9705A","#F29A5E","#F8C27A"],"horizon":250,"sun":{"show":"sun","x":0.72,"height":58,"size":40,"color":"#FFD27A"},"stars":false,"clouds":{"show":true,"color":"#F7D2B4"},"ground":"#6E5A3C","ground2":"#5E4A30","court":{"around":"#5E4632","court":"#B4523B","kitchen":"#C8684F","front":"#7A5C40","front2":"#6A4E36"}},"pair":{"name":"The Retrievers","style":"Your spikes come back. Dink!","attackMul":1,"saveMul":1.6,"pressMul":1,"highMul":1,"slip":0.025},"matches":[],"box":0,"price":60},{"id":"rooftop","name":"Rooftop Club","place":"Above the city at night","blurb":"Jazz under string lights, and the pace picks up.","look":{"sky":["#0B1026","#121A3A","#1C2650","#283466"],"horizon":300,"sun":{"show":"moon","x":0.16,"height":230,"size":22,"color":"#F4F1DC"},"stars":true,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#3A3F4E","ground2":"#5A5F70","court":{"around":"#4A4F5E","court":"#2F7D5B","kitchen":"#3D9A72","front":"#5A5F6E","front2":"#3C404C"}},"pair":{"name":"The Smashers","style":"They spike a lot.","attackMul":1.6,"saveMul":1,"pressMul":1,"highMul":0.7,"slip":0.04},"matches":[],"box":5,"price":150},{"id":"canyon","name":"Canyon Club","place":"Red rock at sunset","blurb":"Minor keys and desert air.","look":{"sky":["#6E3B6A","#B44E5A","#E2704E","#F49B5A","#FBC877"],"horizon":270,"sun":{"show":"sun","x":0.5,"height":20,"size":60,"color":"#FFE29A"},"stars":false,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#E3B77A","ground2":"#CF9F62","court":{"around":"#D6A86E","court":"#BE5E3A","kitchen":"#D17550","front":"#E3BC84","front2":"#CFA36A"}},"pair":{"name":"The Lobbers","style":"Lots of pop-ups.","attackMul":1,"saveMul":1,"pressMul":1.7,"highMul":1.4,"slip":0.04},"matches":[],"box":7,"price":250},{"id":"stadium","name":"Grand Slam Stadium","place":"Under the floodlights","blurb":"The big show. Everything you’ve learned, in any key.","look":{"sky":["#4FA8E8","#78C0F0","#A6D8F6"],"horizon":120,"sun":{"show":"none","x":0.5,"height":60,"size":30,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#1F5C3E","ground2":"#1A5034","court":{"around":"#2F7A50","court":"#5646A8","kitchen":"#6D5CC4","front":"#2A6A46","front2":"#235A3A"}},"pair":{"name":"The Champions","style":"Good at everything.","attackMul":1.25,"saveMul":1.3,"pressMul":0.85,"highMul":1,"slip":0.015},"matches":[],"box":5,"price":400}],"rev":0,"curriculum":3}</script>
+<script type="application/json" id="fb-data">{"version":1,"tracks":[{"id":"conly","name":"One Chord","style":"bossa","bpm":72,"root":0,"minor":false,"chords":["C","C","C","C"]},{"id":"vamp","name":"Two-Chord Vamp","style":"bossa","bpm":76,"root":0,"minor":false,"chords":["C","C","G","G"]},{"id":"three","name":"Three Chords","style":"pop","bpm":84,"root":0,"minor":false,"chords":["C","F","G","C"]},{"id":"beach","name":"Beach Rock","style":"pop","bpm":92,"root":0,"minor":false,"chords":["C","G","Am","F"]},{"id":"blues12","name":"Twelve-Bar Blues","style":"swing","bpm":100,"root":0,"minor":false,"chords":["C7","F7","C7","C7","F7","F7","C7","C7","G7","F7","C7","G7"]},{"id":"chicago","name":"Chicago Shuffle","style":"blues","bpm":96,"root":9,"minor":false,"chords":["A7","D7","A7","A7","D7","D7","A7","A7","E7","D7","A7","E7"]},{"id":"texas","name":"Texas Shuffle","style":"blues","bpm":108,"root":4,"minor":false,"chords":["E7","A7","E7","E7","A7","A7","E7","E7","B7","A7","E7","B7"]},{"id":"slow","name":"Slow Burn","style":"ballad","bpm":64,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"swing","name":"Swing ii–V–I","style":"swing","bpm":116,"root":0,"minor":false,"chords":["Dm7","G7","Cmaj7","Cmaj7","Em7","A7","Dm7","G7"]},{"id":"turn","name":"Island Turnaround","style":"bossa","bpm":112,"root":0,"minor":false,"chords":["Cmaj7","A7","Dm7","G7","Em7","A7","Dm7","G7"]},{"id":"jumpst","name":"Jump Street","style":"swing","bpm":136,"root":5,"minor":false,"chords":["Fmaj7","D7","Gm7","C7","Am7","D7","Gm7","C7"]},{"id":"westside","name":"Westside Minor","style":"neosoul","bpm":92,"root":9,"minor":true,"chords":["Am7","Am7","Am7","Am7","Dm7","Dm7","Am7","Am7","E7","Dm7","Am7","E7"]},{"id":"bossa","name":"Sunset Bossa","style":"bossa","bpm":108,"root":4,"minor":true,"chords":["Am7","D7","Gmaj7","Cmaj7","F#m7b5","B7","Em7","Em7"]},{"id":"desert","name":"Desert Wind","style":"lofi","bpm":96,"root":9,"minor":true,"chords":["Am","F","G","Am","Dm","Am","E7","Am"]},{"id":"boogie","name":"Stadium Boogie","style":"blues","bpm":120,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"anthem","name":"Stadium Anthem","style":"pop","bpm":126,"root":2,"minor":false,"chords":["D","A","Bm","G","D","A","G","A"]},{"id":"c7","name":"Seventh Heaven","style":"blues","bpm":84,"root":0,"minor":false,"chords":["C7","C7","C7","C7"]},{"id":"amonly","name":"One Minor Chord","style":"lofi","bpm":80,"root":9,"minor":true,"chords":["Am","Am","Am","Am"]},{"id":"ifour","name":"Front Porch","style":"folk","bpm":88,"root":0,"minor":false,"chords":["C","C","F","F"]},{"id":"minorvamp","name":"Night Walk","style":"neosoul","bpm":84,"root":9,"minor":true,"chords":["Am","Am","Dm","Dm"]},{"id":"isix","name":"Slow Dance","style":"ballad","bpm":70,"root":0,"minor":false,"chords":["C","C","Am","Am"]},{"id":"rockabilly","name":"Diner Jukebox","style":"pop","bpm":104,"root":0,"minor":false,"chords":["C","F","G","F"]},{"id":"sadpop","name":"Radio Heart","style":"pop","bpm":88,"root":9,"minor":true,"chords":["Am","F","C","G"]},{"id":"fifties","name":"Doo-Wop","style":"ballad","bpm":76,"root":0,"minor":false,"chords":["C","Am","F","G"]},{"id":"andalusian","name":"Flamenco Steps","style":"bossa","bpm":96,"root":9,"minor":true,"chords":["Am","G","F","E7"]},{"id":"minorpop","name":"Neon Rain","style":"pop","bpm":100,"root":9,"minor":true,"chords":["Am","F","G","Am"]},{"id":"shuffle","name":"Kansas City Shuffle","style":"blues","bpm":92,"root":5,"minor":false,"chords":["F7","F7","F7","F7","Bb7","Bb7","F7","F7","C7","Bb7","F7","C7"]},{"id":"sevens","name":"Two-Chord Blues","style":"blues","bpm":96,"root":0,"minor":false,"chords":["C7","C7","F7","F7"]},{"id":"majsevens","name":"Sunday Morning","style":"bossa","bpm":96,"root":0,"minor":false,"chords":["Cmaj7","Cmaj7","Fmaj7","Fmaj7"]},{"id":"twofive","name":"Two-Five","style":"swing","bpm":112,"root":0,"minor":false,"chords":["Dm7","Dm7","G7","G7"]},{"id":"minor251","name":"Midnight Minor","style":"bossa","bpm":104,"root":9,"minor":true,"chords":["Bm7b5","E7","Am7","Am7"]},{"id":"ladder","name":"Circle Ladder","style":"swing","bpm":120,"root":0,"minor":false,"chords":["Em7","A7","Dm7","G7","Cmaj7","Cmaj7","Dm7","G7"]}],"clubs":[{"id":"island","name":"Island Club","place":"A court on the sand","blurb":"Where everyone starts: a tiki stage, a trio, and the sea.","look":{"sky":["#7CCBEF","#A5DCF3","#CDEEF9"],"horizon":236,"sun":{"show":"sun","x":0.8,"height":165,"size":34,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#F2DFA6","ground2":"#E5CC86","court":{"around":"#5FAE48","court":"#3A7DC9","kitchen":"#4C8FD6","front":"#F2DFA6","front2":"#E5CC86"}},"matches":[{"id":"island-1","title":"First Serve","tip":"Play the note on the ball. If you need to look, the ball waits for you.","to":5,"yours":1,"attack":0.14,"save":0.3,"pops":true,"tracks":["conly"],"keys":[0],"tempo":[68,72],"gentle":true,"intro":true,"slip":0.16}],"box":0,"price":0},{"id":"juke","name":"Riverside Juke","place":"Down by the river at dusk","blurb":"Twelve-bar blues and a shack band that swings.","look":{"sky":["#5B3A6E","#8E4E7A","#D9705A","#F29A5E","#F8C27A"],"horizon":250,"sun":{"show":"sun","x":0.72,"height":58,"size":40,"color":"#FFD27A"},"stars":false,"clouds":{"show":true,"color":"#F7D2B4"},"ground":"#6E5A3C","ground2":"#5E4A30","court":{"around":"#5E4632","court":"#B4523B","kitchen":"#C8684F","front":"#7A5C40","front2":"#6A4E36"}},"matches":[],"box":0,"price":60},{"id":"rooftop","name":"Rooftop Club","place":"Above the city at night","blurb":"Jazz under string lights, and the pace picks up.","look":{"sky":["#0B1026","#121A3A","#1C2650","#283466"],"horizon":300,"sun":{"show":"moon","x":0.16,"height":230,"size":22,"color":"#F4F1DC"},"stars":true,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#3A3F4E","ground2":"#5A5F70","court":{"around":"#4A4F5E","court":"#2F7D5B","kitchen":"#3D9A72","front":"#5A5F6E","front2":"#3C404C"}},"matches":[],"box":5,"price":150},{"id":"canyon","name":"Canyon Club","place":"Red rock at sunset","blurb":"Minor keys and desert air.","look":{"sky":["#6E3B6A","#B44E5A","#E2704E","#F49B5A","#FBC877"],"horizon":270,"sun":{"show":"sun","x":0.5,"height":20,"size":60,"color":"#FFE29A"},"stars":false,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#E3B77A","ground2":"#CF9F62","court":{"around":"#D6A86E","court":"#BE5E3A","kitchen":"#D17550","front":"#E3BC84","front2":"#CFA36A"}},"matches":[],"box":7,"price":250},{"id":"stadium","name":"Grand Slam Stadium","place":"Under the floodlights","blurb":"The big show. Everything you’ve learned, in any key.","look":{"sky":["#4FA8E8","#78C0F0","#A6D8F6"],"horizon":120,"sun":{"show":"none","x":0.5,"height":60,"size":30,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#1F5C3E","ground2":"#1A5034","court":{"around":"#2F7A50","court":"#5646A8","kitchen":"#6D5CC4","front":"#2A6A46","front2":"#235A3A"}},"matches":[],"box":5,"price":400}],"rev":0,"curriculum":3,"paddles":[{"id":"classic","name":"Classic Teal","price":0,"style":"solid","base":"#1FB5A5"},{"id":"sunset","name":"Sunset","price":40,"style":"solid","base":"#F2694B"},{"id":"lilac","name":"Lilac","price":40,"style":"solid","base":"#9A6BE0"},{"id":"lime","name":"Lime Zest","price":60,"style":"solid","base":"#86C93A"},{"id":"cherry","name":"Cherry","price":60,"style":"solid","base":"#D7263D"},{"id":"midnight","name":"Midnight","price":80,"style":"solid","base":"#2E3F8F"},{"id":"stripes","name":"Racing Stripes","price":120,"style":"stripes","base":"#2B4BB5","alt":"#F4F4F4"},{"id":"gold","name":"Gold","price":220,"style":"shine","base":"#E8B923"}],"trails":[{"id":"none","name":"Plain","price":0,"line":"Just the shot’s own colour","effect":"none"},{"id":"spark","name":"Sparkles","price":50,"line":"A twinkle behind every hit","effect":"spark"},{"id":"flame","name":"Flames","price":90,"line":"Your shots catch fire","effect":"flame"},{"id":"comet","name":"Comet","price":120,"line":"A long, glowing tail","effect":"comet"},{"id":"notes","name":"Music Notes","price":150,"line":"Every hit leaves a tune","effect":"notes"},{"id":"gold","name":"Gold Dust","price":200,"line":"It rains gold","effect":"dust"}]}</script>
 <script>
 // The whole game, started by the loader (below) once it knows which content to play.
 function FB_BOOT(FB_LIVE, PRISTINE) {
@@ -1947,7 +1986,14 @@ const CLUBS = FB_DATA.clubs.map(c => {
 });
 const CLUB = Object.fromEntries(CLUBS.map(c => [c.id, c]));
 const firstServe = () => CLUBS.flatMap(c => c.matches)[0] || null;   // (the scripted first match, whichever court keeps it)
-const PAIRS = Object.fromEntries(CLUBS.map(c => [c.id, c.pair || { name: 'The Locals', style: '' }]));
+/* The opponents: nameless, and not tied to any court. The game decides how they play, match by match: early on
+   they're even-handed and miss now and then; as you get better (PROG.skill) they miss less, and each match leans a
+   different way (more spikes, or more saves, or more pop-ups), so no two feel the same. First Serve is always gentle. */
+function oppStats(o = {}) {
+  if (o.tour && o.tour.intro) return { attackMul: 1, saveMul: 1, pressMul: 1, highMul: 1, slip: .07 };
+  const sk = PROG.skill ?? .2, v = .1 + .45 * sk, r = (lo, hi) => Math.max(lo, Math.min(hi, 1 + (Math.random() * 2 - 1) * v));
+  return { attackMul: r(.7, 1.6), saveMul: r(.7, 1.6), pressMul: r(.7, 1.7), highMul: r(.75, 1.35), slip: Math.max(.015, .07 - .055 * sk + (Math.random() - .5) * .015) };
+}
 // A built match's opponents: how often the ball comes to you (and how hard they play).
 // Who takes which ball, in plain words (your partner takes the rest).
 const yoursWords = y => y === 1 ? 'every ball is yours' : y === 2 ? 'every other ball is yours' : `every ${y}th ball is yours`;
@@ -2164,6 +2210,53 @@ function buyCourt(id) {
   const c = CLUB[id]; if (!c || courtOwned(c) || coins() < courtPrice(c)) return false;
   PROG.coins = coins() - courtPrice(c); (PROG.courts ||= []).push(id); PROG.court = id; THEME = id; store(SAVE.prog, PROG);
   FBA.track('court_bought', { court: id, price: courtPrice(c) }); return true;
+}
+/* ---------- the store's other shelves: paddles and ball trails ----------
+   Both are only looks, like the courts: your paddle's colours (on your player, in matches and on the menus), and a
+   trail behind the balls you hit (on top of the shot's own coloured trail, which still says what kind of shot it was).
+   The first of each is everyone's. */
+const PADDLES_DEFAULT = [
+  { id: 'classic', name: 'Classic Teal', price: 0, style: 'solid', base: '#1FB5A5' },
+  { id: 'sunset', name: 'Sunset', price: 40, style: 'solid', base: '#F2694B' },
+  { id: 'lilac', name: 'Lilac', price: 40, style: 'solid', base: '#9A6BE0' },
+  { id: 'lime', name: 'Lime Zest', price: 60, style: 'solid', base: '#86C93A' },
+  { id: 'cherry', name: 'Cherry', price: 60, style: 'solid', base: '#D7263D' },
+  { id: 'midnight', name: 'Midnight', price: 80, style: 'solid', base: '#2E3F8F' },
+  { id: 'stripes', name: 'Racing Stripes', price: 120, style: 'stripes', base: '#2B4BB5', alt: '#F4F4F4' },
+  { id: 'gold', name: 'Gold', price: 220, style: 'shine', base: '#E8B923' },
+];
+// Each trail is an effect, in colours you choose (how many depends on the effect).
+const TRAIL_FX = {
+  none: { name: 'Plain (just the shot\u2019s colour)', colors: [] },
+  spark: { name: 'Sparkles', colors: ['#FFFFFF', '#FFE27A'] },
+  flame: { name: 'Flames', colors: ['#FFE066', '#FF8A2A', '#E3432B'] },
+  comet: { name: 'Comet', colors: ['#E6F6FF', '#5AB8FF'] },
+  notes: { name: 'Music notes', colors: ['#FFFFFF', '#FFE27A', '#9FE3FF'] },
+  dust: { name: 'Falling dust', colors: ['#F2B620', '#FFF1B0'] },
+};
+const TRAILS_DEFAULT = [
+  { id: 'none', name: 'Plain', price: 0, line: 'Just the shot\u2019s own colour', effect: 'none' },
+  { id: 'spark', name: 'Sparkles', price: 50, line: 'A twinkle behind every hit', effect: 'spark' },
+  { id: 'flame', name: 'Flames', price: 90, line: 'Your shots catch fire', effect: 'flame' },
+  { id: 'comet', name: 'Comet', price: 120, line: 'A long, glowing tail', effect: 'comet' },
+  { id: 'notes', name: 'Music Notes', price: 150, line: 'Every hit leaves a tune', effect: 'notes' },
+  { id: 'gold', name: 'Gold Dust', price: 200, line: 'It rains gold', effect: 'dust' },
+];
+// (the first of each list is everyone's, free; colours an item doesn't set come from its effect)
+const noRainbow = x => x && x.id !== 'rainbow' && x.style !== 'rainbow' && x.effect !== 'rainbow';
+const paddleFix = (p, i) => ({ style: 'solid', base: '#1FB5A5', ...p, price: i === 0 ? 0 : Math.max(0, Math.round(+p.price || 0)) });
+const trailFix = (t, i) => { const fx = TRAIL_FX[t.effect] ? t.effect : 'none', d = TRAIL_FX[fx].colors;
+  return { ...t, effect: fx, colors: d.map((c, k) => (t.colors && t.colors[k]) || c), price: i === 0 ? 0 : Math.max(0, Math.round(+t.price || 0)) }; };
+const PADDLES = (FB_DATA.paddles && FB_DATA.paddles.filter(noRainbow).length ? FB_DATA.paddles.filter(noRainbow) : PADDLES_DEFAULT).map(paddleFix);
+const TRAILS = (FB_DATA.trails && FB_DATA.trails.filter(noRainbow).length ? FB_DATA.trails.filter(noRainbow) : TRAILS_DEFAULT).map(trailFix);
+const SHELF = { paddle: PADDLES, trail: TRAILS };
+const itemOwned = (kind, it) => !!it && (it.price === 0 || (PROG.shop || []).includes(kind + ':' + it.id) || (EDITING && /playtest/.test(location.hash)));
+const itemOn = kind => { const list = SHELF[kind], it = list.find(x => x.id === (kind === 'paddle' ? PROG.paddle : PROG.trail)); return it && itemOwned(kind, it) ? it : list[0]; };
+function useItem(kind, id) { const it = SHELF[kind].find(x => x.id === id); if (!itemOwned(kind, it)) return; PROG[kind] = id; store(SAVE.prog, PROG); }
+function buyItem(kind, id) {
+  const it = SHELF[kind].find(x => x.id === id); if (!it || itemOwned(kind, it) || coins() < it.price) return false;
+  PROG.coins = coins() - it.price; (PROG.shop ||= []).push(kind + ':' + id); PROG[kind] = id; store(SAVE.prog, PROG);
+  FBA.track('item_bought', { item: kind + ':' + id, price: it.price }); return true;
 }
 // What a match pays: a little for playing, more for each ball you land and each winner, and a bonus for winning.
 const matchCoins = () => 3 + (PB.hits || 0) + 2 * (PB.winners || 0) + (PB.won ? 10 : 0);
@@ -2720,14 +2813,31 @@ const BALL_YELLOW = '#E3E85A';
 // Each character is scaled so their ready pose stands as tall as the court's old players did.
 const PB_K = Object.fromEntries(Object.entries(PB_ART).map(([c, f]) => [c, 80 / f.ready.h]));
 const playerCanvas = {};
-function playerFrame(cast, pose) {
-  const key = cast + ':' + pose; if (playerCanvas[key]) return playerCanvas[key];
+/* Your paddle in the colours you chose. Its six teal shades, lightest to darkest, become six shades of the new
+   paddle (stripes alternate two colours down the face; gold gets a glint). */
+const HERO_PADDLE = { '#3DBFB1': 0, '#1FB5A5': 1, '#199386': 2, '#188C80': 3, '#14786E': 4, '#106159': 5 };
+function hexHsl(h) { const n = parseInt(h.slice(1), 16), r = (n >> 16) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  const s = d ? d / (1 - Math.abs(2 * l - 1)) : 0, hh = !d ? 0 : mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return [(hh * 60 + 360) % 360, s * 100, l * 100]; }
+const SHADE = [13, 6, 0, -4, -10, -17];
+function paddlePix(P, k, x, y) {
+  const base = P.style === 'stripes' && Math.floor(y / 2) % 2 ? (P.alt || '#F4F4F4') : (P.base || '#1FB5A5'), [h, sa, l] = hexHsl(base);
+  if (P.style === 'shine' && (x + y) % 7 === 0 && k < 3) return '#FFF6CC';
+  return `hsl(${h} ${sa}% ${Math.max(6, Math.min(96, l + SHADE[k]))}%)`;
+}
+function playerFrame(cast, pose, paddle) {
+  const P = cast === 'hero' ? (paddle || itemOn('paddle')) : null, pk = P ? [P.style, P.base, P.alt].join('|') : '', custom = P && pk !== 'solid|#1FB5A5|';
+  const key = cast + ':' + pose + (custom ? ':' + pk : ''); if (playerCanvas[key]) return playerCanvas[key];
   const f = PB_ART[cast][pose], cv = document.createElement('canvas'); cv.width = f.w; cv.height = f.h;
-  const C = PB_COLOR[cast], g = cv.getContext('2d'), pal = {};   // each letter is a colour in this character's palette
-  C.pal.forEach((h, i) => { pal['ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'[i]] = h; });
-  C.poses[pose].forEach((r, y) => { let x = 0; for (const m of r.matchAll(/(\d*)(.)/g)) { const n = m[1] ? +m[1] : 1; if (pal[m[2]]) { g.fillStyle = pal[m[2]]; g.fillRect(x, y, n, 1); } x += n; } });
+  const C = PB_COLOR[cast], g = cv.getContext('2d'), pal = {}, shadeOf = {};   // each letter is a colour in this character's palette
+  C.pal.forEach((h, i) => { const L = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'[i]; pal[L] = h; if (custom && HERO_PADDLE[h.toUpperCase()] !== undefined) shadeOf[L] = HERO_PADDLE[h.toUpperCase()]; });
+  C.poses[pose].forEach((r, y) => { let x = 0; for (const m of r.matchAll(/(\d*)(.)/g)) { const n = m[1] ? +m[1] : 1;
+    if (shadeOf[m[2]] !== undefined) for (let i = 0; i < n; i++) { g.fillStyle = paddlePix(P, shadeOf[m[2]], x + i, y); g.fillRect(x + i, y, 1, 1); }
+    else if (pal[m[2]]) { g.fillStyle = pal[m[2]]; g.fillRect(x, y, n, 1); } x += n; } });
   return (playerCanvas[key] = cv);
 }
+// A paddle's picture for the store: your player, mid-swing, holding it.
+const paddleShot = {};
+const paddlePreview = P => { const k = [P.style, P.base, P.alt].join('|'); return paddleShot[k] ||= playerFrame('hero', 'forehand', P).toDataURL(); };
 // A spike on its way: the one hitting it jumps, paddle raised overhead, just before the hit (0..1 through it, or null).
 function spikeJump(who) {
   if (!ctx || PB.phase !== 'playing') return null;
@@ -2889,7 +2999,7 @@ function drawBallLabel(b, x, y) {
    All of it reads time from the view clock (viewCtx / viewPerf), so the replay can draw an earlier moment
    without touching the audio or the game. Reduce motion (Settings) turns off the shake and camera moves. */
 const MOTION = { reduce: (() => { try { const v = localStorage.getItem('fretball-reduce-motion'); return v === null ? matchMedia('(prefers-reduced-motion: reduce)').matches : v === '1'; } catch { return false; } })() };
-const FX = { fx: [], trail: [], dust: [], lastBall: null };
+const FX = { fx: [], trail: [], dust: [], lastBall: null, ctrail: [] };
 // The effects are drawn in blocks, like the rest of the picture: rings, flashes, trails and dust made of squares on a grid.
 const PXF = 4;
 const snap = v => Math.round(v / PXF) * PXF;
@@ -2900,7 +3010,7 @@ function pxRing(x, y, r, w, col, from = 0, to = Math.PI * 2) {
 function pxDisc(x, y, r, col) { c2.fillStyle = col; for (let dy = -r; dy <= r; dy += PXF) { const hw = snap(Math.sqrt(Math.max(0, r * r - dy * dy))); c2.fillRect(snap(x) - hw, snap(y + dy), hw * 2 + PXF, PXF); } }
 const SHOT_FX = { volley: { col: '#F2C230', ring: 32, shake: 0 }, spike: { col: '#3A7DC9', ring: 90, shake: 8 }, dink7: { col: '#3E9E4A', ring: 32, shake: 0 }, save: { col: '#E5483F', ring: 60, shake: 5 }, partner: { col: '#FFFFFF', ring: 32, shake: 0 } };
 const fxTv = () => ctx ? viewCtx() - outLat() : 0;
-function fxReset() { FX.fx = []; FX.trail = []; FX.dust = []; FX.lastBall = null; CAM.x = 0; CAM.y = 0; CAM.z = MOTION.reduce ? 1 : 1.04; }
+function fxReset() { FX.fx = []; FX.trail = []; FX.dust = []; FX.ctrail = []; FX.lastBall = null; CAM.x = 0; CAM.y = 0; CAM.z = MOTION.reduce ? 1 : 1.04; }
 // New hits since last frame become effects, dated to their beat.
 function fxScan() {
   const tv = fxTv();
@@ -2928,12 +3038,32 @@ function fxBall(b, x, y, u, gy) {
   const keep = kind === 'spike' ? .32 : I >= 3 ? .26 : I === 2 ? .14 : 0;
   FX.trail.push({ x, y, t: tv }); FX.trail = FX.trail.filter(p => tv - p.t < Math.max(.05, keep) && tv >= p.t);
   if (keep) { const col = kind ? SHOT_FX[kind].col : '#FFFFFF'; for (const p of FX.trail) { const a = 1 - (tv - p.t) / keep; if (a <= 0) continue; c2.globalAlpha = a * .6; const w = snap(4 + 8 * a); c2.fillStyle = col; c2.fillRect(snap(p.x) - w / 2, snap(p.y) - w / 2, w, w); } c2.globalAlpha = 1; }   // (its trail, in blocks)
+  trailDraw(b, x, y, tv);   // (the trail you chose, behind your own hits)
   if (s && kind === 'spike' && s.oppFail && u > .9 && !s.fxDust) { s.fxDust = true; for (let k = 0; k < 14; k++) FX.dust.push({ x, y: gy, t0: tv, vx: (Math.random() - .5) * 220, vy: -60 - Math.random() * 140 }); }
   const age = s && s.state === 'hit' && s.T !== undefined ? tv - s.T : 9, sq = age >= 0 && age < .14 ? 1 - age / .14 : 0;
   c2.save(); c2.translate(x, y); c2.scale(1 + .45 * sq, 1 - .32 * sq);
   mDisc(0, 0, 13, INK); mDisc(0, 0, 11, BALL_YELLOW); for (const [dx, dy] of [[-6, -4], [5, -5], [-5, 5], [6, 4]]) mRect(dx - 1, dy - 1, 3, 3, '#BFC43A');   // (the pixel ball)
   c2.restore();
   FX.lastBall = { x, y };
+}
+/* Your trail: drawn behind the balls you hit, in blocks like everything else. */
+const TRAIL_KEEP = { spark: .4, flame: .3, comet: .5, notes: .7, dust: .55 };
+function trailDraw(b, x, y, tv) {
+  const T = itemOn('trail'), s = b.shot, mine = s && s.who === 'you' && s.state === 'hit' && b.from === 'you';
+  if (T.effect === 'none' || !mine) { FX.ctrail = []; return; }
+  const E = T.effect, K = T.colors, keep = TRAIL_KEEP[E] || .4, last = FX.ctrail[FX.ctrail.length - 1];
+  if (!last || Math.hypot(x - last.x, y - last.y) > 5) FX.ctrail.push({ x, y, t: tv, r: Math.random() });
+  FX.ctrail = FX.ctrail.filter(p => tv - p.t < keep && tv >= p.t);
+  c2.save();
+  for (const p of FX.ctrail) {
+    const a = 1 - (tv - p.t) / keep, age = 1 - a, j = (p.r - .5);
+    if (E === 'spark') { if (Math.sin(tv * 34 + p.r * 40) < -.2) continue; c2.globalAlpha = a; c2.fillStyle = p.r > .5 ? K[0] : K[1]; const cx = snap(p.x + j * 26), cy = snap(p.y + (p.r * 2 - 1) * 18); c2.fillRect(cx - 2, cy - 6, 4, 12); c2.fillRect(cx - 6, cy - 2, 12, 4); }
+    else if (E === 'flame') { c2.globalAlpha = .85 * a; c2.fillStyle = a > .66 ? K[0] : a > .33 ? K[1] : K[2]; const w = snap(6 + 12 * a); c2.fillRect(snap(p.x + j * 10) - w / 2, snap(p.y - age * 18) - w / 2, w, w); }
+    else if (E === 'comet') { c2.globalAlpha = .35 * a; c2.fillStyle = K[1]; let w = snap(10 + 16 * a); c2.fillRect(snap(p.x) - w / 2, snap(p.y) - w / 2, w, w); c2.globalAlpha = .9 * a; c2.fillStyle = K[0]; w = snap(4 + 8 * a); c2.fillRect(snap(p.x) - w / 2, snap(p.y) - w / 2, w, w); }
+    else if (E === 'notes') { if (p.r > .45) continue; c2.globalAlpha = a; c2.fillStyle = K[Math.floor(p.r * 6.6) % 3]; const nx = snap(p.x + j * 30), ny = snap(p.y - age * 34); c2.fillRect(nx, ny, 8, 6); c2.fillRect(nx + 4, ny - 16, 4, 18); c2.fillRect(nx + 8, ny - 16, 6, 4); }
+    else if (E === 'dust') { c2.globalAlpha = a; c2.fillStyle = p.r > .6 ? K[1] : K[0]; const w = p.r > .8 ? 8 : 4; c2.fillRect(snap(p.x + j * 22), snap(p.y + age * 26 + p.r * 6), w, w); }
+  }
+  c2.restore();
 }
 function fxDraw() {
   const tv = fxTv();
@@ -4055,7 +4185,7 @@ const CLIPBOARD_SVG = `<svg viewBox="0 0 96 120" aria-hidden="true">
 
 // ---------- getting a match ready: the card comes up over the court ----------
 function prepMatch(cfg, o = {}) {
-  PB.cfg = { ...(PAIRS[o.club] || {}), ...cfg }; PB.pair = PAIRS[o.club] || null;
+  PB.cfg = { ...oppStats(o), ...cfg }; PB.pair = null;   // (a replay keeps the same opponents: their stats are in cfg)
   PB.tour = o.tour || null; PB.club = o.club; PB.purpose = null; PB.viaPlay = false; PB.built = null;
   PB.box = o.box ?? (CLUB[o.club] ? CLUB[o.club].box || 0 : 0);   // the spot on the neck: where the board shows notes (a built match chooses it)
   THEME = o.club;
@@ -4420,6 +4550,7 @@ function homeHtml() {
   return `<div class="home">
     <button class="streak${s.n ? '' : ' cold'}" id="b-streak" aria-label="Your progress">${s.n ? `<b>${s.n}</b> day streak` : 'Play today to start a streak'}</button>
     <div class="corner">
+      <button class="coinchip" id="b-coins" aria-label="${coins()} coins: open the store"><span class="coin" aria-hidden="true"></span><b class="hcn" data-from="${homeCoinsFrom()}" data-to="${coins()}">${homeCoinsFrom()}</b></button>
       <button class="round" id="b-gear" aria-label="Settings">${ICON.gear}</button>
     </div>
     <div class="center">
@@ -4428,7 +4559,7 @@ function homeHtml() {
       <div class="bigs">
         <button class="big primary play" id="b-go"><span>Play</span><small>${esc(homePlayLine())}</small></button>
       </div>
-      ${isNewPlayer() && !coins() ? '' : `<button class="courtbtn" id="b-courts"><span class="sw" style="${courtSwatch(currentClub())}"></span><span><small>Court</small><b>${esc(currentClub().name)}</b></span><span class="coins"><span class="coin" aria-hidden="true"></span><b class="hcn" data-from="${homeCoinsFrom()}" data-to="${coins()}">${homeCoinsFrom()}</b></span></button>`}
+      <button class="courtbtn" id="b-courts" aria-label="Court: ${esc(currentClub().name)}. Change court"><span class="cb-pic" aria-hidden="true">${courtThumb(currentClub())}</span><span class="cb-txt" aria-hidden="true"><small>Court</small><b>${esc(currentClub().name)}</b></span><span class="cb-go" aria-hidden="true">Change</span></button>
       ${!isPaid() && !isNewPlayer() ? `<p class="morelinks"><button class="link" id="b-unlockmore">Unlimited play</button></p>` : ''}
       <div hidden>
       </div>
@@ -4438,18 +4569,74 @@ function homeHtml() {
 }
 // Where the home screen's coin count starts: what it showed last time (the first time, just before this match's coins).
 const homeCoinsFrom = () => UI.homeCoins ?? Math.max(0, coins() - (PB.coinsGot || 0));
-const courtSwatch = c => { const L = c.look || {}, sky = (L.sky && L.sky[0]) || '#7CCBEF', ct = (L.court && L.court.court) || '#3A7DC9'; return `background:linear-gradient(${sky} 0 48%, ${ct} 48%)`; };
-// The court shop: every court, what it costs, and which is yours. Tap one you own to play there; buy one you can afford.
+// A little picture of a court, drawn from its look: the sky, the sun or moon, the ground, the court and its net.
+let thumbN = 0;
+function courtThumb(c) {
+  const L = c.look || {}, C = L.court || {}, sky = L.sky && L.sky.length ? L.sky : ['#7CCBEF', '#CDEEF9'], hz = Math.max(60, Math.min(400, L.horizon ?? 236)), id = 'th' + (++thumbN);
+  const stops = sky.map((col, i) => `<stop offset="${sky.length > 1 ? i / (sky.length - 1) : 0}" stop-color="${esc(col)}"/>`).join('');
+  const sun = L.sun || {}, sx = (sun.x ?? .8) * 960, sy = hz - (sun.height ?? 120), sr = (sun.size ?? 30) * 1.3;
+  const orb = sun.show === 'sun' ? `<circle cx="${sx}" cy="${sy}" r="${sr}" fill="${esc(sun.color || '#FFE07A')}"/>` : sun.show === 'moon' ? `<circle cx="${sx}" cy="${sy}" r="${sr}" fill="${esc(sun.color || '#F4F1DC')}"/><circle cx="${sx + sr * .45}" cy="${sy - sr * .25}" r="${sr * .85}" fill="${esc(sky[0])}"/>` : '';
+  const stars = L.stars ? [[90, 40], [210, 90], [330, 30], [520, 70], [640, 25], [760, 95], [880, 50], [420, 130]].filter(([, y]) => y < hz - 20).map(([x, y]) => `<rect x="${x}" y="${y}" width="9" height="9" fill="#fff" opacity=".85"/>`).join('') : '';
+  const clouds = L.clouds && L.clouds.show ? [[200, Math.min(hz - 60, 90)], [700, Math.min(hz - 40, 140)]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="90" ry="26" fill="${esc(L.clouds.color || '#fff')}" opacity=".9"/><ellipse cx="${x + 40}" cy="${y - 16}" rx="50" ry="24" fill="${esc(L.clouds.color || '#fff')}" opacity=".9"/>`).join('') : '';
+  const ln = esc(C.lines || '#FFFFFF');
+  return `<svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" focusable="false"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">${stops}</linearGradient></defs>
+    <rect width="960" height="${hz + 2}" fill="url(#${id})"/>${stars}${orb}${clouds}
+    <rect y="${hz}" width="960" height="${410 - hz}" fill="${esc(L.ground || '#C9B48A')}"/><rect y="404" width="960" height="136" fill="${esc(C.around || '#5FAE48')}"/>
+    <path d="M40 414H920L940 500H20Z" fill="${esc(C.court || '#3A7DC9')}"/><path d="M345 414H615L595 500H365Z" fill="${esc(C.kitchen || C.court || '#4C8FD6')}"/>
+    <path d="M40 414H920L940 500H20Z M30 457H360 M600 457H930" fill="none" stroke="${ln}" stroke-width="5"/>
+    <rect y="501" width="960" height="40" fill="${esc(C.front || C.around || '#F2DFA6')}"/>
+    <path d="M480 360V505" stroke="#2a2a2a" stroke-width="7"/><path d="M480 366V470" stroke="#fff" stroke-width="3" opacity=".7"/></svg>`;
+}
+// A shop tile's footer: in use, yours, buy now, or how far there is to go.
+function shopFoot(own, on, can, price, n, useWord = 'Use') {
+  return on ? `<span class="ctag on">✓ ${useWord === 'Use' ? 'Using' : 'Playing here'}</span>` : own ? `<span class="ctag">${useWord}</span>`
+    : can ? `<span class="ctag buy">Buy <span class="coin" aria-hidden="true"></span>${price}</span>`
+    : `<span class="ctag lock"><span class="coin" aria-hidden="true"></span>${n} / ${price}</span><span class="cbar"><i style="width:${Math.round(100 * n / Math.max(1, price))}%"></i></span>`;
+}
+const shopState = (own, on, can) => on ? ' on' : own ? ' own' : can ? ' can' : ' locked';
+const shopSay = (own, on, can, price, n) => on ? 'in use' : own ? 'yours: tap to use' : can ? `buy for ${price} coins` : `${price - n} more coins needed`;
+// A trail's picture: a ball flying left to right, with the trail behind it.
+function trailPreview(T) {
+  const pts = [[22, 72], [50, 58], [78, 48], [106, 42], [134, 40], [160, 42]], ball = [182, 48];
+  let fx = '';
+  const fade = i => (.25 + .75 * i / pts.length).toFixed(2);
+  const E = T.effect, K = (T.colors || []).map(esc);
+  pts.forEach(([x, y], i) => { const o = fade(i);
+    if (E === 'spark') fx += `<path d="M${x} ${y - 9}v18M${x - 9} ${y}h18" stroke="${i % 2 ? K[1] : K[0]}" stroke-width="4" opacity="${o}"/>`;
+    else if (E === 'flame') fx += `<rect x="${x - 6 - i}" y="${y - 6 - (6 - i) * 2 - i}" width="${12 + 2 * i}" height="${12 + 2 * i}" fill="${i > 3 ? K[0] : i > 1 ? K[1] : K[2]}" opacity="${o}"/>`;
+    else if (E === 'comet') fx += `<rect x="${x - 8 - i}" y="${y - 8 - i}" width="${16 + 2 * i}" height="${16 + 2 * i}" fill="${K[1]}" opacity="${(o * .4).toFixed(2)}"/><rect x="${x - 3 - i / 2}" y="${y - 3 - i / 2}" width="${6 + i}" height="${6 + i}" fill="${K[0]}" opacity="${o}"/>`;
+    else if (E === 'notes' && i % 2) fx += `<g opacity="${o}" fill="${K[i % 3]}"><rect x="${x}" y="${y - 2}" width="9" height="7"/><rect x="${x + 5}" y="${y - 20}" width="4" height="20"/><rect x="${x + 9}" y="${y - 20}" width="7" height="4"/></g>`;
+    else if (E === 'dust') fx += `<rect x="${x - 6}" y="${y + 6 + (6 - i) * 3}" width="5" height="5" fill="${K[0]}" opacity="${o}"/><rect x="${x + 5}" y="${y + 14 + (6 - i) * 2}" width="7" height="7" fill="${K[1]}" opacity="${o}"/>`;
+    else if (E === 'none') fx += i > 2 ? `<rect x="${x - 4}" y="${y - 4}" width="8" height="8" fill="#F2C230" opacity="${(o * .7).toFixed(2)}"/>` : '';
+  });
+  return `<svg viewBox="0 0 240 110" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="240" height="110" fill="#22304F"/><rect y="84" width="240" height="26" fill="#2F6E4C"/>${fx}
+    <circle cx="${ball[0]}" cy="${ball[1]}" r="13" fill="#1d1a17"/><circle cx="${ball[0]}" cy="${ball[1]}" r="10.5" fill="${BALL_YELLOW}"/></svg>`;
+}
+// The store: courts, paddles and trails. Tap one you own to use it; buy one you can afford.
 function courtsHtml() {
-  const cur = currentClub(), n = coins();
-  const rows = CLUBS.map(c => { const own = courtOwned(c), price = courtPrice(c), on = c === cur, can = !own && n >= price;
-    const st = on ? '<span class="st won">Playing here</span>' : own ? '<span class="st">Play here</span>' : can ? `<span class="st go">Buy · <span class="coin" aria-hidden="true"></span>${price}</span>` : `<span class="st">${ICON.lock}<span class="coin" aria-hidden="true"></span>${price}</span>`;
-    return `<button class="mrow court-row${on ? ' on' : ''}" data-court="${esc(c.id)}" ${!own && !can ? 'aria-disabled="true"' : ''}><span class="sw" style="${courtSwatch(c)}"></span><span class="mt">${esc(c.name)}<small>${esc(c.place || '')}${c.pair && c.pair.name ? ` · vs ${esc(c.pair.name)}` : ''}</small></span>${st}</button>`; }).join('');
-  return `<div class="sheet-bg" id="courts-bg"></div><div class="card sheet" role="dialog" aria-label="Courts">
-    <button class="round small xbtn" id="b-courtsx" aria-label="Close">${ICON.close}</button>
-    <p class="kicker">Courts</p><h2>Where you play</h2>
-    <p class="sub">You have <b><span class="coin" aria-hidden="true"></span>${n} coins</b>. Every match earns more; winning earns the most.</p>
-    <div class="mlist">${rows}</div>${UI.courtMsg ? `<p class="note">${esc(UI.courtMsg)}</p>` : ''}</div>`;
+  const tab = UI.shopTab || 'courts', n = coins();
+  let tiles = '';
+  if (tab === 'courts') { const cur = currentClub();
+    tiles = CLUBS.map(c => { const own = courtOwned(c), price = courtPrice(c), on = c === cur, can = !own && n >= price;
+      return `<button class="ct${shopState(own, on, can)}" data-court="${esc(c.id)}" aria-label="${esc(c.name)}: ${shopSay(own, on, can, price, n)}">
+        <span class="ct-pic" aria-hidden="true">${courtThumb(c)}${!own && !can ? `<span class="ct-lock">${ICON.lock}</span>` : ''}</span>
+        <span class="ct-body" aria-hidden="true"><b>${esc(c.name)}</b>${c.place ? `<small>${esc(c.place)}</small>` : ''}</span>
+        <span class="ct-foot" aria-hidden="true">${shopFoot(own, on, can, price, n, 'Play here')}</span></button>`; }).join('');
+  } else { const kind = tab === 'paddles' ? 'paddle' : 'trail', cur = itemOn(kind);
+    tiles = SHELF[kind].map(it => { const own = itemOwned(kind, it), on = it === cur, can = !own && n >= it.price;
+      const pic = kind === 'paddle' ? `<span class="pd-pic"><img src="${paddlePreview(it)}" alt=""></span>` : trailPreview(it);
+      return `<button class="ct${shopState(own, on, can)}" data-item="${kind}:${esc(it.id)}" aria-label="${esc(it.name)}: ${shopSay(own, on, can, it.price, n)}">
+        <span class="ct-pic${kind === 'paddle' ? ' pd' : ''}" aria-hidden="true">${pic}${!own && !can ? `<span class="ct-lock">${ICON.lock}</span>` : ''}</span>
+        <span class="ct-body" aria-hidden="true"><b>${esc(it.name)}</b>${it.line ? `<small>${esc(it.line)}</small>` : ''}</span>
+        <span class="ct-foot" aria-hidden="true">${shopFoot(own, on, can, it.price, n)}</span></button>`; }).join('');
+  }
+  const sub = { courts: 'Where you play. Every song and level plays on any court.', paddles: 'Your paddle, in matches and on the menus.', trails: 'What follows the balls you hit.' }[tab];
+  return `<div class="sheet-bg" id="courts-bg"></div><div class="card sheet shop" role="dialog" aria-label="Store">
+    <div class="shop-head"><h2>Store</h2><span class="coinchip static"><span class="coin" aria-hidden="true"></span>${n}</span><button class="round small" id="b-courtsx" aria-label="Close">${ICON.close}</button></div>
+    <div class="shop-tabs" role="tablist">${[['courts', 'Courts'], ['paddles', 'Paddles'], ['trails', 'Trails']].map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" class="${tab === k ? 'on' : ''}" data-shoptab="${k}">${l}</button>`).join('')}</div>
+    <p class="sub">${sub} Win matches to earn coins.</p>
+    ${UI.courtMsg ? `<p class="shop-msg" role="status">${esc(UI.courtMsg)}</p>` : ''}
+    <div class="shop-grid">${tiles}</div></div>`;
 }
 // The full version: unlimited play (everything else is free for everyone).
 function unlockActions() {
@@ -4553,7 +4740,7 @@ function matchIntroHtml() {
   return `<div class="card match"><p class="kicker">${esc(cl.name)}</p>
     <h2>${esc(PB.cfg.title)}</h2>
     ${m && m.tip ? `<p class="tip">${esc(m.tip)}</p>` : PB.purpose ? `<p class="tip">${esc(PB.purpose)}</p>` : ''}
-    <p class="meta">${m ? `${starHtml(starsOf(m.id))} · ` : ''}${PB.pair ? `vs <b>${esc(PB.pair.name)}</b>: ${esc(PB.pair.style)}` : ''}</p>
+    ${m ? `<p class="meta">${starHtml(starsOf(m.id))}</p>` : ''}
     ${PB.cfg.eased ? '<p class="meta"><b>Easier this time:</b> a little slower, with fewer spikes.</p>' : ''}
     ${PB.cfg.gentle ? '<p class="meta"><b>Practice match:</b> a miss doesn’t cost you a point.</p>' : ''}
     <p class="meta">First to ${PB.cfg.to} · ${esc(tr.name)} in ${kn} · ${sel.bpm} bpm</p>
@@ -4637,7 +4824,7 @@ function render() {
   uiEl.innerHTML = pickle ? '' : UI.view === 'mic' ? micHtml() :  UI.view === 'stats' ? clipboardHtml() : homeHtml();
   uiEl.className = pickle ? '' : 'v-' + UI.view;
   { const h = uiEl.querySelector('.hcn'); if (h) { const a = +h.dataset.from, b = +h.dataset.to; UI.homeCoins = b;   // (new coins since you last saw the home screen: they count up, and the coin pops)
-    if (b > a && !MOTION.reduce) { const btn = h.closest('.coins'), t0 = performance.now(), dur = Math.min(1400, 500 + (b - a) * 25);
+    if (b > a && !MOTION.reduce) { const btn = h.closest('.coinchip'), t0 = performance.now(), dur = Math.min(1400, 500 + (b - a) * 25);
       setTimeout(() => { btn.classList.add('bump'); const step = now => { if (!h.isConnected) return; const k = Math.min(1, (now - t0 - 350) / dur); h.textContent = Math.round(a + (b - a) * Math.max(0, 1 - Math.pow(1 - Math.max(0, k), 2))); if (k < 1) requestAnimationFrame(step); else { h.textContent = b; setTimeout(() => btn.classList.remove('bump'), 400); } }; requestAnimationFrame(step); }, 350); }
     else h.textContent = b; } }
   let mode = 'hidden', h = '';
@@ -4697,11 +4884,17 @@ function bind() {
   on('b-gear', () => goView('mic'));   // (Settings: the mic, the tuner, matches, and your progress)
   on('m-tuner2', () => openTuner());
   on('b-go', () => playNext()); on('b-unlockmore', () => { UI.paywall = 'grad'; render(); });   // (the offer: unlimited play)   // (Play: the best next match, straight in)
-  on('b-courts', () => { UI.club = 'courts'; UI.courtMsg = ''; render(); }); on('b-courtsx', () => { UI.club = null; render(); }); on('courts-bg', () => { UI.club = null; render(); });
+  on('b-courts', () => { UI.club = 'courts'; UI.shopTab = 'courts'; UI.courtMsg = ''; render(); }); on('b-coins', () => { UI.club = 'courts'; UI.courtMsg = ''; render(); }); on('b-courtsx', () => { UI.club = null; render(); }); on('courts-bg', () => { UI.club = null; render(); });
   document.querySelectorAll('[data-court]').forEach(el => { el.onclick = () => { const c = CLUB[el.dataset.court]; if (!c) return;
     if (courtOwned(c)) { pickCourt(c.id); UI.club = null; render(); return; }
     if (buyCourt(c.id)) { UI.courtMsg = `${c.name} is yours. You’re playing there now.`; render(); return; }
     UI.courtMsg = `${c.name} costs ${courtPrice(c)} coins. ${courtPrice(c) - coins()} to go.`; render(); }; });
+  document.querySelectorAll('[data-shoptab]').forEach(el => { el.onclick = () => { UI.shopTab = el.dataset.shoptab; UI.courtMsg = ''; render(); const g = document.querySelector('.shop'); if (g) g.scrollTop = 0; }; });
+  document.querySelectorAll('[data-item]').forEach(el => { el.onclick = () => { const [kind, id] = el.dataset.item.split(':'), it = SHELF[kind] && SHELF[kind].find(x => x.id === id); if (!it) return;
+    const what = kind === 'paddle' ? 'paddle' : 'trail';
+    if (itemOwned(kind, it)) { useItem(kind, id); UI.courtMsg = `Using the ${it.name} ${what}.`; render(); return; }
+    if (buyItem(kind, id)) { UI.courtMsg = `The ${it.name} ${what} is yours, and you\u2019re using it now.`; render(); return; }
+    UI.courtMsg = `The ${it.name} ${what} costs ${it.price} coins. ${it.price - coins()} to go.`; render(); }; });
   on('b-clip', () => goView('stats')); on('b-streak', () => goView('stats'));
   on('b-back', goBack);
   // free play
@@ -5087,7 +5280,7 @@ function scLiveFields() { const o = scObj(); if (!o) return; for (const [k, v] o
 
 /* =====================================================================
    THE FRETBALL EDITOR (open the game with #admin on the end of its address).
-   Design the game without code: courts (drawn live beside the panel), their prices and opponents,
+   Design the game without code: courts (drawn live beside the panel) and their prices,
    matches, and backing tracks (heard as you write them). Changes are kept as a draft in this browser;
    Play-test tries them in the real game; Save game file writes a new fretball.html with them built in.
    ===================================================================== */
@@ -5127,10 +5320,60 @@ const EF = {
   check: (label, path, o) => `<label class="ef ek"><input type="checkbox" data-p="${path}" data-t="bool" ${getPath(o.obj, path) ? 'checked' : ''}><span>${label}</span></label>`,
   select: (label, path, opts, o) => `<label class="ef"><span>${label}</span><select data-p="${path}" ${o.num ? 'data-t="num"' : ''} data-redraw="1">${Object.entries(opts).map(([k, n]) => `<option value="${k}" ${String(getPath(o.obj, path)) === String(k) ? 'selected' : ''}>${n}</option>`).join('')}</select></label>`,
 };
-const SHOWFMT = { 'look.sun.x': v => Math.round(v * 100) + '%', attack: v => Math.round(v * 100) + '%', save: v => Math.round(v * 100) + '%', bpm: v => v + ' bpm',
+const SHOWFMT = { price: v => edCoins(v), 'look.sun.x': v => Math.round(v * 100) + '%', attack: v => Math.round(v * 100) + '%', save: v => Math.round(v * 100) + '%', bpm: v => v + ' bpm',
   'pair.attackMul': v => '×' + (+v).toFixed(2), 'pair.saveMul': v => '×' + (+v).toFixed(2), 'pair.pressMul': v => '×' + (+v).toFixed(2), 'pair.highMul': v => '×' + (+v).toFixed(2), 'pair.slip': v => (v * 100).toFixed(1) + '%' };
 const edSec = (title, body, open) => `<details class="es" ${open ? 'open' : ''}><summary>${title}</summary><div class="esb">${body}</div></details>`;
 
+// ---------- Store: the paddles and trails players can buy (the courts are under Courts) ----------
+const edShelf = kind => { const k = kind === 'paddle' ? 'paddles' : 'trails'; if (ED[k]) ED[k] = ED[k].filter(noRainbow); if (!ED[k] || !ED[k].length) ED[k] = edClone(kind === 'paddle' ? PADDLES_DEFAULT : TRAILS_DEFAULT); return ED[k]; };
+const edItemPic = (kind, it, i) => kind === 'paddle' ? `<span class="es-pic pd"><img src="${paddlePreview(paddleFix(it, i))}" alt=""></span>` : `<span class="es-pic">${trailPreview(trailFix(it, i))}</span>`;
+function edStorePanel() {
+  if (EDV.sItem) { const [kind, si] = EDV.sItem.split(':'), list = edShelf(kind), i = +si, it = list[i]; if (it) return edStoreItem(kind, list, i, it); EDV.sItem = null; }
+  const shelf = (kind, title, what) => { const list = edShelf(kind);
+    return edSec(title, `<div class="elist">${list.map((it, i) => `<div class="erow sitem"><button class="erow-main" data-sitem="${kind}:${i}">${edItemPic(kind, it, i)}<span><b>${esc(it.name || 'Untitled')}</b><small>${i === 0 ? 'Free: everyone has it' : edCoins(it.price)}${kind === 'trail' ? ' · ' + esc((TRAIL_FX[it.effect] || TRAIL_FX.none).name) : ''}</small></span></button></div>`).join('')}</div>
+      <div class="actions"><button class="btn" data-additem="${kind}">+ Add ${what}</button></div>`, true); };
+  return `<p class="hint">Everything here is only a look: players buy it with the coins they earn in matches. The first in each list is free and everyone has it. Courts and their prices are under Courts.</p>
+    ${shelf('paddle', 'Paddles', 'a paddle')}${shelf('trail', 'Trails', 'a trail')}`;
+}
+function edStoreItem(kind, list, i, it) {
+  const o = { obj: it }, base = `${kind === 'paddle' ? 'paddles' : 'trails'}.${i}.`;
+  if (kind === 'trail' && !Array.isArray(it.colors)) it.colors = trailFix(it, i).colors;
+  const colour = (label, k, val) => `<label class="ef ec"><span>${label}</span><input type="color" data-p="${k}" data-redraw="1" value="${esc(val || '#000000')}"></label>`;
+  let look = '';
+  if (kind === 'paddle') {
+    look = EF.select('Style', 'style', { solid: 'Solid colour', stripes: 'Stripes', shine: 'Shiny (with a glint)' }, o)
+      + `<div class="erowf">${colour(it.style === 'stripes' ? 'Main colour' : 'Colour', 'base', it.base)}${it.style === 'stripes' ? colour('Stripe colour', 'alt', it.alt || '#F4F4F4') : ''}</div>`;
+  } else {
+    const fx = TRAIL_FX[it.effect] || TRAIL_FX.none, cols = trailFix(it, i).colors;
+    look = EF.select('Effect', 'effect', Object.fromEntries(Object.entries(TRAIL_FX).map(([k, v]) => [k, v.name])), o)
+      + (fx.colors.length ? `<div class="erowf">${cols.map((c, k) => colour(['First colour', 'Second colour', 'Third colour'][k], `colors.${k}`, c)).join('')}</div>` : '<p class="hint">Only the shot’s own coloured trail shows.</p>');
+  }
+  return `<div class="ebtns"><button class="btn" id="ed-sback">← All paddles and trails</button></div>
+    <div class="es-big${kind === 'paddle' ? ' pd' : ''}">${edItemPic(kind, it, i)}</div>
+    <div data-base="${base}">
+      ${edSec('Name', EF.text('Name', 'name', { obj: it, max: 24 }) + (kind === 'trail' ? EF.text('One line about it', 'line', { obj: it, max: 40 }) : ''), true)}
+      ${edSec('Price', i === 0 ? '<p class="hint">The first in the list is free: every player has it. Move another to the top to make it the free one.</p>' : EF.range('Coins to buy it', 'price', 0, 2000, 10, { obj: it, fmt: edCoins }), true)}
+      ${edSec('Look', look, true)}
+    </div>
+    <h4>In the store</h4>
+    <div class="ebtns"><button class="btn" data-mvitem="${kind}:${i}" data-d="-1" ${i ? '' : 'disabled'}>↑ Earlier</button><button class="btn" data-mvitem="${kind}:${i}" data-d="1" ${i < list.length - 1 ? '' : 'disabled'}>↓ Later</button></div>
+    <div class="actions"><button class="btn" data-delitem="${kind}:${i}" ${list.length > 1 ? '' : 'disabled'}>Delete this ${kind}</button></div>
+    <p class="hint">Players see changes once you publish.</p>`;
+}
+function edStoreClick(b, id, d) {
+  if (d.sitem) { EDV.sItem = d.sitem; EDV.confirm = null; edRender(); return true; }
+  if (id === 'ed-sback') { EDV.sItem = null; EDV.confirm = null; edRender(); return true; }
+  if (d.additem) { const kind = d.additem, list = edShelf(kind), last = list[list.length - 1];
+    const it = kind === 'paddle' ? { id: edUid('paddle'), name: 'New Paddle', price: Math.round(((+last.price || 0) + 50) / 10) * 10, style: 'solid', base: '#E5483F' }
+      : { id: edUid('trail'), name: 'New Trail', price: Math.round(((+last.price || 0) + 50) / 10) * 10, line: '', effect: 'spark', colors: [...TRAIL_FX.spark.colors] };
+    list.push(it); EDV.sItem = `${kind}:${list.length - 1}`; edSave(); edRender(); return true; }
+  if (d.mvitem) { const [kind, si] = d.mvitem.split(':'), list = edShelf(kind), i = +si, j = i + +d.d; if (j < 0 || j >= list.length) return true;
+    [list[i], list[j]] = [list[j], list[i]]; EDV.sItem = `${kind}:${j}`; edSave(); edRender(); return true; }
+  if (d.delitem) { const [kind, si] = d.delitem.split(':'), list = edShelf(kind);
+    if (EDV.confirm !== 'item') { EDV.confirm = 'item'; b.textContent = 'Tap again to delete it for good'; return true; }
+    list.splice(+si, 1); EDV.sItem = null; EDV.confirm = null; edSave(); edRender(); return true; }
+  return false;
+}
 // ---------- the paid version (in More) ----------
 function edPaywallSec() {
   if (!ED.paywall) ED.paywall = { dailyMinutes: 15, price: '', url: '' }; if (ED.paywall.dailyMinutes == null) ED.paywall.dailyMinutes = 15; if (!ED.paywall.paddleEnv) ED.paywall.paddleEnv = 'sandbox'; const o = { obj: ED };
@@ -5163,7 +5406,7 @@ function edLookControls(c) {
     <div class="erowf">${EF.color('Ground', 'look.ground', o)}${EF.check('Texture', 'look.texture', o)}${L.texture ? EF.color('Texture colour', 'look.ground2', o) : ''}</div>
     <h4>The court</h4><div class="erowf">${EF.color('Court', 'look.court.court', o)}${EF.color('Kitchen', 'look.court.kitchen', o)}${EF.color('Around it', 'look.court.around', o)}${EF.color('In front', 'look.court.front', o)}</div>`;
 }
-// ---------- Courts → Details: the court's name, its price in coins, its opponents ----------
+// ---------- Courts → Details: the court's name and its price in coins (courts are only how a match looks) ----------
 const edCoins = v => (+v ? (+v).toLocaleString() + ' coins' : 'Free');
 function edCourtDetails(ci) {
   const c = ED.clubs[ci], o = { obj: c };
@@ -5173,11 +5416,6 @@ function edCourtDetails(ci) {
     ${edSec('Name', EF.text('Court name', 'name', { obj: c, max: 24 }) + EF.text('Where it is', 'place', { obj: c, max: 40 }) + EF.text('One line about it', 'blurb', { obj: c, max: 80 }), true)}
     ${edSec('Price', ci === 0 ? '<p class="hint">The first court in the list is free: every player owns it and starts here. Move another court to the top to make it the free one.</p>'
       : EF.range('Coins to buy it', 'price', 0, 2000, 10, { obj: c, fmt: edCoins }) + '<p class="hint">Players earn coins in every match (about 15 to 35 a match: more for a win, for each ball they land and for each winner). Any song and any level can be played on any court: what a court costs is what makes it special.</p>', true)}
-    ${edSec('Opponents', EF.text('Their name', 'pair.name', o) + EF.text('How they play (on the card)', 'pair.style', { ...o, max: 40 })
-      + EF.range('Spikes', 'pair.attackMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('Saving your spikes', 'pair.saveMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) })
-      + EF.range('Cracking into pop-ups', 'pair.pressMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('How high they hit', 'pair.highMul', .4, 1.8, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) })
-      + EF.range('Misses', 'pair.slip', 0, .2, .005, { ...o, fmt: v => (v * 100).toFixed(1) + '%' })
-      + '<p class="hint">These make this court’s pair harder or easier than the player’s level alone would.</p>')}
     </div>
     ${c.matches.length ? edSec('The first match', first, true) : ''}
     <h4>In the shop</h4><p class="hint">Courts appear in the shop in this order.</p>
@@ -5190,13 +5428,13 @@ let CLUBS_DEFAULT = () => FILE_DATA.clubs;
 function edRender() {
   const el = document.getElementById('editor'); if (!el) return;
   const sc = el.querySelector('.ebody'), top = sc ? sc.scrollTop : 0, tab = EDV.tab;
-  const body = tab === 'court' ? edCourtPanel() : tab === 'art' ? edArtPanel() : tab === 'tracks' ? (EDV.track === null ? edTrackList() : edTrackEditor()) : edMore();
+  const body = tab === 'court' ? edCourtPanel() : tab === 'store' ? edStorePanel() : tab === 'art' ? edArtPanel() : tab === 'tracks' ? (EDV.track === null ? edTrackList() : edTrackEditor()) : edMore();
   el.classList.toggle('collapsed', !SC.panel); el.classList.toggle('wide', tab === 'tracks');
   el.innerHTML = `<header class="ehead"><h2>Fretball Editor</h2>
       <div class="ebtns"><button class="btn" id="ed-test">Play-test</button><button class="btn primary" id="ed-publish" ${pubBusy ? 'disabled' : ''}>${pubBusy ? 'Publishing…' : 'Publish'}</button><button class="btn" id="ed-hide" title="Hide the panel" aria-label="Hide the panel">◧</button></div>
       ${EDV.pubConfirm ? `<div class="pubconfirm"><p>Publish to the live game? Players get it within a minute or two. (Play-tested it?)</p><div class="ebtns"><button class="btn primary" id="pub-go">Publish now</button><button class="btn" id="pub-cancel">Cancel</button></div></div>` : ''}
       <p class="estatus" id="ed-status">${artSaving ? 'Saving…' : pubBusy ? 'Publishing…' : pubReady() ? (pubUnpublished() ? 'Saved in this browser. Not published yet.' : `Published (#${PUB.lastRev}). No changes since.`) : EDV.saved ? 'No changes yet.' : 'Saved in this browser. Not published yet.'}</p>
-      <div class="seg etabs">${[['court', 'Courts'], ['art', 'Art'], ['tracks', 'Library'], ['more', 'More']].map(([k, n]) => `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-pressed="${tab === k}">${n}</button>`).join('')}</div></header>
+      <div class="seg etabs">${[['court', 'Courts'], ['store', 'Store'], ['art', 'Art'], ['tracks', 'Library'], ['more', 'More']].map(([k, n]) => `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-pressed="${tab === k}">${n}</button>`).join('')}</div></header>
     <div class="ebody">${body}</div>`;
   el.querySelector('.ebody').scrollTop = top;
   edMini(); edPreview(); edLayout();
@@ -5357,7 +5595,9 @@ function edInput(e) {
   const el = e.target, box = el.closest('[data-base]'); if (!el.dataset.p || !box) return;
   const full = box.dataset.base + el.dataset.p, t = el.dataset.t;
   const v = t === 'num' ? +el.value : t === 'bool' ? el.checked : el.value;
-  setPath(ED, full, v); edSave();
+  setPath(ED, full, v);
+  if (/^trails\.\d+\.effect$/.test(full)) setPath(ED, full.replace(/effect$/, 'colors'), [...(TRAIL_FX[v] || TRAIL_FX.none).colors]);   // (a new effect starts in its own colours)
+  edSave();
   const show = box.querySelector(`[data-show="${el.dataset.p}"]`); if (show) show.textContent = SHOWFMT[el.dataset.p] ? SHOWFMT[el.dataset.p](v) : v;
   if (e.type === 'change' && (el.dataset.redraw || t === 'bool')) edRender();
   edPreview();
@@ -5369,11 +5609,12 @@ function edClick(e) {
   if (EDV.tab === 'court' && edMotionClick(b, d)) return;
   if (d.weather && EDV.tab === 'court') { const c2x = ED.clubs[Math.min(EDV.court || 0, ED.clubs.length - 1)]; c2x.look.weather = { amount: .5, wind: 0, ...(c2x.look.weather || {}), type: d.weather }; edSave(); edRender(); return; }
   if (edArtClick(b, id, d)) return;
+  if (EDV.tab === 'store' && edStoreClick(b, id, d)) return;
   if (EDV.tab === 'tracks' && lsClick(b, id, d)) return;
   if (d.tab) { EDV.tab = d.tab; EDV.confirm = null; if (EDV.playing) { stopBacking(); EDV.playing = false; } }
   else if (id === 'ed-mvcourt' || id === 'ed-mvcourt2') { const i = Math.min(EDV.court || 0, ED.clubs.length - 1), j = i + +d.d; if (j < 0 || j >= ED.clubs.length) return; [ED.clubs[i], ED.clubs[j]] = [ED.clubs[j], ED.clubs[i]]; EDV.court = j; edSave(); }
   else if (id === 'ed-ownerpw') { const a = prompt('New owner password (at least 8 characters, not one you use elsewhere):'); if (!a) return; if (a.length < 8) { alert('Use at least 8 characters.'); return; } if (prompt('Type it again:') !== a) { alert('Those didn’t match.'); return; } ownerHash(a).then(h => { ED.paywall.ownerHash = h; edSave(); edRender(); toast('Owner password set. Publish to use it on the live site.'); }); return; }
-  else if (id === 'ed-addclub') { const last = ED.clubs[ED.clubs.length - 1], base = edClone(last), cid = edUid(edSlug('court')); base.id = cid; base.name = 'New Court'; base.place = 'Somewhere new'; base.blurb = ''; delete base.styles;
+  else if (id === 'ed-addclub') { const last = ED.clubs[ED.clubs.length - 1], base = edClone(last), cid = edUid(edSlug('court')); base.id = cid; base.name = 'New Court'; base.place = 'Somewhere new'; base.blurb = ''; delete base.styles; delete base.pair;
     base.price = Math.round(((last.price ?? 100 * (ED.clubs.length - 1)) + 100) / 10) * 10;
     base.look = { ...edClone(base.look), weather: { type: 'none', amount: .5, wind: 0 } };
     base.matches = []; ED.clubs.push(base); EDV.court = ED.clubs.length - 1; SC.mode = 'details'; SC.sel = null; edSave(); }
