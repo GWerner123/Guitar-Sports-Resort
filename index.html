@@ -178,6 +178,17 @@
   .guide { margin-top: 12px; }
   .tip { margin: 10px 0 0; padding: 8px 12px; border-left: 5px solid var(--red); background: #FFF6CF; border-radius: 0 10px 10px 0; font-weight: 700; font-size: 16px; line-height: 1.3; }
   .card.match .meta b { color: var(--red2); }
+  .courtbtn { display: inline-flex; align-items: center; gap: 10px; margin: 14px auto 0; padding: 6px 8px 6px 6px; border: 3px solid var(--ink); border-radius: 14px; background: var(--paper); box-shadow: 0 3px 0 var(--ink); text-align: left; color: var(--ink); max-width: min(78vw, 360px); }
+  .courtbtn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+  .courtbtn > span:nth-child(2) { flex: 1; min-width: 0; } .courtbtn small { display: block; font-size: 11px; font-weight: 700; color: var(--muted); line-height: 1; }
+  .courtbtn b { display: block; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .courtbtn .coins { display: inline-flex; align-items: center; gap: 5px; font-weight: 900; font-size: 15px; background: var(--cream); border: 2px solid var(--ink); border-radius: 999px; padding: 3px 10px; }
+  .sw { flex: 0 0 38px; height: 38px; border-radius: 9px; border: 2px solid var(--ink); display: block; }
+  .coin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #F2C230; border: 2px solid var(--ink); box-shadow: inset -2px -2px 0 #C99A16; vertical-align: -2px; margin-right: 3px; }
+  .court-row { width: 100%; } .court-row.on { outline: 4px solid var(--ball); outline-offset: -1px; }
+  .court-row[aria-disabled="true"] { opacity: .6; box-shadow: 0 2px 0 var(--ink); }
+  .court-row .st { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; } .court-row .st .ic { width: 14px; height: 14px; }
+  .coinline { font-weight: 700; }
   .ccards { display: flex; gap: 12px; overflow-x: auto; padding: 10px 6px 12px; scroll-snap-type: x mandatory; }
   .ccard { flex: 0 0 168px; scroll-snap-align: start; padding: 0; border: 3px solid var(--ink); border-radius: 16px; background: var(--paper); overflow: hidden; text-align: left; box-shadow: 0 4px 0 var(--ink); position: relative; }
   .ccard .pic { display: block; height: 82px; position: relative; border-bottom: 3px solid var(--ink); }
@@ -539,7 +550,7 @@
     <div class="rp-turn"><span class="rot" aria-hidden="true">📱</span><span>Turn your phone sideways to play</span></div>
   </div></div>
 </main>
-<script type="application/json" id="fb-data">{"version":1,"tracks":[{"id":"conly","name":"One Chord","style":"bossa","bpm":72,"root":0,"minor":false,"chords":["C","C","C","C"]},{"id":"vamp","name":"Two-Chord Vamp","style":"bossa","bpm":76,"root":0,"minor":false,"chords":["C","C","G","G"]},{"id":"three","name":"Three Chords","style":"pop","bpm":84,"root":0,"minor":false,"chords":["C","F","G","C"]},{"id":"beach","name":"Beach Rock","style":"pop","bpm":92,"root":0,"minor":false,"chords":["C","G","Am","F"]},{"id":"blues12","name":"Twelve-Bar Blues","style":"swing","bpm":100,"root":0,"minor":false,"chords":["C7","F7","C7","C7","F7","F7","C7","C7","G7","F7","C7","G7"]},{"id":"chicago","name":"Chicago Shuffle","style":"blues","bpm":96,"root":9,"minor":false,"chords":["A7","D7","A7","A7","D7","D7","A7","A7","E7","D7","A7","E7"]},{"id":"texas","name":"Texas Shuffle","style":"blues","bpm":108,"root":4,"minor":false,"chords":["E7","A7","E7","E7","A7","A7","E7","E7","B7","A7","E7","B7"]},{"id":"slow","name":"Slow Burn","style":"ballad","bpm":64,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"swing","name":"Swing ii–V–I","style":"swing","bpm":116,"root":0,"minor":false,"chords":["Dm7","G7","Cmaj7","Cmaj7","Em7","A7","Dm7","G7"]},{"id":"turn","name":"Island Turnaround","style":"bossa","bpm":112,"root":0,"minor":false,"chords":["Cmaj7","A7","Dm7","G7","Em7","A7","Dm7","G7"]},{"id":"jumpst","name":"Jump Street","style":"swing","bpm":136,"root":5,"minor":false,"chords":["Fmaj7","D7","Gm7","C7","Am7","D7","Gm7","C7"]},{"id":"westside","name":"Westside Minor","style":"neosoul","bpm":92,"root":9,"minor":true,"chords":["Am7","Am7","Am7","Am7","Dm7","Dm7","Am7","Am7","E7","Dm7","Am7","E7"]},{"id":"bossa","name":"Sunset Bossa","style":"bossa","bpm":108,"root":4,"minor":true,"chords":["Am7","D7","Gmaj7","Cmaj7","F#m7b5","B7","Em7","Em7"]},{"id":"desert","name":"Desert Wind","style":"lofi","bpm":96,"root":9,"minor":true,"chords":["Am","F","G","Am","Dm","Am","E7","Am"]},{"id":"boogie","name":"Stadium Boogie","style":"blues","bpm":120,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"anthem","name":"Stadium Anthem","style":"pop","bpm":126,"root":2,"minor":false,"chords":["D","A","Bm","G","D","A","G","A"]},{"id":"c7","name":"Seventh Heaven","style":"blues","bpm":84,"root":0,"minor":false,"chords":["C7","C7","C7","C7"]},{"id":"amonly","name":"One Minor Chord","style":"lofi","bpm":80,"root":9,"minor":true,"chords":["Am","Am","Am","Am"]},{"id":"ifour","name":"Front Porch","style":"folk","bpm":88,"root":0,"minor":false,"chords":["C","C","F","F"]},{"id":"minorvamp","name":"Night Walk","style":"neosoul","bpm":84,"root":9,"minor":true,"chords":["Am","Am","Dm","Dm"]},{"id":"isix","name":"Slow Dance","style":"ballad","bpm":70,"root":0,"minor":false,"chords":["C","C","Am","Am"]},{"id":"rockabilly","name":"Diner Jukebox","style":"pop","bpm":104,"root":0,"minor":false,"chords":["C","F","G","F"]},{"id":"sadpop","name":"Radio Heart","style":"pop","bpm":88,"root":9,"minor":true,"chords":["Am","F","C","G"]},{"id":"fifties","name":"Doo-Wop","style":"ballad","bpm":76,"root":0,"minor":false,"chords":["C","Am","F","G"]},{"id":"andalusian","name":"Flamenco Steps","style":"bossa","bpm":96,"root":9,"minor":true,"chords":["Am","G","F","E7"]},{"id":"minorpop","name":"Neon Rain","style":"pop","bpm":100,"root":9,"minor":true,"chords":["Am","F","G","Am"]},{"id":"shuffle","name":"Kansas City Shuffle","style":"blues","bpm":92,"root":5,"minor":false,"chords":["F7","F7","F7","F7","Bb7","Bb7","F7","F7","C7","Bb7","F7","C7"]},{"id":"sevens","name":"Two-Chord Blues","style":"blues","bpm":96,"root":0,"minor":false,"chords":["C7","C7","F7","F7"]},{"id":"majsevens","name":"Sunday Morning","style":"bossa","bpm":96,"root":0,"minor":false,"chords":["Cmaj7","Cmaj7","Fmaj7","Fmaj7"]},{"id":"twofive","name":"Two-Five","style":"swing","bpm":112,"root":0,"minor":false,"chords":["Dm7","Dm7","G7","G7"]},{"id":"minor251","name":"Midnight Minor","style":"bossa","bpm":104,"root":9,"minor":true,"chords":["Bm7b5","E7","Am7","Am7"]},{"id":"ladder","name":"Circle Ladder","style":"swing","bpm":120,"root":0,"minor":false,"chords":["Em7","A7","Dm7","G7","Cmaj7","Cmaj7","Dm7","G7"]}],"clubs":[{"id":"island","name":"Island Club","place":"A court on the sand","blurb":"Where everyone starts: a tiki stage, a trio, and the sea.","look":{"sky":["#7CCBEF","#A5DCF3","#CDEEF9"],"horizon":236,"sun":{"show":"sun","x":0.8,"height":165,"size":34,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#F2DFA6","ground2":"#E5CC86","court":{"around":"#5FAE48","court":"#3A7DC9","kitchen":"#4C8FD6","front":"#F2DFA6","front2":"#E5CC86"}},"pair":{"name":"The Sunbathers","style":"They miss now and then.","attackMul":1,"saveMul":1,"pressMul":1,"highMul":1,"slip":0.07},"matches":[{"id":"island-1","title":"First Serve","tip":"Play the note on the ball. If you need to look, the ball waits for you.","to":5,"yours":1,"attack":0,"save":0.3,"pops":false,"tracks":["conly"],"keys":[0],"tempo":[68,72],"gentle":true,"intro":true,"slip":0.16}],"box":0},{"id":"juke","name":"Riverside Juke","place":"Down by the river at dusk","blurb":"Twelve-bar blues and a shack band that swings.","look":{"sky":["#5B3A6E","#8E4E7A","#D9705A","#F29A5E","#F8C27A"],"horizon":250,"sun":{"show":"sun","x":0.72,"height":58,"size":40,"color":"#FFD27A"},"stars":false,"clouds":{"show":true,"color":"#F7D2B4"},"ground":"#6E5A3C","ground2":"#5E4A30","court":{"around":"#5E4632","court":"#B4523B","kitchen":"#C8684F","front":"#7A5C40","front2":"#6A4E36"}},"pair":{"name":"The Retrievers","style":"Your spikes come back. Dink!","attackMul":1,"saveMul":1.6,"pressMul":1,"highMul":1,"slip":0.025},"matches":[],"box":0},{"id":"rooftop","name":"Rooftop Club","place":"Above the city at night","blurb":"Jazz under string lights, and the pace picks up.","look":{"sky":["#0B1026","#121A3A","#1C2650","#283466"],"horizon":300,"sun":{"show":"moon","x":0.16,"height":230,"size":22,"color":"#F4F1DC"},"stars":true,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#3A3F4E","ground2":"#5A5F70","court":{"around":"#4A4F5E","court":"#2F7D5B","kitchen":"#3D9A72","front":"#5A5F6E","front2":"#3C404C"}},"pair":{"name":"The Smashers","style":"They spike a lot.","attackMul":1.6,"saveMul":1,"pressMul":1,"highMul":0.7,"slip":0.04},"matches":[],"box":5},{"id":"canyon","name":"Canyon Club","place":"Red rock at sunset","blurb":"Minor keys and desert air.","look":{"sky":["#6E3B6A","#B44E5A","#E2704E","#F49B5A","#FBC877"],"horizon":270,"sun":{"show":"sun","x":0.5,"height":20,"size":60,"color":"#FFE29A"},"stars":false,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#E3B77A","ground2":"#CF9F62","court":{"around":"#D6A86E","court":"#BE5E3A","kitchen":"#D17550","front":"#E3BC84","front2":"#CFA36A"}},"pair":{"name":"The Lobbers","style":"Lots of pop-ups.","attackMul":1,"saveMul":1,"pressMul":1.7,"highMul":1.4,"slip":0.04},"matches":[],"box":7},{"id":"stadium","name":"Grand Slam Stadium","place":"Under the floodlights","blurb":"The big show. Everything you’ve learned, in any key.","look":{"sky":["#4FA8E8","#78C0F0","#A6D8F6"],"horizon":120,"sun":{"show":"none","x":0.5,"height":60,"size":30,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#1F5C3E","ground2":"#1A5034","court":{"around":"#2F7A50","court":"#5646A8","kitchen":"#6D5CC4","front":"#2A6A46","front2":"#235A3A"}},"pair":{"name":"The Champions","style":"Good at everything.","attackMul":1.25,"saveMul":1.3,"pressMul":0.85,"highMul":1,"slip":0.015},"matches":[],"box":5}],"rev":0,"curriculum":3}</script>
+<script type="application/json" id="fb-data">{"version":1,"tracks":[{"id":"conly","name":"One Chord","style":"bossa","bpm":72,"root":0,"minor":false,"chords":["C","C","C","C"]},{"id":"vamp","name":"Two-Chord Vamp","style":"bossa","bpm":76,"root":0,"minor":false,"chords":["C","C","G","G"]},{"id":"three","name":"Three Chords","style":"pop","bpm":84,"root":0,"minor":false,"chords":["C","F","G","C"]},{"id":"beach","name":"Beach Rock","style":"pop","bpm":92,"root":0,"minor":false,"chords":["C","G","Am","F"]},{"id":"blues12","name":"Twelve-Bar Blues","style":"swing","bpm":100,"root":0,"minor":false,"chords":["C7","F7","C7","C7","F7","F7","C7","C7","G7","F7","C7","G7"]},{"id":"chicago","name":"Chicago Shuffle","style":"blues","bpm":96,"root":9,"minor":false,"chords":["A7","D7","A7","A7","D7","D7","A7","A7","E7","D7","A7","E7"]},{"id":"texas","name":"Texas Shuffle","style":"blues","bpm":108,"root":4,"minor":false,"chords":["E7","A7","E7","E7","A7","A7","E7","E7","B7","A7","E7","B7"]},{"id":"slow","name":"Slow Burn","style":"ballad","bpm":64,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"swing","name":"Swing ii–V–I","style":"swing","bpm":116,"root":0,"minor":false,"chords":["Dm7","G7","Cmaj7","Cmaj7","Em7","A7","Dm7","G7"]},{"id":"turn","name":"Island Turnaround","style":"bossa","bpm":112,"root":0,"minor":false,"chords":["Cmaj7","A7","Dm7","G7","Em7","A7","Dm7","G7"]},{"id":"jumpst","name":"Jump Street","style":"swing","bpm":136,"root":5,"minor":false,"chords":["Fmaj7","D7","Gm7","C7","Am7","D7","Gm7","C7"]},{"id":"westside","name":"Westside Minor","style":"neosoul","bpm":92,"root":9,"minor":true,"chords":["Am7","Am7","Am7","Am7","Dm7","Dm7","Am7","Am7","E7","Dm7","Am7","E7"]},{"id":"bossa","name":"Sunset Bossa","style":"bossa","bpm":108,"root":4,"minor":true,"chords":["Am7","D7","Gmaj7","Cmaj7","F#m7b5","B7","Em7","Em7"]},{"id":"desert","name":"Desert Wind","style":"lofi","bpm":96,"root":9,"minor":true,"chords":["Am","F","G","Am","Dm","Am","E7","Am"]},{"id":"boogie","name":"Stadium Boogie","style":"blues","bpm":120,"root":7,"minor":false,"chords":["G7","C7","G7","G7","C7","C7","G7","G7","D7","C7","G7","D7"]},{"id":"anthem","name":"Stadium Anthem","style":"pop","bpm":126,"root":2,"minor":false,"chords":["D","A","Bm","G","D","A","G","A"]},{"id":"c7","name":"Seventh Heaven","style":"blues","bpm":84,"root":0,"minor":false,"chords":["C7","C7","C7","C7"]},{"id":"amonly","name":"One Minor Chord","style":"lofi","bpm":80,"root":9,"minor":true,"chords":["Am","Am","Am","Am"]},{"id":"ifour","name":"Front Porch","style":"folk","bpm":88,"root":0,"minor":false,"chords":["C","C","F","F"]},{"id":"minorvamp","name":"Night Walk","style":"neosoul","bpm":84,"root":9,"minor":true,"chords":["Am","Am","Dm","Dm"]},{"id":"isix","name":"Slow Dance","style":"ballad","bpm":70,"root":0,"minor":false,"chords":["C","C","Am","Am"]},{"id":"rockabilly","name":"Diner Jukebox","style":"pop","bpm":104,"root":0,"minor":false,"chords":["C","F","G","F"]},{"id":"sadpop","name":"Radio Heart","style":"pop","bpm":88,"root":9,"minor":true,"chords":["Am","F","C","G"]},{"id":"fifties","name":"Doo-Wop","style":"ballad","bpm":76,"root":0,"minor":false,"chords":["C","Am","F","G"]},{"id":"andalusian","name":"Flamenco Steps","style":"bossa","bpm":96,"root":9,"minor":true,"chords":["Am","G","F","E7"]},{"id":"minorpop","name":"Neon Rain","style":"pop","bpm":100,"root":9,"minor":true,"chords":["Am","F","G","Am"]},{"id":"shuffle","name":"Kansas City Shuffle","style":"blues","bpm":92,"root":5,"minor":false,"chords":["F7","F7","F7","F7","Bb7","Bb7","F7","F7","C7","Bb7","F7","C7"]},{"id":"sevens","name":"Two-Chord Blues","style":"blues","bpm":96,"root":0,"minor":false,"chords":["C7","C7","F7","F7"]},{"id":"majsevens","name":"Sunday Morning","style":"bossa","bpm":96,"root":0,"minor":false,"chords":["Cmaj7","Cmaj7","Fmaj7","Fmaj7"]},{"id":"twofive","name":"Two-Five","style":"swing","bpm":112,"root":0,"minor":false,"chords":["Dm7","Dm7","G7","G7"]},{"id":"minor251","name":"Midnight Minor","style":"bossa","bpm":104,"root":9,"minor":true,"chords":["Bm7b5","E7","Am7","Am7"]},{"id":"ladder","name":"Circle Ladder","style":"swing","bpm":120,"root":0,"minor":false,"chords":["Em7","A7","Dm7","G7","Cmaj7","Cmaj7","Dm7","G7"]}],"clubs":[{"id":"island","name":"Island Club","place":"A court on the sand","blurb":"Where everyone starts: a tiki stage, a trio, and the sea.","look":{"sky":["#7CCBEF","#A5DCF3","#CDEEF9"],"horizon":236,"sun":{"show":"sun","x":0.8,"height":165,"size":34,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#F2DFA6","ground2":"#E5CC86","court":{"around":"#5FAE48","court":"#3A7DC9","kitchen":"#4C8FD6","front":"#F2DFA6","front2":"#E5CC86"}},"pair":{"name":"The Sunbathers","style":"They miss now and then.","attackMul":1,"saveMul":1,"pressMul":1,"highMul":1,"slip":0.07},"matches":[{"id":"island-1","title":"First Serve","tip":"Play the note on the ball. If you need to look, the ball waits for you.","to":5,"yours":1,"attack":0.14,"save":0.3,"pops":true,"tracks":["conly"],"keys":[0],"tempo":[68,72],"gentle":true,"intro":true,"slip":0.16}],"box":0,"price":0},{"id":"juke","name":"Riverside Juke","place":"Down by the river at dusk","blurb":"Twelve-bar blues and a shack band that swings.","look":{"sky":["#5B3A6E","#8E4E7A","#D9705A","#F29A5E","#F8C27A"],"horizon":250,"sun":{"show":"sun","x":0.72,"height":58,"size":40,"color":"#FFD27A"},"stars":false,"clouds":{"show":true,"color":"#F7D2B4"},"ground":"#6E5A3C","ground2":"#5E4A30","court":{"around":"#5E4632","court":"#B4523B","kitchen":"#C8684F","front":"#7A5C40","front2":"#6A4E36"}},"pair":{"name":"The Retrievers","style":"Your spikes come back. Dink!","attackMul":1,"saveMul":1.6,"pressMul":1,"highMul":1,"slip":0.025},"matches":[],"box":0,"price":60},{"id":"rooftop","name":"Rooftop Club","place":"Above the city at night","blurb":"Jazz under string lights, and the pace picks up.","look":{"sky":["#0B1026","#121A3A","#1C2650","#283466"],"horizon":300,"sun":{"show":"moon","x":0.16,"height":230,"size":22,"color":"#F4F1DC"},"stars":true,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#3A3F4E","ground2":"#5A5F70","court":{"around":"#4A4F5E","court":"#2F7D5B","kitchen":"#3D9A72","front":"#5A5F6E","front2":"#3C404C"}},"pair":{"name":"The Smashers","style":"They spike a lot.","attackMul":1.6,"saveMul":1,"pressMul":1,"highMul":0.7,"slip":0.04},"matches":[],"box":5,"price":150},{"id":"canyon","name":"Canyon Club","place":"Red rock at sunset","blurb":"Minor keys and desert air.","look":{"sky":["#6E3B6A","#B44E5A","#E2704E","#F49B5A","#FBC877"],"horizon":270,"sun":{"show":"sun","x":0.5,"height":20,"size":60,"color":"#FFE29A"},"stars":false,"clouds":{"show":false,"color":"#FFFFFF"},"ground":"#E3B77A","ground2":"#CF9F62","court":{"around":"#D6A86E","court":"#BE5E3A","kitchen":"#D17550","front":"#E3BC84","front2":"#CFA36A"}},"pair":{"name":"The Lobbers","style":"Lots of pop-ups.","attackMul":1,"saveMul":1,"pressMul":1.7,"highMul":1.4,"slip":0.04},"matches":[],"box":7,"price":250},{"id":"stadium","name":"Grand Slam Stadium","place":"Under the floodlights","blurb":"The big show. Everything you’ve learned, in any key.","look":{"sky":["#4FA8E8","#78C0F0","#A6D8F6"],"horizon":120,"sun":{"show":"none","x":0.5,"height":60,"size":30,"color":"#FFE07A"},"stars":false,"clouds":{"show":true,"color":"#FFFFFF"},"ground":"#1F5C3E","ground2":"#1A5034","court":{"around":"#2F7A50","court":"#5646A8","kitchen":"#6D5CC4","front":"#2A6A46","front2":"#235A3A"}},"pair":{"name":"The Champions","style":"Good at everything.","attackMul":1.25,"saveMul":1.3,"pressMul":0.85,"highMul":1,"slip":0.015},"matches":[],"box":5,"price":400}],"rev":0,"curriculum":3}</script>
 <script>
 // The whole game, started by the loader (below) once it knows which content to play.
 function FB_BOOT(FB_LIVE, PRISTINE) {
@@ -785,11 +796,14 @@ function stopBacking() {
 /* =====================================================================
    3. MICROPHONE: pitch detection (YIN), note tracking, recording
    ===================================================================== */
-let mic = null, gate = .006, sensVal = 4, echoCancel = false, bleedStrict = 1.15;
+// Sensitivity: 0 to 10. The default is high (7): a guitar a little way from a phone's mic is quieter than you'd think,
+// and the gate adapts to the room on its own (see liveGate), so a quiet room still stays below the line.
+const SENS_DEFAULT = 7, sensGate = v => .04 * Math.pow(.6, v);
+let mic = null, sensVal = SENS_DEFAULT, gate = sensGate(SENS_DEFAULT), echoCancel = false, bleedStrict = 1.15;
 // (the mic choice, strum and timing settings were saved under an older game's name: carry them over once)
 try { for (const k of ['mic-device', 'chuck', 'timing']) { const old = 'fret-detective-' + k, v = localStorage.getItem(old); if (v !== null) { if (localStorage.getItem('fretball-' + k) === null) localStorage.setItem('fretball-' + k, v); localStorage.removeItem(old); } } } catch {}
 const MIC_DEVICE_KEY = 'fretball-mic-device', SPEAKERS_KEY = 'fretball-speakers', SENS_KEY = 'fretball-sens';
-try { echoCancel = localStorage.getItem(SPEAKERS_KEY) === '1'; const sv = localStorage.getItem(SENS_KEY); if (sv !== null && sv !== '' && !isNaN(+sv)) { sensVal = +sv; gate = .04 * Math.pow(.6, sensVal); } } catch {}
+try { echoCancel = localStorage.getItem(SPEAKERS_KEY) === '1'; const sv = localStorage.getItem(SENS_KEY); if (sv !== null && sv !== '' && !isNaN(+sv) && +sv !== 4) { sensVal = Math.max(0, Math.min(10, +sv)); gate = sensGate(sensVal); } } catch {}   // (4 was the old default: it moves up to the new one)
 const HEADSET_MIC = /airpods|headset|hands-?free|bluetooth|buds|beats|bose|sony wh|jabra/i;
 // An iPhone or iPad. There, switching from a headset's mic to the phone's own also moves the sound from the
 // headphones to the phone's speaker (and the band then bleeds into the mic), so the game keeps the headset's mic.
@@ -1307,7 +1321,7 @@ const PB_ART = {"hero":{"ready":{"w":40,"h":57,"ax":12.9,"fy":57,"hit":[23.4,-37
 const PB_COLOR = {"hero":{"pal":["#C6A386","#1E1E1E","#F3C9A5","#A2866E","#1FB5A5","#106159","#FFFFFF","#AAAAAA","#D0D0D0","#188C80","#5C5C5C","#7D6855","#232F54","#2B3A67","#1C2644","#F4D0B1","#3DBFB1","#199386","#848484","#57483B","#14786E"],"poses":{"ready":["24.A15.","20.B2.AB15.","15.2B2.2B.3B15.","13.A5BC2BCB16.","13.2BC2B2CB2C6B11.","13.BACA10CAB11.","12.2BA11CAB12.","12.BA11CAB13.","11.ABA11CB14.","11.B2A11CBC13.","11.B2A11CAB13.","11.B2A5C2BA3C2B13.","11.B2A6C2B2CBCB13.","11.B2A6CB3CBCB13.","11.B2D6CB3CBCB13.","12.BA11CAB13.","12.BDA10CB6.E2BE4.","13.BDA9CB6.B2FB4.","14.B2D7CB6.BF2EF2B2.","15.2B2D3C2B6.BF5EFBE","14.8B8.B7EFB","12.GBHIB3GB7.EBJ8EB","11.GBI3GB2G2BG4.EBJ9EB","11.BH5G2B2GB4.BF9EFB","10.GBI4GI4GKI3.B9EJB.","10.BIH4GB5GB3.B9EB2.","10.B2IB4GB2GBGB4.B7EFB2.","10.BIGBH3GB2GBGBC3.B6EFB3.","9.B2IGHB4G2BH2GB3.2B5EB4.","9.B2I2GBH4G15B5.","9.BI3GIBH8GHBC3B9.","9.BI4GIB2H6GB4CB9.","8.GBI5GIB7HB3CLB9.","8.B2I6GH8B3DB10.","8.B2I8GB3.6B11.","8.B2HI7GB5.2B13.","8.4B6G2B20.","8.B3M6BN2B19.","8.BM10N2BC17.","8.BM11N2B17.","7.NBM4NMOM5N2BC15.","7.B2M4N2B2O5N2B15.","7.BM4NMB.BOM5NBC14.","7.BM4N2B2.B2O5NB14.","7.BM4NB4.B2O4NB14.","6.B2M3NOB5.B2M3NB14.","5.B2M3NMB6.3M2NMB14.","4.B2M4N2B6.BM3NB15.","2.NBOM3NM2B7.BM3NB15.","2.BOM4N2B8.BM3NB15.",".B2O4N2B9.BM2NMB15.","2BO2N2MB10.BM3NB16.","3B2N2B11.BM3NB16.","5B13.7B15.","6BN11.8B14.",".6B11.9B13.",".6B11.9B13."],"forehand":["19.A3.A21.","18.AB.2AB21.","14.2B2.2B.3B21.","12.A5BC2BCB22.","12.2BC2B2CB2C6B17.","12.BACA10CAB17.","11.2BD12CB18.","11.BA11CAB19.","10.ABA11CB20.","10.B2A11CBC19.","10.B2A11CAB19.","10.B2A5C2BA3C2B19.","10.B2A6C2B2CBCB19.","10.B2A6CB3CBCB19.","10.B2D6CB3CBCB12.3BE3.","11.BA11CAB10.EB2EFB3.","11.B2D10CB10.EB4EJBE.","12.BDA9CB10.B6EFB.","13.B2D7CB10.B8EFB","14.2B2D2AC2B10.B10EB","14.7B11.B11EB","12.GB2IB3H2BG9.B10EB.","12.BI2G2B3G2B9.B9EB2.","11.BI5G2BIGB9.B8EB3.","11.BI7G4B8C2B6EB4.","10.GBI10G12B4EB5.","10.B2IG2I2H11GB2C7B6.","10.B2I2GI2B3H8GB3CAB10.","10.BH4G2I3B7HBA2CAB11.","10.BH6G3I9B2DB12.","9.GBI9GB2GBCP5B13.","9.B2I8GIBH2GBCP2B15.","9.B2I8G2B2HBCBC17.","9.B2I8GB.2B2DCB17.","9.B2I8GB2.BLDCB17.","9.B3H7GB3.BL2B17.","9.4BH5G2B4.2B18.","9.BO2M6B2MB23.","9.BO11NBN21.","9.BM12NBN20.","9.BO5N2M6NBN19.","9.BM5NBOM5N2B19.","8.BM5N3BOM5NBN18.","7.NBM5NB2.BOM5NB18.","7.2BM4NOB3.BMO4NB18.","6.2B2M4NB5.BOM3NB18.","3.N.BOM6NB6.BM3NB18.","3.2B2M6NB7.BM3NB18.",".2BOM5NM2B8.BM3NB18.","2B2O6N2B9.BM3NB18.","3BO4N2B11.BM3NB18.","4B2M2B13.BM3NB18.","6B15.BO3NB18.","5BN15.7B17.",".5B15.8BN15.",".6B14.9B15.","2.5B14.9B15."],"smash":["18.E.3BE6.","18.2B3EB6.","17.BJ4EJB5.","16.BJ6EBE4.","15.B9EB4.","15.B9EJB3.","15.BF9EBE2.","16.BF9EB2.","17.B9EB2.","17.BF7EB3.","18.B7EB3.","19.B5E2B3.","20.8BE.","24.3BQB.","14.E9.E2B2EB","14.B2.2E5.BQEBRB","10.ABA2B2A2B5.BE4B","9.A3BC3BCB5.6B","9.BC2BCA3CB5.B2G3B","8.2BCA5CAB5.B2GIB.","6.B.B8C2B5.B2GIB.","5.BD2B9C2B4.B2GIB.","5.BCA10CABA2.BK2GHB.","5.BA11CBAB2.B3GB2.","5.BD7C2B3C2BC.B3GB2.","5.BDA7CBA2CBCB.B3GB2.","5.BDA8CB4CBCB3GB2.","6.BA13C2B3GIB2.","6.B2A12C2B3GHB2.","6.BDA11CAB4GB3.","7.B2D10C2B3GIB3.","8.B2D8CDBI3GHB3.","9.B2DA4CA3B3GHB4.","10.2B4DA2BH4GHB4.","12.4BDACB3GIB5.","13.2B2D2AB3GHB5.","11.2B2I4B4GB6.","10.BS11GB6.","8.2B13GBG5.","7.BI15GB5.","5.GBI16GB5.","5.BI4G2HI10GB5.","4.BI3G2H2BHI9GB5.","4.B3GH2B2.BI10GB4.","3.BI2GHB4.BI10GB4.","2.GB2GIB5.BI10GB4.","2.BH2GSB5.B2H10GB3.",".GB2GHB7.BI10GB3.",".2B2HSB7.BI10GB3.",".BN3B8.BI10GB3.","BM3NB8.B2I7G3B3.","BONMOB8.B4HG4B2NB3.","2B2OB9.6B2M4NB3.",".3B10.B2M9NB3.","13.2BO10NB3.","13.B2M4NM4NMB3.","13.BO5NBM3NB4.","12.2BO4NBOM3NB4.","12.BM5NB2M3NB4.","12.BM4N2BM4NB4.","11.BM4NO2BM3NMB4.","10.NBO4NBNBM3NB5.","10.BOM3NOBMBM3NB5.","9.B2M3NMB.B2M3NB5.","8.NBO4NB2.BM3NMB5.","8.B2O3NB3.BM3NB6.","7.B2M3NMB2.BM4NB6.","6.2BM4NB2.NBM3NB7.","6.2BO3NB3.BM4NB7.","6.3B2NOB3.BM3NB8.","6.6B2.NBOM3NB8.","6.5B3.3BO2NB9.","6.5B3.4B2MB9.","6.5B3.6B10.","6.5B4.5B10.","7.3B5.5B10.","15.5B10.","16.4B10.","16.4B10.","17.2B11."],"dink":["27.A15.","22.A4.B15.","22.2B2.2B3.B11.","20.ABC3BCBA3B11.","20.BAC2B2C2BCB12.","18.A2BACA6C3BA9.","18.2B2A10CD3B7.","18.B2A13CTB7.","17.AB2A12CAB8.","17.B2A13CB9.","17.B2A12CB10.","17.B2A7CA4CB10.","17.B2A6C2B2CBCB10.","17.B2A6CB3CBAB10.","17.BDA6CB3C3B10.","18.BA11CB11.","14.4GBAD9CAB11.","14.6BDA8CB12.","12.2B2I3GIB2D6CB13.","11.BIH6G3B2DAC2B14.","10.B2I8G6B16.","9.BHI10GB20.","7.GB2H9GBGB20.","6.GB2I10G3B20.","6.BHI7GH4GB21.","6.B2I7GBH3GB21.","5.B2I8GBH3GB21.","4.GB2I8GIBH3GB20.","4.2BI8GIHBH3GB20.","4.2BSI6G2HBGBH3GB19.","4.BM3BH2I2GHB2GBH3GBG18.","4.B4M8B2GBI3GB18.","4.B2M5N5M3BH3GBG17.","4.BOM11NO2BH3GB17.","5.BM4NBOM5NM2BI3GB16.","5.BOM4NBO2M4NM2BH3GB15.","6.BM4N2B3O4NO2BH2G2B4.3B7.","6.BOM4N3BO2M3NO4BERB2.B2EJ2B5.","6.NB2M3NB2.BO2M2NM2BR2E4B6E2B2E.","5.3BOM3NB3.B2M2NO2BURE3B9E2BE",".N3B3M4NMB2.NBO3NB2.2BR2BJ11EB",".2B3M6N2B2.B2M3NB4.2B.B11EB","3BM6N2B4.BM3NB8.B11EB","4B3MN2B5.B2M2NMB8.B10EFB","8B7.BO3NB10.BF8EB.","5BN9.6B11.3BF5EB.",".5BN8.8BN11.2BF2EB2.",".6B8.9B13.3B3.","2.5B8.9B19."]}},"partner":{"pal":["#1E1E1E","#2B3A67","#212D4F","#171F37","#47547B","#E9B38E","#BE9273","#9B775E","#188C80","#1FB5A5","#FFFFFF","#C6C6C6","#BE9274","#EBBD9D","#544033","#232F54","#1C2644","#785C49","#AAAAAA","#D0D0D0","#8A8A8A","#ECC0A1","#B48A6E"],"poses":{"ready":["18.14A22.","18.14AB21.","16.2A2C12B2A20.","16.2A2C12B2A20.","8.8A2C14B2A20.","8.8ADC14B2AB19.","6.10A8B16AB13.","6.10A7BE16AB13.","6.10A6B2A16B2AB11.","6.10A6B2A16B2AB11.","4.8AF.28AB11.","4.8AF.28A12.","4.8AF.6AG3F2AG5F4AB17.","4.8AF.6AG3F2AG5F4AB17.","4.8AF.4AG5F4A2F2A2F2AB17.","4.8AF.4AG5F4AGF2A2F2AB17.","4.8AF.2AHG8F2AGF2A2F2AB17.","4.8AF.2AHG8F2A2F2A2F2AB17.","4.8AF.2AHG16F2AB17.","4.8AF.2AHG16F2AB17.","2.8AF5.2AHG14F2A8.4A6.","2.8AF5.2A2G14F2A8.4A6.","2.8AF7.2A2H4F4A2F2A8.2AI3J2A4.","2.8AF7.2AHG4F4A2F2A8.2A4J2A4.","6AK13.2A2H6F2AF7.2AI7J2A2.","6AK13.2AHG6F2AF7.2AI7J2A2.","18.12A8.2A12J2A","18.12A8.2A12J2A","16.2A2L2K2A2K2A8.2A14J2A","16.2A2L2K2A2K2A8.2A14J2A","14.2A2L6K2ALK2A6.2A14J2A","14.2A2L6K2ALK2A6.2A14J2A","14.2A2L2K2A8K2AF3.2A12J2AJ.","14.2A2L2K2A8K2A4.2A12J2AJ.","12.2A2L2A4K2A4K4A4.2A10J2AJ3.","12.2A2L2A4K2A4K4A4.2A10J2AJ3.","12.2A2L2A2K4A4K2A2F2AF.4A6J2AJ5.","12.2A2L2A2K4A4K2A2F2AF.4A6J2A6.","12.2A2L2K2AG3F6AMF2N12A8.","12.2A2L2K2AG3F6A2F2N12A8.","12.2A2L2K2A2H4F8AGF4A14.","12.2A2L2K2AHG4F8AGF4A14.","10.2A2L6K2AGHG3F3GF2OG3F2A14.","10.2A2L6K2A2G3F5G2OG3F2A14.","10.2A2L8K12AGF2A16.","10.2A2L8K12AGF2A16.","10.4A2L8K2AF3.6AF17.","10.4A2L8K2AF3.6AF17.","10.2A2P14A26.","10.2AQP14AF25.","10.2AQP14B2A24.","10.2AQP14B2A24.","10.2AQP16B2A22.","10.2AQ3P14B2A22.","12.2A2P7BP8A22.","12.2A2P8B8A22.","12.12A2G4F4A20.","12.12A2G4F4A20.","14.2A2H2F2A2.2AHG4F2A20.","14.2A2H2F2A2.2AHG4F2AF19.","12.2A2H4F2A4.2A2G2F2AF19.","12.2A2H4F2A4.2A2G2F2AF19.","10.2A2H4F2AF5.2A2G2F2AF19.","10.2A2H4F2AF5.2AHG2F2AF19.","8.2AHG4F2AF7.2AHG2A22.","8.2A2H4F2AF7.2AHG2A22.","6.4AG3F2A8.2ARH2F2A22.","6.4AG3F2A8.2ARH2F2A22.","6.2A2S6A8.10AT19.","6.2A2S6A8.10AT19.","6.2A2S2T4S2AT5.2AS6TS2A18.","6.2A8S2AT5.2AS3T3ST2AT17.","8.10AT5.12AT17.","8.10AT5.12AT17."],"forehand":["20.14A31.","20.14A31.","18.2AC13B2A29.","18.2A2C12B2A29.","10.8A2C14B2A29.","10.8A2C6BE7B2A29.","8.10A8B16A23.","8.10A8B16AB22.","8.10A6B2A16B2A21.","8.10A6B2A16B2A21.","6.8A2.28A21.","6.8A2.28A21.","6.8A2.6A4F2A6F4AB26.","6.8A2.6A4F2A6F4A27.","6.8A2.4A6F4AGF2A2F2A27.","6.8A2.4A6F4AGF2AGF2A27.","6.8A2.2A2G8F2A2F2AGF2A27.","6.8A2.2A2G8F2A2F2AGF2A27.","6.8A2.2AHG16F2A16.4AJ6.","6.8A2.2A2G16F2A16.4AJ6.","4.8AF5.2A2G4F2A8F2A14.2A4J2A5.","4.8A6.2A2G4F2A8F2A14.2A4J2A5.","4.6AF9.2AHG4F4AGF2A14.2A8J2A3.","4.6AF9.2A2G4F4AGF2A14.2A8J2A3.","8A14.2AHG6F2A14.2A12J2A.","8A14.2AHG6F2A14.2A12J2A.","20.12A14.2AI13J2A.","20.12A14.2AI13J2AJ","18.2A2L2K2AFN2AF15.2AI13J2AJ","18.2A2L2K2AFN2AF15.2AI13J2AJ","16.2A2L6K2ATK2AF13.2AI11J2AJ2.","16.2A2L6K2ASK2AF13.2AI11J2AJ2.","16.2A2L8K6A12.2AI9J2A5.","16.2A2L8K6A12.2AI9J2A5.","14.2AUL4K2A4K2A4F16AI5J2AJ6.","14.2AUL4K2A4K2AG3F16A6J2AJ6.","14.2AUL4K2L6AH2G9F2O2F10A9.","14.2A2L4K2L6AH2G9F2O2F10A9.","14.2A2L6K4L6AH5G2AG3F2AF16.","14.2AUL6K4L6A6G2AG3F2AF16.","12.2A2L12K2A3GF12A19.","12.2A2L12K2A3GF12A19.","12.2A2L10K2AF.2A2H2F2A2F4A21.","12.2A2L10K2A2.2A2H2F2A2F4A21.","12.2A2L10K2A4.2AHG2F2A25.","12.2A2L10K2A4.2AHG2F2A25.","12.16A4.2A2G2F2A25.","12.16A4.2A2G2F2AF24.","12.2A2P12B2AF3.4A27.","12.2A2P12B2AF3.4A27.","12.2A2P14B2AF32.","12.2A2P14B2A33.","10.2AQ3P16B2A31.","10.2AQ3P16B2A31.","10.2AQ3P8B10A31.","10.2AQ3P8B10A31.","12.14AHG4F2A31.","12.14AHG4F2A31.","12.2AH2GF2A6.2A2G4F2A29.","12.2AH2GF2A6.2A2G4F2A29.","8.4A2G4F2A8.2A4F2A29.","8.4A2G4F2A8.2A4F2A29.","4.4AH2G5F2A10.2A4F2A29.","4.4A2HG5F2A10.2A4F2A29.","6AG5F4A10.2AG3F2A31.","6AG5F4A10.2A2G2F2A31.","4A2S6A14.2A2G2F2A31.","4A2S6A14.2AG3F2A31.","2.2A2S2AT17.10A29.","2.2A2S2AT17.10A29.","2.2A4S2A16.2A8S2A27.","2.2A4S2AT15.2A3S3T2S2A27.","4.6AT15.12A27.","4.6AT15.12A27."],"smash":["42.8A4.","42.8A4.","40.2A8J2AJ.","40.2A8J2AJ.","40.2A10J2A","40.2A10J2A","40.2A10J2A","40.2A10J2A","40.2A10J2A","40.2A10J2A","16.12A12.2A10J2A","16.12A12.2A10J2A","12.4A12B2A10.2A10J2A","12.4A8BE3B2A10.2A10J2A","10.2A2C10B12AB5.2A6J2A2.","10.2A2C10B12AB5.2A6J2A2.","4.8A8B4A3BE8B2A6.6A4.","4.8A8B4A2BE9B2A6.6A4.","2.10A6B2AC5B12A6.6A4.","2.10AB2E3B2A6B12A6.6A4.","2.24A4F2A10.2A2F2A2J2AJ.","2.24AG3F2A10.2AGF2A2J2AJ.","2.6A2B6A8F2A2F2AGF2A8.2A2G2A2J2AJ.","2.6A2B6A8F2A2F2AGF2A8.2A2G2A2J2AJ.","2.14A8F2A2F2AGF2A6.2A2F2G4A4.","2.14A8F2A2F2A2F2A6.2A2F2G4A4.","2.12AG17F2A6.2A2F2G4A4.","2.12AG17F2A6.2A2F2G4A4.","4.6AF.2ARH16F2A4.2AGF2H2A8.","4.6AF.2A2H16F2A4.2AGFHG2A8.","4.6AF3.2AHG6F4A2F2A4.2A4F2AF9.","4.6AF3.2A2G6F4A2F2A4.2A4F2AF9.","4.6A6.2AGH8F2AF3.2AG3F2A12.","4.6A6.2A2G8F2AF3.2AG3F2A12.","2.6A10.16A3RG2A14.","2.6A10.16AO2RG2A14.","6AF9.8AG3F2A6H2A16.","6A10.8A4F2A6H2A16.","12.4A2L6K2A2F2A4H4A16.","12.4A2L6K2A2F2A4H4A16.","10.2A14K2A2K2A2H2A18.","10.2A14K2A2K2A2H2A18.","8.4A20K2A20.","8.4A20K2A20.","6.2A4F6AL13K2A20.","6.2A4F6AL13K2A20.","4.2A4F2H2AF.2A2L12K2A20.","4.2A4FHG2AF.2A2L12K2A20.","4.2A2F2H2AF5.2AL11K2A20.","4.2A2F2G2AF5.2AL11K2A20.","2.2AG2FG2A8.2AUL10K2A20.","2.2AG2FG2A8.2AUL10K2A20.","2.2AGF2A10.2AUL10K2A20.","2.2AGF2A10.2AUL10K2A20.","2A4F2A10.2AUL10K2A20.","2A4F2A10.2AUL10K2A20.","2A2G2H2A8.18A20.","2AGFHG2A8.18A20.","2.4A10.2A2P12B2A20.","2.4A10.2A2P12B2A20.","16.2A2P14B2A18.","16.2AQP14B2A18.","14.2AQP16B2A18.","14.2A2Q16B2A18.","12.2AQ3P16B2A18.","12.2AQ3P16B2AB17.","14.22AB17.","14.22AB17.","14.2A2G4F4AHG2F2AB21.","14.2A2H4F4AHG2F2A22.","10.4ARH4F2A2F2AHG2F2A22.","10.4ARH4F2A2F2AHG2F2A22.","6.4A2HG5F2AFN2A2G2F2A24.","6.4ARHG5F2AFN2AHG2F2A24.","4.4AHG4F4A2F2A2H4F2A24.","4.4AHG4F4A2F2A2H4F2A24.","4.2AST6AF3.2AHG4F2A26.","4.2A2S6AF3.2A2H4F2AF25.","4.2A2S4A4.2AHG4F2A28.","4.2A2S4A4.2AGH4F2A28.","4.2A2S2A4.6AGF2A30.","4.2A2S2A4.6AGF2A30.","4.4A6.4A2S2A32.","4.4AT5.4A2S2A32.","14.4A2S2A32.","14.4A2S2A32.","16.2A2S2A32.","16.2A2S2A32.","16.4AT33.","16.4AT33."],"dink":["30.8AF.8A23.","30.8AF.8AF22.","28.24AF18.","28.24AF18.","26.28AF16.","26.28AF16.","24.10A2F20A15.","24.10AGF20A15.","24.8A2F10AFV10A15.","24.8AGF10AFV10A15.","20.12AGF6A2F2G2AW3F6A15.","20.12A2F6A2F2G2AW3F6A15.","18.12A2.6A8F4AW3F4A13.","18.12A2.6A8F4AW3F4A13.","20.8A4.2A2G14F4A2F2A13.","20.8A4.2A2G14F4A2F2A13.","32.2A2G8F2AG5F4A2F2A11.","32.2A2G8F2AG5F4A2F2A11.","32.2A2G12F2AGF2A2.4AF10.","32.2A2G12F2A2F2AF.4AF10.","26.8AHG4F2A4F2A2F4A17.","26.8A2G4F2A4F2A2F4A17.","22.4A7KL2A2H4F2AG5F2AF18.","22.4A6K2L2AHG4F2AG5F2AF18.","20.2A2L9KL6A8F2AF20.","20.2A2L8K2L6A8F2AF20.","18.2A2L12K4A2.8A23.","18.2A2L12K4A2.8A23.","16.2A2L8K2A6K2A33.","16.2A2L8K2A6K2A33.","14.2A2L10K2A2L4K2A33.","14.2A2L10K2A2L4K2A33.","12.2A2L14K2A2K4A33.","12.2A2L14K2A2K4A33.","12.2A2L12K6AG3F2A31.","12.2A2L12K6AG3F2A31.","12.6A8K2A4.2A2G4F2A29.","12.6A8K2A4.2A2G4F2A29.","10.2A2P4B10AK5.2A2H4F2A27.","10.2AQP4B10AK5.2AHG4F2A27.","10.2AQP14B2AF5.2AGH4F2A25.","10.2AQP14B2AF5.2A2G4F2A25.","8.2AQ3P16B2A6.2A2H4F2A8.4AJ10.","8.2AQ3P16B2A6.2A2H4F2A8.4AJ10.","8.2AQ3P10B10A6.6AGF2A4.2A4J4A7.","8.2AQ3P10B10A6.6AGF2A4.2AI3J4A7.","8.20AGH4F2AF3.4AHG2F6A10J4AJ2.","8.20A2G4F2AF3.4AHG2F6A10J4AJ2.","10.2AM3F2A10.2AHG2F2AF5.4A2F4AI15J2A.","10.2AM3F2A10.2AHG2F2A6.4A2F4AI15J2A.","6.4AMF2NFM2A10.2AHG2F2A10.6AI15J2A.","6.4A2M2NFM2A10.2AHG2F2A10.6AI15J2A.","6A4F2N4A10.2A2G2F2A16.2AI15J2AJ","6A4F2N4A10.2A2H2F2A16.2AI15J2A.","2A2S8A14.2A2F2AT19.2A12J2AJ2.","2A2S8A14.2AGF2AT19.2A12J2AJ2.","2A4S2AT15.10AT19.6A6J2AJ2.","2A4S2AT15.10AT19.6A6J2AJ2.","2A6S2A14.2A8S2A24.6A5.","2A6S2A14.2A8S2AT23.6A5.","2.8A14.12AT34.","2.8A14.12AT34."]}},"elder":{"pal":["#1E1E1E","#888888","#C2A189","#EFC6A8","#D0D0D0","#FFFFFF","#9F8470","#56473C","#F1CDB3","#7A4FB8","#5E3D8E","#7B6656","#F1CFB7","#B45A2D","#E8743B","#F4D9C6","#F9DDCF","#EB8655","#7D3E1F","#1B1C21","#27282F","#33343D","#4E4F57","#A7A7A7","#BD5E30","#EE9D75","#F7E5D8","#848484","#AAAAAA","#6A6A6A","#C3A189"],"poses":{"ready":["16.12A27.","16.12A27.","14.2ABC10D2A25.","14.2ABC10D2A25.","12.2A2C14D2A23.","12.2A2C14D2A23.","10.4A2C16D2A21.","10.4A2C16D2A21.","8.2A4B2AC15D2A21.","8.2A4B2AC15D2A21.","8.2A4B2AC3D6A2D8A19.","8.2A4B2AC3D6A2D8A19.","8.2A4B6A4E6AEF2E2A19.","8.2A4B6A4E6A4E2A19.","10.4AGC2DHA4E2A2D2A4E2A19.","10.4AGC2DHA4E2ACD2AE3F2A19.","10.2AG3C4D4AC5D4A21.","10.2A4C4D4AC5D4A21.","12.2AGC8D6ADI2A8.6A7.","12.2AGC8D6ADI2A8.6AJ6.","12.2AGC6D2AGC4G4A6.2A6J2A5.","12.2AGC6D2A6G4A6.2AK5J2A5.","14.2A2G4D2A2C2ACD2A6.2A10J2A3.","14.2ALG4D2A2C2ACD2A6.2A10J2A3.","12.2ADM4A8D2A6.2AK13J2A.","12.2ADM4A8D2A6.2A14J2A.","10.2ANO2ADM10A8.2A14J2A.","10.2ANO2ADP10A8.2A14J2A.","8.2A2N4O2A2D2AQF2O2A6.2A16J2A.","8.2A2N4O2ADI2AQF2O2A6.2A16J2AJ","8.2A2N6O8AOR2AO3.OA14J2A3.","8.2A2N6O8A2O2AO3.2A14J2A3.","6.2A4N2AN3O2AOR2A4O2AO3.2A12J2A5.","6.2A4N2A4O2AOR2A4O2AO3.2A12J2A5.","6.2A2N2O2A2N4O6A4O2AO.D3AK7J2A7.","6.2A2N2O2ASN4O6A4O2AO.4AK7J2A7.","6.2A2N2O2N2A4O2R24A9.","6.2A2N2O2N2A6O24A9.","4.2ASN6O2N2A2NR9O2AC3D4A15.","4.2ASN6O2N2AN11O2AC3D4A15.","4.2ASN8O2N2A10N2A6D2A15.","4.2ASN8O2N2A10N2A6D2A15.","4.2ASN10O2N12A4G2AD16.","4.2ASN10O2N12AG3C2AD16.","4.2ASN12O2A2O2A4.6A19.","4.2ASN12O2A2O2A4.6A19.","4.4AOR10O2A2O2A29.","4.4AR10OR2A2O2A29.","4.2ATU18A29.","4.2ATU18A29.","4.2ATU18V2A27.","4.2ATU18V2A27.","6.2A2U8V2U8V2AD24.","6.2A2U8V2U8V2AD24.","6.2A2U8V2A4U6V2A23.","6.2A2U8V2A4U6V2AV22.","8.2A2U6VWV2AT3U6V2A21.","8.2A2U8V2AT3U6V2A21.","10.2A2U6V4A4U4V2A21.","10.2A2U6V4A4U4V2A21.","8.2A4U6V2A2.2A2U4V2A21.","8.2A4U5VW2A2.2A2U4V2A21.","6.2A4U6V2AV3.2A2U4V2A21.","6.2A4U6V2AV3.2A2U4V2A21.","4.2A4U6V2A6.2A2U4V2A21.","4.2AT3U6V2AV5.2A2U4V2A21.","2.2AT3U6V2A6.2A2U4V2AV22.","2.2AT3U6V2A6.2A2U4V2AV22.","6A4V4AV7.2A2U4V2AV22.","6A4V4AV7.2A2U4V2AV22.","12A10.12A21.","12A10.12A21.","14AV7.14A19.","14AV7.14A19.","2.12A8.14A19.","2.12A8.14A19."],"forehand":["22.12A35.","22.12A35.","20.2A2C10DHAD32.","20.2A2C10D2AD32.","18.2ABC14D2A31.","18.2ABC14D2A31.","16.4ABC16D2A29.","16.4ABC16D2A29.","14.2AB3X2A16D2A29.","14.2A4B2A16D2A29.","14.2A4B2A4D6A2D8A27.","14.2A4B2A4D6A2D8A27.","14.2A4B6A4E6A4E2A27.","14.2A2B2X6A4E6A4E2A27.","16.4AGC2D2A4E2ACD2A4E2A27.","16.4AGC2D2A2EFE2A2D2A4E2A27.","16.2AG3C4D4AC3D6A18.4A7.","16.2A2G2C4D4AC3D6A18.4A7.","18.2AGC8D6A2O2A16.2AK3J2A5.","18.2AGC8D6AYO2A16.2A4J2AJ4.","18.2AGC6D2A2O4R4A14.2A8J2A3.","18.2AGC6D2A2O3RO4A14.2A8J2A3.","20.2A2C4D6AOZ2A14.2A12J2AJ","20.2A2C4D6AOZ2A14.2A12J2AJ","20.6A8D2AO13.2A14J2AJ","20.6A8D2AO13.2A14J2AJ","18.2ANO2A2D8A14.2A16J2AJ","18.2ASO2A2D8A14.2AK15J2AJ","16.2A2N4O2A2D2a2A2O2A12.2AK13J2A3.","16.2ASN4O2A2DPa2A2O2A12.2A14J2A3.","14.2A2N8O10A12.4AK9J2A5.","14.2A2N8O10A12.4AK9J2A5.","14.2A2N16O20A6J2AJ6.","14.2A2N16O20A6J2A7.","14.2A2N4OS3A4N11O3R2A2D12A9.","14.2A2N4O2S2A4N12O2R2A2D12A9.","14.2A2N6O2N4A12N2A6D2AD16.","14.2A2N6O2N4A12N2A6D2AD16.","12.2A2N10ORO18ACD2A19.","12.2A2N12O18A2D2A19.","12.2A2N12O2A2O2A2O2N2A2O6A21.","12.2ASN12O2A2O2A2O2N2A2O6A21.","12.2ASN12O2A2O2A4O4A27.","12.2ASN12O2A2O2A4O4A27.","12.2ASN10O2A4O4A2N2O2Z2A25.","12.2ASN10O2A4O4ASN2O2Z2A25.","12.2ASN10O2A4O2A2.2AR3Z2A25.","12.2A2N10O2A4O2A2.2AR3Z2A25.","12.6A8O2A2O4A4.4A27.","12.6A7OR2A2O4A4.4A27.","12.2A2U2V12A2V2A35.","12.2ATU2V12A2V2A35.","12.2A2U9V3W6V2AO32.","12.2A2U18V2A33.","12.2A2U8V4U8V2A31.","12.2A2U8V4U8V2A31.","12.2A2U6V2U4A2U8V2A29.","12.2ATU6V2U4A2U8V2A29.","12.2ATU6V2A4.2A2U6VWV2A27.","12.2ATU6V2A4.2A2U8V2A27.","10.2A4U6V2A6.2A2U6V2A27.","10.2A4U6V2A6.2A2U6V2A27.","8.2A2U8V2A8.2A2U6V2A27.","8.2A2U8V2A8.2A2U6V2A27.","4.4A2U8V4A8.2A2U6V2A27.","4.4A2U8V4A8.2A2U6V2A27.","2.4AU9V2A12.2A2U6V2A27.","2.4AU9V2A12.2A2U6V2A27.","8A4V4A14.2A2U6V2A27.","8AVW2V4A14.2A2U6V2A27.","12AV17.2A2U4V2U2A27.","12AV17.2A2U5VU2A27.","2.8A22.12A25.","2.8A22.12A25.","2.10AV19.14A23.","2.10AV19.14A23.","4.8A20.14A23.","4.8A20.14A23."],"smash":["38.4A7.","38.4A7.","34.4AK3J2A5.","34.4AK3J2A5.","32.2A10J2A3.","32.2A10J2AJ2.","32.2A10J2A3.","32.2A10J2A3.","32.2A10J2A3.","32.2A10J2A3.","32.2A12J2AJ","32.2AK11J2AJ","34.2A10J2AJ","34.2A10J2AJ","34.2A10J2AJ","34.2A10J2AJ","36.2AK5J2AJ2.","36.2AK5J2AJ2.","14.12A12.8A3.","14.12A12.8AJ2.","10.4A12D2A12.6A3.","10.4A12D2A12.6A3.","8.2A2C16D2A10.4A2J2A.","8.2A2C16D2A10.4A2J2AE","8.2A2C14D4AE9.2Abc4AE","8.2A2C14D4AE9.2A2c4AE","6.4A2d6D4ACD2A4E2AE7.2A2F4AE","6.4A2d6D4ACD2A4E2AE7.2A2F4AE","6.2ABCH3ACD2A3EF4A4E2AE7.8AE","6.2A2BH3ACD2A4E4A3EF2AE7.8AE","6.2A2B2C6A4E2A2F6AE5.2A4O2AE2.","6.2A3BC6A4E2A2F6AE5.2A4O2AE2.","6.2A4B2AC3D4AEF4A2F2AE5.2A4O2AE2.","6.2AB3C2AC3D4AEF4A2F2AE5.2A4O2AE2.","8.4A10D2Ac3E4AE3.2A4O2N2AE2.","8.4A10D2AcE2c4AE3.2A4O2N2AE2.","8.2AGC8D2A2D4AEF2AE3.2A4O2AE4.","8.2AGC8D2A2D4AEF2AE3.2A2ORO2A5.","10.2AGC6D4AC3D2AEF4A4O2N2A5.","10.2AGC6D4A4D2AEF4A4O2N2A5.","12.4AGC8D2G4A2S6O2A7.","12.4AGC8D2G4A2S6O2A7.","16.2A6C4A2O2A6O2A9.","16.2A6C4A2O2A6O2A9.","14.10ACD2A2O2A4O2N2A9.","14.10AGD2A2O2A4O2N2A9.","12.2AS3N2AD3I6A4O2N2A11.","12.2AS3N2A4D6A4O2N2A11.","10.2A8O8A6O2A13.","10.2A8O8A6O2A13.","8.2AN15O2A6O2A13.","8.2AN15O2A6O2A13.","6.2A2N4O4N8O2A6O2A13.","6.2A2N4O4N8O2A6O2A13.","4.2ASN2R2O2N2A2N10O2A4O2A13.","4.2ASN4O2N2ASN10O2A4O2A13.","4.2AN3O2N4AS3N8O2A6O2A11.","4.2AN3O2N4AS3N8O2A6O2A11.","2.2A2N2O2N2A4.2A2N8O2A6O2A11.","2.2A2N2ONO2A4.2A2N8O2A6O2A11.","2.2A4O2A6.2A2N8O2A6O2A11.","2.2A4O2A6.2A2N8O2A6O2AO10.","2.2A4O2A6.2A2N8O2A6O2A11.","2.2A4O2A6.2A2N8O2A6O2A11.","2A2D4AD7.2A2N8O2A6O2A11.","2A2D4AD7.2A2N8O2A6O2A11.","2A2D2I2AD7.2A2N8O10A11.","2AD3I2AD7.2A2N8O10A11.","2A2e2I2AD7.14ATU4V2A11.","2A2D2I2A8.14ATU4V2AV10.","2.4AD9.2A2U16V2AV10.","2.4AD9.2A2U16V2AV10.","16.2A2U8V2U6V2AV10.","16.2A2U8V2U6V2AV10.","16.2A2U6V2A2U6V2AV10.","16.2A2U6V2A2U6V2AV10.","14.2A4U6V2A2U6V2AV10.","14.2AT3U6V2A2U5VW2AV10.","14.2ATU6V4A2U4V2A13.","14.2ATU6V4A2U4V2A13.","14.2A6V2AVW2A2U4V2A13.","14.2A6V2AVW2A2U4V2A13.","12.2A2UVW4V4A4U4V2A13.","12.2A2U6V4A4U4V2A13.","10.2A2U6V2A2.2A2U6V2A13.","10.2ATU4V2W2A2.2A2U4VWV2A13.","8.2A2U6V2A4.2A2U4V2A15.","8.2ATU6V2A4.2A2U4V2A15.","6.4ATU4V2AV3.2A2U6V2A15.","6.4ATUW3V2AV3.2A2U6V2A15.","6.10AV5.2A2U4V2AV16.","6.10AV5.2A2U2VWV2A17.","6.8A6.4A2U2V2AV18.","6.8A6.4A2U2V2AV18.","6.8A6.10AV18.","6.8A6.10AV18.","8.6A6.8A21.","8.6A6.8A21.","8.6A6.8A21.","8.6AV5.8A21.","22.6A21.","22.6AV20.","24.4AV20.","24.4AV20."],"dink":["34.8A22.","34.8A22.","32.2ABC6D6A16.","32.2ABC6D6A16.","28.4ABC12D2C2AE13.","28.4ABC12D2C2AE13.","28.2AB3C14D2A14.","28.2AB3C14D2A14.","26.2A4B2AC13D2C2A12.","26.2A4B2AC13D2C2A12.","26.2A4B2AC3D4A6D2C2A12.","26.2A2BCB2AC3D4A6D2C2A12.","26.2A2B2ACD4A4E2A2D6A12.","26.2ABC2ACD4A4E2A2D6A12.","26.4A2C4D2A4E4A2EFE2A12.","26.4A2C4D2A4E4A4E2A12.","28.2A2C6D4A2D2A4E2A12.","28.2A2C6D4A2D2A4E2A12.","24.6A2C12D6AE13.","24.6A2C12D6AE13.","20.4A4N2A2C4D2ACG4AE3F2AE13.","20.4A4N2A2C4D2A2C4AE3F2AE13.","16.4A4N4O4AGC2D6A2D4A16.","16.4A4N4O4A2C2D6A2D4A16.","14.2A4N8O2A2D2A2C6D4A18.","14.2A4N8O2A2D2A2C6D4A18.","12.2A4NR11O12A22.","12.2A4N12O12A22.","10.2A4N14O2A2D2A28.","10.2A4N14O2A2D2A28.","8.2A4N10O2N4O2A2D2A28.","8.2A4N10O2N4O2A2D2A28.","8.2A2N12O2A4O2N2AO29.","8.2A2N12O2A4O2N2AO29.","6.2A4N12O2A2N4O2AO29.","6.2A4N12O2A2N4O2AO29.","6.2A2N14O4A4O2AO29.","6.2A2N14O4A4O2AO29.","6.2A2N12O2A2O2A2N4O2A28.","6.2A2N12O2A2O2AN5O2A28.","6.6A8O2A2O2NOR2A4O2A28.","6.6A8O2A2O2NOR2A4O2A28.","6.2A4UT17ATN2ORO2A26.","6.2A4U18ATN4O2A26.","6.2A2U2VW15V2U2A2N4O2A24.","6.2A2UW17V2U2A2N4O2A24.","8.2A2U6V2A4U6VUN2ASN4O2A22.","8.2A2U6V2A4U6VUN2ASN4O2A22.","8.2A4U6V4A2U5VO2N6A2D2AD3.8A8.","8.2A4U6V4A2U5VO2N6A2D2AD3.8A8.","8.4A2U6V2A2.2A2U3V3O4A4D6A8J4A4.","8.4A2U6V2A2.2A2U3V3O4A4D6A8J4A4.","2.6AT3U8V2A4.2T3VO8A2D4A14J2A2.","2.6AT3U8V2A4.2T3VO8A2D4A14J2A2.","4A4U10V2A4.2A2U3VO2AD3.8A16J2A","4AT3U10V2A4.2A2U3VO2AD3.8A16J2A","6A8V4A4.2A2U4V2A12.2A16J2A","6AVW6V4A4.2A2U4V2A12.2A16J2A","14A8.2A2U4V2A14.2A14J2A","14A8.2A2U4V2A14.2AK13J2A","8A14.12AD13.4AK9J2A","8A14.12AD13.4A10J2A","10AV11.14A16.4A4J2A2.","10AV11.14A16.4A4J2A2.","2.8AV11.14A20.4AJ3.","2.8A12.14A20.4AJ3."]}},"afro":{"pal":["#1E1E1E","#848484","#AAAAAA","#D0D0D0","#8C5B3E","#4B3121","#6C4630","#7A4FB8","#5E3D8E","#E8743B","#EB8655","#EB8C5C","#BD5E30","#9A4D27","#27282F","#33343D","#1B1C21","#FFFFFF","#9F775F","#613F2B","#CCB6A9","#9B7158","#724A32","#532915","#783C1E"],"poses":{"ready":["24.16A20.","24.16A20.","20.22A18.","20.22A18.","18.26A16.","18.26A16.","16.28A16.","16.28A16.","16.28A16.","16.28A16.","16.4AB9C16AD13.","16.4A10C16A14.","16.14AC15D2A12.","16.14A16D2A12.","16.10A2E2F18A12.","16.10A2E2F18A12.","16.10A3EG4A4E4A18.","16.10AEG2E4A4E4A18.","18.6A8E2A2E2AGE2A18.","18.6AG7E2A2E2AGE2A18.","18.6AG11E2AGE2A18.","18.6AG11E2AGE2A18.","20.2A2F10E4AGE2A18.","20.2A2F5E2G3E4AGE2A18.","22.2A2F4E2AG7E2A8.4AH5.","22.2A2F4E2A8E2A8.4AH5.","24.2AGF4E4AGE2A8.2A4H2A4.","24.2A2G4E4AGE2A8.2A4H2A4.","22.6A8E2AE7.2AI7H2A2.","22.6A8E2AE7.2AI7H2A2.","20.2AJK2J10A8.2AI11H2A","20.2AJK2J10A8.2AI11H2A","18.2AJK4A2J2AJL4A6.2A14H2A","18.2A2J4A2J2AJL4A6.2A14H2A","16.2A2M2AGE2A2J4AMJ2A4.2AI15H2A","16.2ANM2AGE2A2J4AMJ2AJ3.2AI15H2A","16.2ANM2AG3E2A6J2AJ3.2AI13H2A2.","16.2ANM2AG3E2A6J2A4.2AI13H2A2.","16.2ANM2AG3E2A4J2A2J2AJ3.2AI9H2AH3.","16.2A2M2AG3E2A4J2A2J2AJ3.2A10H2A4.","14.2ANM2J2A2FEG2E2AMJ2A2J2AJ3.4AI5H2A6.","14.2ANM2J2A2F4E2A2J2A2J2AJ3.4AI5H2A6.","14.2ANM4J2AG5E22A8.","14.2ANM4J2AG5E22A8.","14.2ANM4J2M2A2G14E4AH13.","14.2ANM4J2M2A2G14E4AH13.","12.2ANM8J2M2AF10G5E2AH13.","12.2A2N8J2M2A11G5E2A14.","12.2ANM10J2M16A16.","12.2ANM10J2M16A16.","12.6A10J2A6.6A18.","12.6A10J2A6.6A18.","12.2A2O2P14A28.","12.2AQO2P14AE27.","12.2A2Q14P4AE25.","12.2A2Q14P4AE25.","10.2A2Q8P2O8P4A24.","10.2A2Q8P2O8P4A24.","10.2A2Q6P4A2Q2O2P2AGE2A24.","10.2AQO6P4A2QO3P2AGE2A24.","10.6A4P2A2.6AG5E2AE21.","10.6A4P2A2.6AG5E2A22.","8.2A2F4E6A4.4A2G4E2AE21.","8.2A2F4E6A4.4A2G4E2AE21.","6.2AFG8E2A8.2A2F4E2AE21.","6.2A2F8E2A8.2A2F4E2AE21.","2.4A2F6E4A10.2A2F2EGF2AE21.","2.4A2F6E4A10.2A2F2EGF2A22.","2A2R2AG3E6A10.2A2F4E2A24.","2A2R2AG3E6A10.2A2F4E2A24.","2A4R6A14.10A24.","2A4R6A14.10A24.","2A4R2A18.2A8R2AD21.","2A4R2A18.2A8R2AD21.","2.2AD3R2A16.2A10R2A20.","2.2A4R2A16.2A10R2A20.","4.6A16.14A20.","4.6A16.14A20."],"forehand":["22.16A33.","22.16A33.","18.22AD30.","18.22AD30.","16.26A29.","16.26A29.","14.28A29.","14.28A29.","14.28A29.","14.28A29.","14.4A10C16A27.","14.4A10C16A27.","14.14A16D2A25.","14.14A16D2AD24.","14.10AGE2F18AD24.","14.10A2G2F18AD24.","14.10AG3E4A4E4AD30.","14.10AG3E4A4E4AD30.","16.6AG7E2A2E2A2E2AD30.","16.6AG7E2AGE2A2E2AD30.","16.4A2F12E2AGE2AD17.6A7.","16.4A2F12E2AGE2AD17.6A7.","18.2A2F12E2AGE2AD15.2AI5H2A5.","18.2A2F12E2AGE2AD15.2AI5H2A5.","20.2A2F4E6A4E2AD13.2AI9H2A3.","20.2AFG4E6A4E2AD13.2AI9H2A3.","22.2A2F10E2AE13.2AI13H2A.","22.2A2F10E2AE13.2AI13H2A.","22.14AE13.2AI15H2AH","22.14A14.2AI14HI2AH","20.2A4J2A2E2S2A16.2AI13H2A3.","20.2A4J2A2ESE2A16.2AI13H2A3.","18.2A3MJ4A2T2E2U2A14.2AI11H2AH4.","18.2A3MJ4A2TES2U2A14.2AI11H2AH4.","18.2A2J2AG3E8A14.2AI9H2A7.","18.2A2J2AG3E8A14.2A10H2A7.","16.2A2M2J2AG9E20AI5H2A9.","16.2A2M2J2AG9E20AI5H2AH8.","16.2A2M2J2M4AF3G16E12A11.","16.2A2M2J2M4AF3G16E12A11.","16.2A2M4J4M4A2F3G7F6E2A19.","16.2A2M4J4M4AF11G6E2A19.","14.2A2M10J4M14AGE2A21.","14.2A2M10J4M14AGE2A21.","14.2A2M14J2A4E2AEV6AE22.","14.2ANM14J2A4E2AEV6A23.","14.2ANM12J4A2T2E4A29.","14.2A2M12J4A2TES4A29.","14.2A2M12J2A2.2A2T4S2A27.","14.2A2M12J2A2.2A2T4S2A27.","14.6A10J2A4.2AT3E2A27.","14.6A10J2A4.2AT3E2A27.","14.2A2O2P12A6.4A29.","14.2A2O2P12A6.4A29.","14.2A2O14P2A37.","14.2A2O14P2A37.","12.4A18P2A35.","12.4A18P2A35.","12.2AQ7P2A2Q6P6A33.","12.2AQ7P2A2O6P6A33.","12.6A4P4A2Q2P2AG3E2A33.","12.6A4P4AOQ2P2AG3E2A33.","10.2A2F2G8A2.4AF2G5E2A31.","10.2A2F2G8A2.4AF2G5E2A31.","8.EAFG8E2AP5.4AFG4E2AE30.","8.2A2F8E2AP5.4AFG4E2AE30.","4.4A2F8E2AE9.2AFG4E2AE30.","4.4A2F8E2A10.2AFG4E2A31.","4A2F2GEG4E4AE11.2A2G4E2A31.","4A2F2G6E4A12.2A2G4E2A31.","2A2R2AG3E6AE13.2A2G4E2A31.","2A2R2AG3E6A14.2A2G4E2A31.","2AD3R6A18.10A31.","2AD3R6A18.10A31.","2AD3R2AC21.2A8R2A29.","2AD3R2AC21.2A8R2A29.","2.2A4R2A20.2A10R2A27.","2.2A4R2A20.2A10R2A27.","4.6A20.14A27.","4.6A20.14A27."],"smash":["36.8A4.","36.8A4.","34.2A8H2A2.","34.2A8H2A2.","32.2A10H2A2.","32.2A10H2A2.","32.2A10H2A2.","32.2A10H2A2.","32.2A12H2A","32.2A12H2A","34.2AI9H2A","34.2AI9H2A","34.2AI9H2A","34.2AI9H2A","20.4A10.2AI9H2A","20.4A10.2AI9H2A","14.14A8.2A6H2AH.","14.14A8.2A6H2A2.","10.20AD7.8A2.","10.20AD7.8A2.","8.24A8.6A2.","8.24A8.6A2.","6.28A6.4AIH2A","6.28A6.4AIH2A","6.16AC11D2AD.2A2E2AIH2A","6.16AC11D2AD.2A2S2A2H2A","4.12A8D12AD.10A","4.12A8D12AD.10A","4.8A3CD8AG3E4A6.2AG3E4A","4.8A3CD8AG3E4A6.2AG3E4A","6.4A2E4AG3E2AG3E2AGE4A4.2A2G2E2AE.","6.4AES4AG3E2AG3E2A2G4A4.2A4E2AE.","6.10AG5E2A2E2A4G2A2.2A4E2F2AE.","6.10AG5E2A2E2A4G2A2.2A4EGF2AE.","6.10AG11E2AGE2A2.2AG3E2AE3.","6.10AG11E2AGE2A2.2AG3E2AE3.","8.6A2G10E4AGE4AG3E2F2AE3.","8.6A2G10E4AGE4AG3E2F2AE3.","10.6AFG14E4AG3E2A6.","10.6AFG14E4AG3E2A6.","12.4AFG6E4A2E4AG3E2F2A6.","12.4AFG6E4A2E4AG3E2F2A6.","16.2A2FG7E4A6E2A8.","16.2A2FG7E4A6E2A8.","18.14A4E2AE9.","18.14A4E2A10.","14.6AMJ2AT3E2AMJ2AGE2A10.","14.6AMJ2AT3E2AMJ2A2E2A10.","12.2AG3E2AM3J2A2E2AMJ4AJ11.","12.2AG3E2AM3J2A2E2AMJ4AJ11.","10.2AG7E2A4J2AM5J2AJ11.","10.2AG7E2A4J2AM5J2AJ11.","8.2AG9E2A12J2AJ11.","8.2AG9E2A12J2AJ11.","6.2AG5E2F6A12J2AJ11.","6.2AG5E2F6A12J2AJ11.","6.2A4EGF2A2.2AM13J2AJ11.","6.2A4E2F2A2.2AM13J2AJ11.","4.2A4E2G2AE3.2ANM14J2A10.","4.2AG3E2G2AE3.2ANM14J2A10.","4.2AGE2F2AE5.2ANM14J2A10.","4.2AGE2F2AE5.2ANM14J2A10.","2.2AG3E2A8.2ANM14J2A10.","2.2AGEGE2A8.2ANM14J2A10.","2.2AG3E2A8.2ANM14J2A10.","2.2AG3E2A8.2ANM14J2A10.","2A6E2A8.2ANM4J12A10.","2A6E2A8.2ANM4J12A10.","2A6E2A8.8A10P2A10.","2A6E2A8.8A10P2A10.","2A4E2A10.2AQO14P2A10.","2A4E2A10.2AQO14P2A10.","2.4A12.2AQO6P2A6P2A10.","2.4A12.2AQO6P2A6P2A10.","16.2A2Q6P2AQO6P2A10.","16.2A2Q6P2AQO6P2A10.","16.2A2O4P4AQO4P4A10.","16.2A2O4P4AQO4P4A10.","16.20A12.","16.20A12.","14.2A2G4E2AWE2A2FG3E2A12.","14.2AFG4E2A2E2A2FG3E2A12.","12.2A2F6E2A2E2A2FG3E2A12.","12.2A2F6E2A2E2A2F4E2AE11.","10.2A2FG5E2A2.2A2F4E2A14.","10.2A2FG5E2A2.2A2F4E2A14.","8.4A2FG3E2AE3.2AG3E2A16.","8.4A2FG3E2AE3.2AG3E2A16.","8.2A2R2A2G2AE3.2A2F4E2A16.","8.2A2R2AGE2AE3.2A2F4E2A16.","8.2A4R2A6.2A2F2E2AE17.","8.2A4R2A6.2AGF2E2AE17.","8.2A4R2A4.2A2R2A2F2AE17.","8.2A4R2A4.2A2R2A2F2AE17.","8.2A4R2A4.2A4R2AD19.","8.2A4R2A4.2A4R2AD19.","10.4A6.2A4R2AD19.","10.4A6.2A4R2AD19.","20.2A4R2A20.","20.2A4R2AD19.","22.2A2R2AD19.","22.2A2R2AD19.","24.2A22.","24.2A22."],"dink":["30.10A24.","30.10A24.","26.20A18.","26.20A18.","26.22A16.","26.22A16.","24.26A14.","24.26A14.","22.30A12.","22.30A12.","22.4AB5C20A12.","22.4AB5C20A12.","22.10A2C4D14A12.","22.10A2C4D14A12.","22.14A12D4A12.","22.14A12D4A12.","22.10A4E8A8D2AD9.","22.10A4E8A8D2AD9.","24.8A6E2A4E10A10.","24.8A6E2AG3E10A10.","24.4AFG8E2A2E6A16.","24.4AFG8E2A2E6A16.","26.2A2F12E2ABC2A16.","26.2A2F12E2ABC2A16.","28.2AFG8E4ABC2A16.","28.2AFG8E4ABC2A16.","22.8AFG4E4AG3E2A18.","22.8AFG4E4AG3E2A18.","18.4A2M4J2M2A2FG7E2AE19.","18.4ANM4JMN2A2FG7E2AE19.","16.2ANM4J4AMJ2X10A22.","16.2AYN4J4AMJ2X10A22.","14.2A2M4J2AG3E2A2J2AW29.","14.2ANM4J2AG3E2A2J2AE29.","12.2A2M6J2AG5E4AE29.","12.2ANM6J2AG5E4AE29.","10.2ANM8J2AG5E4AE29.","10.2ANM8J2AG5E4AE29.","8.2AN3M8J2M2AG3E2A32.","8.2AN3M8J2M2AG3E2A32.","8.2ANM12J2A2F4E2A30.","8.2ANM12J2A2F4E2A30.","6.2A4M10J2M4AG3E2A30.","6.2A4M10J2M4AG3E2A30.","6.4ANM8J2M2A2J2A2F4E2A28.","6.4ANM8J2M2A2J2A2F4E2A28.","6.2A2O14A4J2A4E2A28.","6.2A2O14A4J2A4E2A28.","6.2AQO14P6A2F4E2AE25.","6.2AQO14P6A2F4E2A26.","6.2AQO6P2A4O4P6A2F4E2A24.","6.2A2O6P2A4O4P6A2F4E2A24.","8.2AQO6P2AQ3O2AG3E4AFG4E2A6.6A10.","8.2A2O6P2A4O2A2G2E4AFG4E2A6.6A10.","10.2AQO10AG7E4A6E2AH.2A6H4A6.","10.2AQO10A2G6E4A3EG2E2AH.2A6H4A6.","10.4A2F4E6AG5E4A2F2G6A12H4A2.","10.4AFG4E6AG5E4A2F2G6A12H4A2.","6.6A2F6E2A2.2A2F4E2AE.2A2F6A16H2A","6.6A2F6E2A2.2A2F4E2AE.2AGF6A16H2A","2.4A2FG3F6E2AE3.2A2F4E2AE3.4A2.2A16H2A","2.4A6F6E2AE3.2A2F4E2AE3.4A2.2A16H2A","2ADR2A2G6E4A4.2A2F4E2A12.2A16H2A","2ADR2A2G6E4A4.2A2F4E2A12.2A16H2A","2AD3R8AE7.10A14.2A12H2A2.","2AD3R8AE7.10A14.2A12H2A2.","2AD3R2A14.2A8R2AD13.6A6H2A2.","2AD3R2A14.2A8R2AD13.6A6H2A2.","4A4R2A12.2A10R2A18.6A4.","4A4R2A12.2A10R2A18.6A4.","2.8A12.14A28.","2.8AD11.14A28."]}}};
 /* ---------- timing: where we are in the backing, and how late you hear it ---------- */
 // The jump window around a chord change (seconds before, after), per difficulty.
-const WINDOWS = { wide: [.6, .35], normal: [.45, .25], tight: [.3, .15] };
+const WINDOWS = { wide: [.6, .55], normal: [.45, .42], tight: [.3, .28] };   // (generous on the late side: playing just after the ball arrives is natural)
 
 /* Timing. You play along to the music you HEAR, which reaches your ears a little after it's scheduled
    (headphone delay, worse over Bluetooth); then your note takes a moment to reach the mic and be
@@ -1742,7 +1756,7 @@ function drawMicMeter(t) {
 }
 
 /* =====================================================================
-   FRETBALL CONTENT: the court's rules, the backing tracks, and the venues.
+   FRETBALL CONTENT: the court's rules, the backing tracks, and the courts.
    ===================================================================== */
 
 // A chord written the way a chart writes it ("F#m7b5") -> [bass midi in E2..D#3, quality]
@@ -1794,7 +1808,7 @@ const TRACKS_V3 = [
   {"id": "ladder", "name": "Circle Ladder", "style": "swing", "bpm": 120, "root": 0, "minor": false, "chords": ["Em7", "A7", "Dm7", "G7", "Cmaj7", "Cmaj7", "Dm7", "G7"]}
 ];
 // First Serve: the scripted first match, on the first venue. (Older content gets it in place of its Tour matches.)
-const FIRST_SERVE = { id: 'island-1', title: 'First Serve', tip: 'Play the note on the ball. If you need to look, the ball waits for you.', to: 5, yours: 1, attack: 0, save: .3, pops: false, tracks: ['conly'], keys: [0], tempo: [68, 72], gentle: true, intro: true, slip: .16 };
+const FIRST_SERVE = { id: 'island-1', title: 'First Serve', tip: 'Play the note on the ball. If you need to look, the ball waits for you.', to: 5, yours: 1, attack: .14, save: .3, pops: true, tracks: ['conly'], keys: [0], tempo: [68, 72], gentle: true, intro: true, slip: .16 };
 const CLUB_BOX_V2 = { rooftop: 5, canyon: 7, stadium: 5 };
 function fbMigrate(d) {
   if (!d || !Array.isArray(d.clubs) || !Array.isArray(d.tracks) || (d.curriculum || 1) >= CURRICULUM) return d;
@@ -1821,7 +1835,7 @@ const FILE_DATA = fbMigrate(FB_LIVE.data);   // the live content the game starte
 const LIVE_REV = FB_LIVE.rev || 0;
 // The editor (#admin) and play-testing (#playtest) are for you, the owner. On your own computer (a file,
 // or localhost) they just open. On the live site they need the owner password (set in the editor, under
-// Venues → Paid version, then published), so a shared “#playtest” link can't skip the daily limit.
+// More → Paid version, then published), so a shared “#playtest” link can't skip the daily limit.
 const LOCAL_HOST = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 const OWNER_SESSION = 'fretball-owner';
 const WANTS_ADMIN = /admin|playtest/.test(location.hash);
@@ -1907,18 +1921,22 @@ const COURT_LOC = {
   groove: { drain: .11, refill: .35, miss: .3, wrong: .04, grace: 6, through: .5 },
 };
 
-/* The venues, from the data. Each venue (a "club" in the data): a court (its look), its own opponents, a spot
+/* The courts, from the data. Each court (a "club" in the data): its look, its price in coins, its own opponents, a spot
    on the neck (its box: where the board shows notes), and the styles it hosts. Play builds the matches;
-   the first venue also keeps First Serve, the scripted first match. */
+   one court also keeps First Serve, the scripted first match. */
 const CLUBS = FB_DATA.clubs.map(c => {
   const matches = c.matches.map(m => {
     const tracks = (m.tracks || []).filter(id => TRACK[id]);
-    return { ...m, to: m.intro ? m.to : 7, tracks: tracks.length ? tracks : [TRACKS[0].id], keys: m.keys && m.keys.length ? m.keys : [0], tempo: m.tempo || [80, 90] };   // (short matches: first to 7, win by 2)
+    // (First Serve, once its notes have turned into a chord, plays with all of C's tones: the 3rd volleys, pop-ups
+    //  come for the 5th to spike, and they spike now and then for the root to save. Older content gets it too.)
+    const first = m.intro ? { pops: true, attack: Math.max(m.attack || 0, .14) } : {};
+    return { ...m, ...first, to: m.intro ? m.to : 7, tracks: tracks.length ? tracks : [TRACKS[0].id], keys: m.keys && m.keys.length ? m.keys : [0], tempo: m.tempo || [80, 90] };   // (short matches: first to 7, win by 2)
   });
   matches.forEach(m => { m.club = c.id; });
   return { ...c, box: BOXES.includes(c.box) ? c.box : 0, matches };
 });
 const CLUB = Object.fromEntries(CLUBS.map(c => [c.id, c]));
+const firstServe = () => CLUBS.flatMap(c => c.matches)[0] || null;   // (the scripted first match, whichever court keeps it)
 const PAIRS = Object.fromEntries(CLUBS.map(c => [c.id, c.pair || { name: 'The Locals', style: '' }]));
 // A built match's opponents: how often the ball comes to you (and how hard they play).
 // Who takes which ball, in plain words (your partner takes the rest).
@@ -2036,7 +2054,7 @@ const starsOf = id => PROG.stars[id] || 0;
 const STAR_RULES = ['Win the match', 'Win, landing 80% of your balls', 'Win without dropping a point'];
 const matchWon = id => !!PROG.won[id];
 // ---------- the paid version: a few minutes of matches a day are free; one payment unlocks unlimited play ----------
-// The free minutes a day, the price and the checkout link are set in the editor (Venues → Paid version).
+// The free minutes a day, the price and the checkout link are set in the editor (More → Paid version).
 const PAYWALL = () => ({ dailyMinutes: 15, price: '', url: '', ...(FB_DATA.paywall || {}) });   // (dailyMinutes: free match play a day; 0 is no limit)
 const PAID_KEY = 'fretball-full-tour';   // (kept apart from progress, so erasing your progress never erases what you bought)
 const isPaid = () => { try { return localStorage.getItem(PAID_KEY) === '1'; } catch { return false; } };
@@ -2120,8 +2138,25 @@ function payOverlay() {
   else body = unlockHtml(st === 'grad');
   return `<div class="sheet-bg" id="pay-bg"></div><div class="card sheet" role="dialog" aria-label="Unlimited play">${body}</div>`;
 }
-// The venue the home screen shows: First Serve's until it's won, then the last venue.
-const currentClub = () => { const fs = CLUBS.flatMap(c => c.matches)[0]; return fs && !matchWon(fs.id) ? CLUB[fs.club] : CLUBS[CLUBS.length - 1]; };
+/* ---------- courts: bought with coins ----------
+   Every match earns coins (more for a win, and for the balls you land). The first court is everyone's; the
+   others each have a price (set in the editor: Courts → Details), and once bought a court is yours to play
+   on whenever you like. Any song and any level plays on any court: the court is just where you choose to be.
+   A pricier court is a grander one, so its status comes from what it costs. */
+const COURT_PRICE = { island: 0, juke: 60, rooftop: 150, canyon: 250, stadium: 400 };   // (content from before courts had prices)
+const courtPrice = c => { const i = CLUBS.indexOf(c); return i <= 0 ? 0 : Math.max(0, Math.round(+(c.price ?? COURT_PRICE[c.id] ?? 100 * i) || 0)); };
+const courtOwned = c => !!c && (courtPrice(c) === 0 || (PROG.courts || []).includes(c.id) || (EDITING && /playtest/.test(location.hash)));
+const coins = () => Math.max(0, Math.floor(PROG.coins || 0));
+// The court you play on (and the home screen shows): the one you picked, if it's yours; otherwise the first.
+const currentClub = () => { const c = CLUB[PROG.court]; return c && courtOwned(c) ? c : CLUBS[0]; };
+function pickCourt(id) { const c = CLUB[id]; if (!courtOwned(c)) return; PROG.court = id; store(SAVE.prog, PROG); THEME = id; }
+function buyCourt(id) {
+  const c = CLUB[id]; if (!c || courtOwned(c) || coins() < courtPrice(c)) return false;
+  PROG.coins = coins() - courtPrice(c); (PROG.courts ||= []).push(id); PROG.court = id; THEME = id; store(SAVE.prog, PROG);
+  FBA.track('court_bought', { court: id, price: courtPrice(c) }); return true;
+}
+// What a match pays: a little for playing, more for each ball you land and each winner, and a bonus for winning.
+const matchCoins = () => 3 + (PB.hits || 0) + 2 * (PB.winners || 0) + (PB.won ? 10 : 0);
 function winMatch(id) { const first = !PROG.won[id]; PROG.won[id] = true; store(SAVE.prog, PROG); return first; }
 
 // ---------- the daily streak: open the app and play a little ----------
@@ -2137,6 +2172,7 @@ function streakPlayed() {
 
 // ---------- all-time stats ----------
 const STATS = load(SAVE.stats, null) || { shots: 0, ok: 0, chords: {}, notes: {}, sc: {}, pop: {}, flow: { n: 0, ok: 0 }, quiet: { n: 0, ok: 0 }, tim: { n: 0, sum: 0, late: 0, early: 0 }, days: {}, matches: { played: 0, won: 0 }, since: today() };
+if (PROG.coins == null) { PROG.coins = Math.min(400, ((STATS.matches && STATS.matches.played) || 0) * 15); store(SAVE.prog, PROG); }   // (coins came later: matches already played count)
 // Chords are kept by root and type ("7:dom7"), not by how a key spells them, so A♯ and B♭ are one chord.
 const chordKey = (root, q) => `${pc(root)}:${q}`;
 (() => {   // (stats from before: chords kept by their printed name, merged into one record each)
@@ -2227,7 +2263,8 @@ function courtSurface(C) {
   line(qx(40), 414, qx(920), 414); line(qx(20), 500, qx(940), 500); line(qx(40), 414, qx(20), 500); line(qx(920), 414, qx(940), 500);
   for (const dx of [-120, 120]) line(qx(COURT.netX + dx + 10), 414, qx(COURT.netX + dx - 10), 500);
   line(qx(30), 457, qx(COURT.netX - 120), 457); line(qx(COURT.netX + 120), 457, qx(930), 457);   // centre lines: baseline to kitchen line, never through the kitchen
-  c2.fillStyle = C.front; c2.fillRect(SL(), 502, SW(), VH); c2.fillStyle = C.front2; c2.fillRect(SL(), 502, SW(), 2);
+  c2.fillStyle = C.front; c2.fillRect(SL(), 501, SW(), VH);   // (one colour: the one chosen for in front, overlapping the baseline a hair so no seam shows)
+  line(qx(20), 500, qx(940), 500);   // (the baseline, back on top)
 }
 
 // ---------- the band's stage ----------
@@ -2243,7 +2280,7 @@ function drawPark(t) {
     if (S.show === 'moon') { mDisc(SL() + SW() * S.x, hz - S.height, S.size, S.color); mDisc(SL() + SW() * S.x + S.size * .45, hz - S.height - S.size * .27, S.size * .9, L.sky[1] || L.sky[0]); }
     if (L.clouds && L.clouds.show) clouds(t, hz, L.clouds.color || '#FFFFFF', 4);
   } else mRect(SL(), -VH, SW(), VH * 2, sc.bg || '#BFE3F2');   // your own sky: a plain colour to paint on
-  mRect(SL(), hz, SW(), 404 - hz, L.ground || '#C9B48A'); if (L.texture !== false) speckle(hz, 404 - hz, L.ground2 || 'rgba(0,0,0,.08)');   // your ground: a colour (and a little texture)
+  mRect(SL(), hz, SW(), 404 - hz + 2, L.ground || '#C9B48A'); if (L.texture !== false) speckle(hz, 404 - hz, L.ground2 || 'rgba(0,0,0,.08)');   // your ground: a colour (and a little texture)
   courtSurface(L.court);
   drawSceneArt(THEME, t);   // your artwork (some of it moving)
   drawWeather(L.weather, t, hz);
@@ -2371,11 +2408,12 @@ function startPickle() {
   // for a moment, the numbers wait with it, and the band always comes in on the whistle.
   const cBeat = 60 / (BACKING_BPM || 90), cN = cBeat < .55 ? 8 : 4, t0 = ctx.currentTime + .15;   // one bar of count-in, or two when the tempo is quick
   silenceCountIn(); PB.countOut = countIn(cN, cBeat, t0);
+  const introOn = !!(PB.cfg.intro && !PROG.seen.triad);   // (the first match's opening: single notes, no pop-ups or spikes until the reveal)
   Object.assign(PB, { phase: 'countdown', goCtx: t0 + cN * cBeat, cBeat, shots: [], rally: 0, k: 0, us: 0, them: 0, firstBeat: null,
     lastKeyAt: -9, banner: '', recent: [], pointAt: -99, best: 0, newBest: false, returns: 0, gapPlay: 0, hits: 0, tries: 0, lastNote: -1, found: new Set(), missedAns: {}, misses: 0,
-    pending: null, overAt: null, won: false, winners: 0, press: 0, pressNeed: PB.cfg.pops === false ? 1e9 : 2 + Math.floor(Math.random() * 3),
+    pending: null, overAt: null, won: false, winners: 0, press: 0, pressNeed: PB.cfg.pops === false || introOn ? 1e9 : 2 + Math.floor(Math.random() * 3),
     hang: null, reveal: null, revealAt: null, rallyNo: 0, hangRally: -1, hangEndCtx: -99, heardCtx: -99, focus: 0, boxIntroUntil: 0,
-    intro: PB.cfg.intro && !PROG.seen.triad ? (() => { const [b0, q0] = GROUND[0], r0 = pc(b0); return { phase: 'notes', tones: TRIAD[q0].slice(0, 3).map(o => (r0 + o) % 12), i: 0, last: null, returns: 0, hit: new Set() }; })() : null });
+    intro: introOn ? (() => { const [b0, q0] = GROUND[0], r0 = pc(b0); return { phase: 'notes', tones: TRIAD[q0].slice(0, 3).map(o => (r0 + o) % 12), i: 0, last: null, returns: 0, hit: new Set() }; })() : null });
   tallyStart(); fxReset(); PB.victory = null; PB.worst = 0; PB.discs = [];
   stopBacking(); render();
 }
@@ -2413,8 +2451,8 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
   const bpc = BPC(), half = bpc / 2;
   if (s.armed && !s.hung && !PB.hang && !PB.reveal) backing.holdReq = false;   // (it was ready to hang, but you found it in time)
   // a dink has to be dead on the beat; a hair off and it dies on your side of the net (every dink, the 7th's window)
-  const dinkWin = LOC.dink7.window;
-  const badDink = ok && isDink(out) && s.who === 'you' && Math.abs(s.offset ?? 0) > dinkWin;
+  const dinkWin = LOC.dink7.window, dOff = s.offset ?? 0;
+  const badDink = ok && isDink(out) && s.who === 'you' && (dOff < -dinkWin || dOff > dinkWin * 2.5);   // (a dink forgives lateness more than earliness)
   if (badDink) s.mistimed = true;
   if (s.who === 'you') {   // the clipboard's record of every ball of yours
     const how = badDink ? ((s.offset ?? 0) < 0 ? 'early' : 'late') : !ok ? (s.cands?.length ? 'wrong' : 'missed') : 'hit';
@@ -2495,7 +2533,7 @@ function pbResolve(s, ok, t, weak, out = 'normal') {
     PB.press += (.5 + Math.min(1.5, gapAmt) * .9 + (s.setup ? .75 : 0)) * (lv.pressMul || 1);
     if (!PROG.seen.pressure && PB.pressNeed < 1e9 && s.who === 'you') { PROG.seen.pressure = true; store(SAVE.prog, PROG); pbSay('Returns build power. Full power: a pop-up'); }   // (said once, the first time it happens)
     if (PB.press >= PB.pressNeed) { kind = 'pop'; PB.press = 0; PB.pressNeed = 2 + Math.floor(Math.random() * 3); }
-    else if (Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) { kind = 'spike'; s.float = true; }   // (they attack a bit more when you need root saves; the return floats up to set up their spike)
+    else if (!introQuiet() && Math.random() < lv.attack * .6 * (lv.attackMul || 1) * rootNeed(s.beat + bpc)) { kind = 'spike'; s.float = true; }   // (they attack a bit more when you need root saves; the return floats up to set up their spike)
   }
   if ((kind !== 'normal' && kind !== 'pop') || dink) PB.press = 0;
   pbQueue(s.beat + (late ? 2 : 1) * bpc, kind, s.h);   // after a pop-up, their reply comes a bar later: room to breathe
@@ -2860,7 +2898,7 @@ function fxScan() {
     s.fxDone = true;
     const kind = s.who === 'partner' ? 'partner' : s.out === 'spike' ? 'spike' : isDink(s.out) ? 'dink7' : s.kind === 'spike' ? 'save' : 'volley';
     const at = paddleAt(s.who), off = s.offset ?? 0;
-    FX.fx.push({ kind, setup: !!s.setup, x: at[0], y: at[1] - 6, t0: s.T, who: s.who, timing: s.who === 'you' && !s.helped && Math.abs(off) >= .05 ? (off < 0 ? 'A LITTLE EARLY' : 'A LITTLE LATE') : null });
+    FX.fx.push({ kind, setup: !!s.setup, x: at[0], y: at[1] - 6, t0: s.T, who: s.who, timing: s.who === 'you' && !s.helped && off <= -.05 ? 'A LITTLE EARLY' : null });   // (late isn't called out: a note a touch after the beat is fine)
     s.fxKind = kind;
   }
   if (!PB.victory) FX.fx = FX.fx.filter(e => Math.abs(tv - e.t0) < 6);   // (kept a while: the replay draws them again)
@@ -2942,8 +2980,17 @@ const VIC = { replayFrom: .7, footage: 2.3, slow: .55, stampAt: 5.6, end: 9.2 };
 function victoryStart(t, won = true) {
   if (!won) { PB.victory = { won: false, t0: t, last: t }; PB.overAt = null; return; }
   const ws = PB.shots.filter(s => (s.who === 'you' || s.who === 'partner') && s.state === 'hit' && s.T !== undefined).sort((a, b) => b.T - a.T)[0];
-  PB.victory = { won: true, t0: t, d: t - ctx.currentTime, shot: ws, confetti: [], last: t };
+  PB.victory = { won: true, t0: t, d: t - ctx.currentTime, shot: ws, confetti: [], last: t, ...replayTiming(ws) };
   PB.overAt = null;
+}
+/* How long the replay runs: from just before the winning hit until the ball has come down in their court,
+   bounced and skipped away (see pbBall: the flight, then 0.8 of it again for the bounce), plus a beat to see it.
+   The slow motion eases off a little for a long flight, so the replay never drags. */
+function replayTiming(ws) {
+  const fly = ws && ws.Th !== undefined && ws.T !== undefined ? Math.max(.4, ws.Th - ws.T) : 1.2;
+  const footage = Math.min(6.5, .75 + fly * 1.8 + .45), slow = Math.max(VIC.slow, footage / 6);
+  const span = footage / slow, stampAt = VIC.replayFrom + span + .5;
+  return { footage, slow, stampAt, end: stampAt + (VIC.end - VIC.stampAt) };
 }
 function victorySkip() { if (!PB.victory) return; PB.victory = null; VIEW.c = VIEW.p = null; pbOver(); }
 function crowdRoar() {
@@ -3001,9 +3048,9 @@ function victoryFrame(dt, t) {
   const e = t - V.t0;
   if (!V.hushed && e > .25) { V.hushed = true; bandHush(true); crowdRoar(); }
   PB.pointAt = t; PB.pointUs = true;   // (everyone on our side keeps celebrating)
-  const span = VIC.footage / VIC.slow, inReplay = V.shot && e >= VIC.replayFrom && e < VIC.replayFrom + span;
+  const footage = V.footage || VIC.footage, stampAt = V.stampAt || VIC.stampAt, span = footage / (V.slow || VIC.slow), inReplay = V.shot && e >= VIC.replayFrom && e < VIC.replayFrom + span;
   if (inReplay) {
-    const k = (e - VIC.replayFrom) / span, fc = V.shot.T - .75 + k * VIC.footage;
+    const k = (e - VIC.replayFrom) / span, fc = V.shot.T - .75 + k * footage;
     if (!V.replayInit) { V.replayInit = true; FX.trail = []; if (!MOTION.reduce) { CAM.z = 1.28; CAM.y = 0; } }
     PB.replaying = true; VIEW.c = fc; VIEW.p = fc + V.d;
     try { drawCourt(fc + V.d); } finally { PB.replaying = false; VIEW.c = VIEW.p = null; }
@@ -3013,12 +3060,12 @@ function victoryFrame(dt, t) {
   } else {
     if (V.replayInit && !V.back) { V.back = true; FX.trail = []; }
     drawCourt(t);
-    if (e >= VIC.stampAt) {
+    if (e >= stampAt) {
       if (!V.stamped) { V.stamped = true; victorySting(); if (!MOTION.reduce) CAM.z = 1.06;
         for (let i = 0; i < 150; i++) V.confetti.push({ x: SL() + Math.random() * SW(), y: -20 - Math.random() * 200, vx: (Math.random() - .5) * 60, vy: 60 + Math.random() * 120, r: Math.random() * 6, vr: (Math.random() - .5) * 10, col: ['#E5483F', '#F2C230', '#3A7DC9', '#3E9E4A', '#FFFFFF'][i % 5] }); }
       stageBegin();
       for (const c of V.confetti) { c.x += c.vx * dt; c.y += c.vy * dt; c.vy += 30 * dt; c.r += c.vr * dt; const w = Math.abs(Math.cos(c.r)) > .5 ? 8 : PXF; c2.fillStyle = c.col; c2.fillRect(snap(c.x) - w / 2, snap(c.y) - 3, w, PXF + 2); }   // (blocks on the grid, flickering as they turn)
-      const a = e - VIC.stampAt, s = a < .16 ? 2.6 - 1.75 * (a / .16) : a < .26 ? .85 + .15 * ((a - .16) / .1) : 1;
+      const a = e - stampAt, s = a < .16 ? 2.6 - 1.75 * (a / .16) : a < .26 ? .85 + .15 * ((a - .16) / .1) : 1;
       c2.save(); c2.translate(CX(), VH * .4); c2.rotate(-.07); c2.scale(s, s);
       c2.font = `900 110px ${MONO}`; c2.textAlign = 'center'; c2.lineJoin = 'round'; c2.lineWidth = 14; c2.strokeStyle = INK; c2.strokeText('GAME', 0, 38); c2.fillStyle = '#FFE14D'; c2.fillText('GAME', 0, 38);
       c2.restore(); c2.textAlign = 'left';
@@ -3027,7 +3074,7 @@ function victoryFrame(dt, t) {
       stageEnd();
     }
   }
-  if (e > VIC.end) victorySkip();
+  if (e > (V.end || VIC.end)) victorySkip();
 }
 
 function drawCourt(t) {
@@ -3103,7 +3150,7 @@ function pickleHud(t) {
   const bd = PB.bannerDur || 2.6;
   if (PB.banner && ba < bd && !PB.reveal && !hanging) { c2.save(); c2.globalAlpha = Math.min(1, (bd - ba) * 1.5); mBanner(PB.banner, CX(), 514, 28); c2.restore(); }   // (front and centre, on the ground below the players' feet: where the eye already is, never over the ball's path)
   if (PB.phase === 'countdown' && ctx) { const n = Math.ceil((PB.goCtx - ctx.currentTime) / PB.cBeat - .001); mText(n > 4 ? 'Ready' : n > 0 ? String(n) : '', CX(), VH / 2 - 60, n > 4 ? 48 : 80, INK); }
-  if (PB.phase === 'playing' && !PB.intro && !hanging && !PB.boardUp) drawPressure(t);   // (the board, when it's up, takes that corner)   // how close they are to popping one up (and whether you're in the flow) builds faster
+  if (PB.phase === 'playing' && !introQuiet() && !hanging && !PB.boardUp) drawPressure(t);   // (the board, when it's up, takes that corner)   // how close they are to popping one up (and whether you're in the flow) builds faster
   if (PB.phase === 'over') { mText(PB.won ? 'Y O U   W I N' : 'T H E Y   W I N', CX(), 190, 30, INK); mText(`${PB.us} \u2013 ${PB.them}`, CX(), 224, 20, INK); }
 }   // (what went wrong is said once, in the message line above the court)
 
@@ -3324,6 +3371,7 @@ const askLine = s => s.ask.role === 'note' ? `Find ${nm(s.ask.want)}` : `${s.lab
    After a few of each of the chord's notes, the other pair lets one go, the band drops back, and the three
    notes sound low to high, then together. Then the real rules start: the 3rd volleys it back. */
 const INTRO_RETURNS = 6;
+const introQuiet = () => !!(PB.intro && PB.intro.phase !== 'rules');   // (the first notes and the reveal: no spikes yet)
 function introNext() {   // the next note on the ball: the 5th, the 3rd, the root (two open strings first, in C), then any, never twice running
   const I = PB.intro, tones = I.tones;
   const p = I.i < 3 ? [tones[2], tones[1], tones[0]][I.i] : (() => { const pool = tones.filter(x => x !== I.last); return pool[Math.floor(Math.random() * pool.length)]; })();
@@ -3351,7 +3399,8 @@ function revealStep() {
   backing.holdUntil = R; if (backing.beat > R) { backing.holdReq = false; backing.holdUntil = null; }
   if (backing.beat <= R - 1) backing.fillAt = R - 1;
   pbQueue(R + bar, 'serve', R + bar / 2);   // they serve, and the rules are on
-  pbSay(`Now return ${V.label} with its 3rd`);
+  if (PB.cfg.pops !== false) { PB.press = 0; PB.pressNeed = 2; }   // (the whole chord comes into play: the first pop-up, for the 5th, comes quickly)
+  pbSay(`${V.label}\u2019s 3rd volleys. Pop-ups: its 5th. Spikes: its root`); PB.bannerDur = 5;
 }
 function drawReveal() {
   const V = PB.reveal; if (!V) return;
@@ -3364,7 +3413,7 @@ function drawReveal() {
     mText(tn.role === 'root' ? 'ROOT' : tn.role.toUpperCase(), x, y + 54, 13, INK);
   });
   if (e > 2.3 && e < 5.4) mBanner(`${andList(V.tones.map(x => nm(x.pc)))}: together, the ${V.label === pbLabel(V.root, 'maj') ? `${nm(V.root)} major` : V.label} chord`, cx, 262, 22);
-  else if (e >= 5.4) mBanner(`${nm(V.tones[1].pc)} is its 3rd. The 3rd volleys the ball back`, cx, 262, 22);
+  else if (e >= 5.4) mBanner(`3rd ${nm(V.tones[1].pc)} volleys · 5th ${nm(V.tones[2].pc)} spikes · root ${nm(V.tones[0].pc)} saves`, cx, 262, 22);
 }
 
 /* ---------- THE BOARD: where the note is, in this club's spot on the neck ----------
@@ -4015,7 +4064,7 @@ function startTourMatch(id) {
   // pick this match's track, key and tempo now
   let bpm = Math.round((m.tempo[0] + Math.random() * (m.tempo[1] - m.tempo[0])) / 2) * 2; if (eased) bpm = Math.max(56, Math.round(bpm * .88 / 2) * 2);
   const sel = { track: pick(m.tracks), root: pickKey(m), bpm };   // (the key with the most chord tones due for review)
-  prepMatch(cfg, { tour: m, club: m.club, ...sel });
+  prepMatch(cfg, { tour: m, club: currentClub().id, box: 0, ...sel });   // (on your court, in open position)
 }
 let starting = false;
 async function playNow() {
@@ -4040,10 +4089,12 @@ function matchOver() {
     PB.starsGot = PB.them === 0 && !PB.misses ? 3 : PB.tries && PB.hits / PB.tries >= .8 ? 2 : 1;
     if (PB.starsGot > PB.starsBefore) { PROG.stars[PB.tour.id] = PB.starsGot; store(SAVE.prog, PROG); }   // (First Serve only now)
   }
+  PB.coinsGot = ED_TESTING ? 0 : matchCoins(); PROG.coins = coins() + PB.coinsGot; store(SAVE.prog, PROG);   // (coins for the court shop)
   storageKeep(true);   // (there's progress worth keeping now)
   FBA.track(PB.won ? 'match_won' : 'match_lost', { ...pbStatProps(), us: PB.us, them: PB.them, stars: PB.starsGot || 0 });
   if (PB.tour && PB.won) winMatch(PB.tour.id);
-  PB.opened = PB.built ? progressAfterMatch() : (() => { const c = PB.won && conceptsUpdate(); store(SAVE.prog, PROG); return c ? [`Next time: <b>${esc(c.title)}</b>`] : []; })();
+  PB.opened = PB.built ? progressAfterMatch() : (() => { if (PB.tour && PB.tour.intro && PB.won && firstServeOpen()) { store(SAVE.prog, PROG); return ['Opened: the whole chord. <b>The 3rd, the 5th and the root</b>', 'Next up: <b>Chord changes</b>, where the 3rd moves too']; }
+    const c = PB.won && conceptsUpdate(); store(SAVE.prog, PROG); return c ? [`Next time: <b>${esc(c.title)}</b>`] : []; })();
   PB.discs = discoveriesCheck(); summaryWrite();   // (anything found for the first time, and the widget summary)
 }
 
@@ -4055,7 +4106,7 @@ const CONCEPTS = [
   { id: 'third', title: 'The major 3rd', line: 'New: the 3rd volleys it back', cap: { q: ['maj'], chords: 1 }, ready: () => !!PROG.won['island-1'] },
   { id: 'fifth', title: 'The 5th', line: 'New: spike pop-ups with the 5th', cap: { pops: true }, ready: () => nAt('maj', '3rd') >= 1 },
   { id: 'root', title: 'The root', line: 'New: save their spikes with the root', cap: { attack: true }, ready: () => nAt('maj', '5th') >= 1 },
-  { id: 'changes', title: 'Chord changes', line: 'New: two chords. The 3rd moves too', cap: { chords: 2 }, ready: () => nAt('maj', 'root') >= 1 },
+  { id: 'changes', title: 'Chord changes', line: 'New: two chords. The 3rd moves too', cap: { chords: 2 }, ready: () => nAt('maj', '3rd') >= 1 && nAt('maj', '5th', 1) + nAt('maj', 'root', 1) >= 1 },
   { id: 'minor', title: 'The minor 3rd', line: 'New: minor. Its 3rd is a fret lower', cap: { q: ['min'] }, ready: () => nAt('maj', '3rd') >= 2 },
   { id: 'progressions', title: 'Progressions', line: 'New: four chords. Follow the changes', cap: { chords: 4 }, ready: () => nAt('min', '3rd') >= 1 },
   { id: 'seventh', title: 'The 7th', line: 'New: dink pop-ups with the 7th', cap: { q: ['dom7'] }, ready: () => nAll() >= 6 },
@@ -4085,6 +4136,14 @@ function capNow() {
   for (const id of conceptsOpen()) { const k = CONCEPTS.find(x => x.id === id); if (!k) continue; const p = k.cap;
     (p.q || []).forEach(q => c.q.add(q)); if (p.chords) c.chords = Math.max(c.chords, p.chords); if (p.pops) c.pops = true; if (p.attack) c.attack = true; if (p.blues) c.blues = true; if (p.iiV) c.iiV = true; }
   return c;
+}
+// Winning First Serve opens the whole chord at once (it was played with all three tones), so the very next
+// built match can bring in a second chord: one match on C alone, then the 3rd starts moving.
+function firstServeOpen() {
+  const open = conceptsOpen(), add = ['third', 'fifth', 'root'].filter(id => !open.includes(id));
+  for (const id of add) { open.push(id); (PROG.conceptSeen ||= {})[id] = true; FBA.track('concept_open', { concept: id }); }
+  if (add.length) PROG.sinceOpen = 1;
+  return add.length;
 }
 // After each match (and at start-up): open what's ready, in order, one step at a time.
 function conceptsUpdate() {
@@ -4138,14 +4197,7 @@ function trackAllowed(t, cap) {
 function shiftFor(t, k) { const home = (t.key.root + (trackFacts(t).minor ? 3 : 0)) % 12; return ((k - home) % 12 + 12) % 12; }
 
 // ---------- the builder ----------
-// Venues: the clubs' courts and opponents, each hosting the styles that suit it.
-const VENUE_STYLES = { island: ['bossa', 'pop', 'lofi', 'folk', 'ballad'], juke: ['blues', 'swing'], rooftop: ['swing', 'bossa', 'neosoul'], canyon: ['neosoul', 'lofi', 'ballad', 'folk'], stadium: ['pop', 'blues'] };
-const venueStyles = c => c.styles || VENUE_STYLES[c.id] || [];   // (set in the editor: Venues → Styles it hosts)
-function venueFor(style) {
-  const fits = CLUBS.filter(c => venueStyles(c).includes(style));
-  const pool = fits.length ? fits : CLUBS; const last = PROG.lastVenue;
-  const v = pool.length > 1 ? pick(pool.filter(c => c.id !== last)) : pool[0]; PROG.lastVenue = v.id; return v;
-}
+// Every match is played on the court you've chosen (see courts, in the save data): any song, any level.
 function buildMatch() {
   if (!conceptsOpen().length) conceptsUpdate();   // (ideas open after matches; this is only for a player with none yet)
   const cap = capNow(), open = conceptsOpen(), recent = PROG.recentTracks || [];
@@ -4177,7 +4229,7 @@ function buildMatch() {
   const cfg = { id: 'built', title: best.t.name, to: cap.pops ? 7 : 5, yours: open.indexOf('progressions') >= 0 ? (sk > .75 ? 1 : 2) : 1, attack: cap.attack ? .08 + .22 * sk : 0,
     save: .3 + .35 * sk, pops: cap.pops, gentle: !cap.attack, tracks: [best.t.id], keys: [(best.t.key.root + best.sh) % 12], tempo: [bpm, bpm] };
   const box = boxes.length > 1 && Math.random() < .4 ? boxes[boxes.length - 1] : pick(boxes);
-  const venue = venueFor(best.t.style);
+  const venue = currentClub();
   const why = fresh ? 'new' : best.due >= 2 ? 'review' : 'practice';
   return { cfg, o: { club: venue.id, track: best.t.id, root: cfg.keys[0], bpm, box }, venue, track: best.t, why, due: best.due, fresh: freshK };
 }
@@ -4214,7 +4266,7 @@ function conceptsFromTour() {
 
 // ---------- 15 minutes of match play a day (unlimited with the full version) ----------
 // Only time in a match counts, and a match is never cut short: the limit is checked when one starts.
-const dailySecs = () => (PAYWALL().dailyMinutes ?? 15) * 60;   // (set in the editor: Venues → Paid version)
+const dailySecs = () => (PAYWALL().dailyMinutes ?? 15) * 60;   // (set in the editor: More → Paid version)
 function playToday() { const d = dayNum(); if (!PROG.play || PROG.play.d !== d) PROG.play = { d, secs: 0 }; return PROG.play; }
 const playLeft = () => isPaid() || !dailySecs() ? Infinity : Math.max(0, dailySecs() - playToday().secs);
 function playTick(dt) { if (isPaid()) return; const p = playToday(); p.secs += dt; if ((p.saved || 0) + 10 < p.secs) { p.saved = p.secs; store(SAVE.prog, PROG); } }
@@ -4222,15 +4274,15 @@ function playTick(dt) { if (isPaid()) return; const p = playToday(); p.secs += d
 // PLAY: the first time, First Serve; after that, a match built for you. Out of today's play? The card says so.
 async function playNext() {
   if (playLeft() <= 0) { UI.paywall = 'limit'; FBA.once('daily_limit'); render(); return; }
-  if (isNewPlayer() && CLUBS[0] && CLUBS[0].matches[0]) {
+  if (isNewPlayer() && firstServe()) {
     if (!PROG.soundChecked && !TRAILER.on && !ED_TESTING) { soundcheckOpen(); return; }   // (once: can the game hear the guitar?)
-    startTourMatch(CLUBS[0].matches[0].id); if (G.state !== 'pickle') return;
-    PB.purpose = 'Play the note on the ball'; PB.viaPlay = true; await playNow(); return;
+    startTourMatch(firstServe().id); if (G.state !== 'pickle') return;
+    PB.purpose = 'Play the note on the ball'; PB.viaPlay = true; render(); return;   // (the card waits for Play)
   }
   const b = buildMatch(); if (!b) return;
   prepMatch(b.cfg, b.o); PB.built = b; PB.purpose = builtLine(b); PB.viaPlay = true;
   FBA.track('play_built', { track: b.track.id, key: b.cfg.keys[0], why: b.why, concept: b.fresh ? b.fresh.id : '' });
-  await playNow();
+  render();   // (the match card stays up until you tap Play)
 }
 function homePlayLine() {
   if (isNewPlayer()) return 'Your first match';
@@ -4366,12 +4418,26 @@ function homeHtml() {
       <div class="bigs">
         <button class="big primary play" id="b-go"><span>Play</span><small>${esc(homePlayLine())}</small></button>
       </div>
+      ${isNewPlayer() ? '' : `<button class="courtbtn" id="b-courts"><span class="sw" style="${courtSwatch(currentClub())}"></span><span><small>Court</small><b>${esc(currentClub().name)}</b></span><span class="coins"><span class="coin" aria-hidden="true"></span>${coins()}</span></button>`}
       ${!isPaid() && !isNewPlayer() ? `<p class="morelinks"><button class="link" id="b-unlockmore">Unlimited play</button></p>` : ''}
       <div hidden>
       </div>
     </div>
     <button class="clip" id="b-clip" aria-label="Your progress">${CLIPBOARD_SVG}<span>Progress</span></button>
-  </div>${payOverlay()}`;
+  </div>${UI.club === 'courts' ? courtsHtml() : ''}${payOverlay()}`;
+}
+const courtSwatch = c => { const L = c.look || {}, sky = (L.sky && L.sky[0]) || '#7CCBEF', ct = (L.court && L.court.court) || '#3A7DC9'; return `background:linear-gradient(${sky} 0 48%, ${ct} 48%)`; };
+// The court shop: every court, what it costs, and which is yours. Tap one you own to play there; buy one you can afford.
+function courtsHtml() {
+  const cur = currentClub(), n = coins();
+  const rows = CLUBS.map(c => { const own = courtOwned(c), price = courtPrice(c), on = c === cur, can = !own && n >= price;
+    const st = on ? '<span class="st won">Playing here</span>' : own ? '<span class="st">Play here</span>' : can ? `<span class="st go">Buy · <span class="coin" aria-hidden="true"></span>${price}</span>` : `<span class="st">${ICON.lock}<span class="coin" aria-hidden="true"></span>${price}</span>`;
+    return `<button class="mrow court-row${on ? ' on' : ''}" data-court="${esc(c.id)}" ${!own && !can ? 'aria-disabled="true"' : ''}><span class="sw" style="${courtSwatch(c)}"></span><span class="mt">${esc(c.name)}<small>${esc(c.place || '')}${c.pair && c.pair.name ? ` · vs ${esc(c.pair.name)}` : ''}</small></span>${st}</button>`; }).join('');
+  return `<div class="sheet-bg" id="courts-bg"></div><div class="card sheet" role="dialog" aria-label="Courts">
+    <button class="round small xbtn" id="b-courtsx" aria-label="Close">${ICON.close}</button>
+    <p class="kicker">Courts</p><h2>Where you play</h2>
+    <p class="sub">You have <b><span class="coin" aria-hidden="true"></span>${n} coins</b>. Every match earns more; winning earns the most.</p>
+    <div class="mlist">${rows}</div>${UI.courtMsg ? `<p class="note">${esc(UI.courtMsg)}</p>` : ''}</div>`;
 }
 // The full version: unlimited play (everything else is free for everyone).
 function unlockActions() {
@@ -4394,7 +4460,7 @@ function micHtml() {
         <p class="mt-cap">${mic ? 'Play a note. The bar should jump past the line; the room should stay below it.' : 'Switch the microphone on to see what the game hears.'}</p></div>
       ${mic ? '' : '<div class="actions"><button class="btn primary" id="b-micon">Switch on the mic</button></div>'}
       ${mic ? `<div class="setrow"><div><b>Microphone</b><small>Use the one nearest your guitar.</small></div><select id="micSelect" style="width:auto;max-width:55%"><option>Looking…</option></select></div>
-      <div class="setrow"><div><b>Sensitivity</b><small>Raise it if soft notes go missing.</small></div><input id="sens" type="range" min="0" max="8" value="${sensVal}"></div>` : ''}
+      <div class="setrow"><div><b>Sensitivity</b><small>Raise it if soft notes go missing.</small></div><input id="sens" type="range" min="0" max="10" value="${sensVal}"></div>` : ''}
       <div class="setrow"><div><b>Playing through speakers?</b><small>Turn this on if the band comes out of speakers rather than headphones. It helps the mic ignore the music.</small></div><label class="switch"><input type="checkbox" id="ec" ${echoCancel ? 'checked' : ''}><span></span></label></div>
       ${mic ? `<div class="setrow"><div><b>Timing check</b><small id="timingCheck">${TIMING ? `Your setup adds ${Math.round(TIMING.lag * 1000)} ms. Matches allow for it.` : 'If hits feel late when you’re on the beat, play one note on each of 8 clicks.'}</small></div><button class="btn" id="timingStart">Start</button></div>` : ''}
       <p class="setsec">Tuning</p>
@@ -4471,10 +4537,10 @@ function clipboardHtml() {
 
 // ---------- the match cards ----------
 function matchIntroHtml() {
-  const sel = PB.sel, tr = TRACK[sel.track], kn = keyLabel(sel.track, sel.root), m = PB.tour, cl = CLUB[PB.club];
+  const sel = PB.sel, tr = TRACK[sel.track], kn = keyLabel(sel.track, sel.root), m = PB.tour, cl = CLUB[PB.club] || currentClub();
   return `<div class="card match"><p class="kicker">${esc(cl.name)}</p>
     <h2>${esc(PB.cfg.title)}</h2>
-    ${m && m.tip ? `<p class="tip">${esc(m.tip)}</p>` : ''}
+    ${m && m.tip ? `<p class="tip">${esc(m.tip)}</p>` : PB.purpose ? `<p class="tip">${esc(PB.purpose)}</p>` : ''}
     <p class="meta">${m ? `${starHtml(starsOf(m.id))} · ` : ''}${PB.pair ? `vs <b>${esc(PB.pair.name)}</b>: ${esc(PB.pair.style)}` : ''}</p>
     ${PB.cfg.eased ? '<p class="meta"><b>Easier this time:</b> a little slower, with fewer spikes.</p>' : ''}
     ${PB.cfg.gentle ? '<p class="meta"><b>Practice match:</b> a miss doesn’t cost you a point.</p>' : ''}
@@ -4482,6 +4548,13 @@ function matchIntroHtml() {
     ${(() => { if (PB.cfg.pops === false || (PROG.dink7 || 0) >= 99) return ''; const sh = ((sel.root - tr.key.root) % 12 + 12) % 12, ch = tr.ground.find(([, q]) => has7th(q)); if (!ch) return '';
       const ex = NAMES[(pc(ch[0]) + sh) % 12] + (CHORD_SUFFIX[ch[1]] ?? ''); return `<div class="newshot"><b>New shot: the 7th dink.</b> This song has 7th chords like ${esc(ex)}. When they pop it up on one, play its 7th to drop the ball just over the net. It’s hard to return.</div>`; })()}
     <div class="actions"><button class="btn primary" id="b-play">Play</button><button class="btn" id="b-leave">${m ? 'Back' : 'Change'}</button></div></div>`;
+}
+// The coins this match paid, and the next court they bring closer (or that you can buy now).
+function coinsLine() {
+  if (!PB.coinsGot) return '';
+  const next = CLUBS.filter(c => !courtOwned(c)).sort((a, b) => courtPrice(a) - courtPrice(b))[0];
+  const say = !next ? '' : coins() >= courtPrice(next) ? ` · <b>${esc(next.name)}</b> is yours to buy now` : ` · ${courtPrice(next) - coins()} more for <b>${esc(next.name)}</b>`;
+  return `<p class="meta coinline"><span class="coin" aria-hidden="true"></span>+${PB.coinsGot} coins (${coins()})${say}</p>`;
 }
 // After a loss: what went right, the one thing to fix, and whether the next try eases off.
 // After a loss: whether the next try eases off (what went wrong, or right, is the insight's job).
@@ -4493,13 +4566,14 @@ function matchOverHtml() {
   const acc = PB.tries ? ` · ${PB.hits} of ${PB.tries} balls landed` : '';
   const m = PB.tour;
   const opened = PB.opened.length ? `<ul class="learn opened">${PB.opened.map(o => `<li><span class="ic">🔓</span><span>${o}</span></li>`).join('')}</ul>` : '';
-  return `<div class="card match over"><div class="mbody" tabindex="-1"><p class="kicker">${m ? esc(CLUB[m.club].name) : PB.built ? esc(PB.built.venue.name) : ''} · ${esc(PB.cfg.title)}</p>
+  return `<div class="card match over"><div class="mbody" tabindex="-1"><p class="kicker">${CLUB[PB.club] ? esc(CLUB[PB.club].name) + ' · ' : ''}${esc(PB.cfg.title)}</p>
     <h2 class="${PB.won ? 'win' : 'loss'}">${PB.won ? 'You win' : 'They win'} ${Math.max(PB.us, PB.them)}–${Math.min(PB.us, PB.them)}</h2>
     ${insightHtml()}
     ${discHtml(PB.discs || [])}
     ${m && !PB.won ? lossNote() : ''}
     ${m && PB.won ? `<div class="starres">${starHtml(PB.starsGot, true)}<ul>${STAR_RULES.map((r, i) => `<li class="${i < PB.starsGot ? 'ok' : ''}">${i < PB.starsGot ? '✓' : '·'} ${r}</li>`).join('')}</ul></div>${PB.starsGot > PB.starsBefore && PB.starsBefore ? '<p class="meta"><b>New best!</b></p>' : PB.starsGot < starsOf(m.id) ? `<p class="meta">Your best here: ${starHtml(starsOf(m.id))}</p>` : ''}` : ''}
     <p class="meta">Longest rally ${PB.best} · ${PB.winners} winner${PB.winners === 1 ? '' : 's'}${acc}</p>
+    ${coinsLine()}
     ${opened}</div>
     <div class="actions">${`<button class="btn primary" id="b-go">Play next match</button><button class="btn" id="b-again">${PB.won ? 'Play again' : 'Try again'}</button><button class="btn" id="b-leave">Home</button>`}</div></div>`;
 }
@@ -4579,7 +4653,12 @@ function bind() {
   on('b-gear', () => goView('mic'));   // (Settings: the mic, the tuner, matches, and your progress)
   on('m-tuner2', () => openTuner());
   on('b-go', () => playNext()); on('b-unlockmore', () => { UI.paywall = 'grad'; render(); });   // (the offer: unlimited play)   // (Play: the best next match, straight in)
- on('b-clip', () => goView('stats')); on('b-streak', () => goView('stats'));
+  on('b-courts', () => { UI.club = 'courts'; UI.courtMsg = ''; render(); }); on('b-courtsx', () => { UI.club = null; render(); }); on('courts-bg', () => { UI.club = null; render(); });
+  document.querySelectorAll('[data-court]').forEach(el => { el.onclick = () => { const c = CLUB[el.dataset.court]; if (!c) return;
+    if (courtOwned(c)) { pickCourt(c.id); UI.club = null; render(); return; }
+    if (buyCourt(c.id)) { UI.courtMsg = `${c.name} is yours. You’re playing there now.`; render(); return; }
+    UI.courtMsg = `${c.name} costs ${courtPrice(c)} coins. ${courtPrice(c) - coins()} to go.`; render(); }; });
+  on('b-clip', () => goView('stats')); on('b-streak', () => goView('stats'));
   on('b-back', goBack);
   // free play
   on('b-custom', () => { UI.custom = !UI.custom; render(); });
@@ -4589,7 +4668,7 @@ function bind() {
   { const ec = document.getElementById('ec'); if (ec) ec.onchange = () => {   // echo cancellation is set when the mic opens: reopen it so the change takes effect now
       echoCancel = ec.checked; try { localStorage.setItem(SPEAKERS_KEY, echoCancel ? '1' : '0'); } catch {}
       if (mic) initMic(mic.deviceId || undefined).catch(() => {}); }; }
-  { const sens = document.getElementById('sens'); if (sens) sens.oninput = () => { sensVal = +sens.value; gate = .04 * Math.pow(.6, sensVal); try { localStorage.setItem(SENS_KEY, String(sensVal)); } catch {} }; }
+  { const sens = document.getElementById('sens'); if (sens) sens.oninput = () => { sensVal = +sens.value; gate = sensGate(sensVal); try { localStorage.setItem(SENS_KEY, String(sensVal)); } catch {} }; }
   if (document.getElementById('micSelect')) {
     fillMicList();
     document.getElementById('micSelect').onchange = async e => { const id = e.target.value; try { localStorage.setItem(MIC_DEVICE_KEY, id); } catch {} try { await initMic(id); walkTracker = new NoteTracker(); } catch { toast('Couldn’t open that microphone.'); } fillMicList(); };
@@ -4606,7 +4685,8 @@ function bind() {
   on('b-restore', restorePurchase); on('b-payretry', () => UI.payTxn && confirmPurchase(UI.payTxn));
   on('b-fakebuy', unlockFull);
   on('b-paylater', () => { UI.paywall = null; render(); }); on('pay-bg', () => { if (UI.paywall !== 'confirming') { UI.paywall = null; render(); } });
-  on('b-again', () => { if (playLeft() <= 0) { UI.paywall = 'limit'; render(); return; } if (PB.tour) { startTourMatch(PB.tour.id); return; } prepMatch(PB.cfg, { tour: PB.tour, club: PB.club }); playNow(); });
+  on('b-again', () => { if (playLeft() <= 0) { UI.paywall = 'limit'; render(); return; } const built = PB.built, purpose = PB.purpose;   // (back to the card: it waits for Play)
+    if (PB.tour) { startTourMatch(PB.tour.id); PB.purpose = purpose; render(); return; } prepMatch(PB.cfg, { tour: PB.tour, club: PB.club, box: PB.box }); PB.built = built; PB.purpose = purpose; render(); });
   on('b-insight', () => { UI.insightOpen = !UI.insightOpen; render(); });
   on('b-howto', () => { UI.howto = !UI.howto; render(); });   // (the rules, from the pause menu)   // the evidence behind the insight
   on('b-leave', leaveMatch);
@@ -4804,10 +4884,11 @@ function closeDraw(newId) { DS.open = false; const el = document.getElementById(
    own canvas (so what you see is exactly what the game draws). Drag empty space to pan; pinch or the
    wheel to zoom. The dashed frame is what every screen shows; the paler band beyond it shows on wider phones.
    ===================================================================== */
-const SC = { mode: 'arrange', sel: null, snap: true, brush: { color: '#FFFFFF', size: 10, erase: false }, undo: [], redo: [], guides: [], clip: null, panel: true, confirm: null };
+const SC = { mode: 'details', sel: null, snap: true, brush: { color: '#FFFFFF', size: 10, erase: false }, undo: [], redo: [], guides: [], clip: null, panel: true, confirm: null };
 const scClubId = () => { const c = ED && ED.clubs[EDV.court ?? 0]; return c ? c.id : null; };
-// The composer works on a venue's court: arrange your art, paint, or set the built-in environment.
+// The composer works on a court: arrange your art, paint, or set the built-in environment.
 const scPainting = () => SC.mode === 'paint';
+const scPanelOnly = () => SC.mode === 'environment' || SC.mode === 'details';   // (modes set in the panel: the court itself isn't touched)
 function scScene(create) {
   const id = scClubId(); if (!id) return null;
   if (!ART.scenes[id] && create) ART.scenes[id] = { objects: [], paint: null, paintVer: 0, hide: { sky: false, scenery: false, stage: false }, bg: '#BFE3F2' };
@@ -4864,7 +4945,7 @@ function scOrder(d) { const o = scObj(); if (!o) return; scChange(() => { const 
 // ---------- pointers on the court ----------
 const SCP = new Map(); let scAct = null, scPenSeen = false;
 function scDown(e) {
-  if (!ED_ON || EDV.tab !== 'court' || SC.mode === 'environment' || ED_TESTING) return;
+  if (!ED_ON || EDV.tab !== 'court' || scPanelOnly() || ED_TESTING) return;
   try { cv.setPointerCapture(e.pointerId); } catch {} const p = scPoint(e); SCP.set(e.pointerId, { cx: e.clientX, cy: e.clientY });
   if (e.pointerType === 'pen') scPenSeen = true;
   if (SCP.size >= 2) { if (scAct && scAct.kind === 'paint') { scAct.undo.cancel(); } else if (scAct && scAct.kind !== 'pan' && scBefore !== null) { const s = scScene(); Object.assign(s, JSON.parse(scBefore)); scBefore = null; }
@@ -4962,14 +5043,14 @@ function scLiveFields() { const o = scObj(); if (!o) return; for (const [k, v] o
 
 /* =====================================================================
    THE FRETBALL EDITOR (open the game with #admin on the end of its address).
-   Design the game without code: venues, their courts (drawn live beside the panel), opponents,
+   Design the game without code: courts (drawn live beside the panel), their prices and opponents,
    matches, and backing tracks (heard as you write them). Changes are kept as a draft in this browser;
    Play-test tries them in the real game; Save game file writes a new fretball.html with them built in.
    ===================================================================== */
 const ED_KEY = 'fretball-admin-draft';
 const edClone = o => JSON.parse(JSON.stringify(o));
 let ED = null;   // the draft being edited
-const EDV = { tab: 'tour', club: null, track: null, bar: 0, playing: false, confirm: null, saved: true, court: 0, artGroup: '', artRename: null, artNew: null };
+const EDV = { tab: 'court', club: null, track: null, bar: 0, playing: false, confirm: null, saved: true, court: 0, artGroup: '', artRename: null, artNew: null };
 
 /* Saving: the tour, tracks and settings go to localStorage (small); the artwork goes to IndexedDB (it's big),
    a moment after each change. The status line under the title always says where things stand. */
@@ -5006,22 +5087,17 @@ const SHOWFMT = { 'look.sun.x': v => Math.round(v * 100) + '%', attack: v => Mat
   'pair.attackMul': v => '×' + (+v).toFixed(2), 'pair.saveMul': v => '×' + (+v).toFixed(2), 'pair.pressMul': v => '×' + (+v).toFixed(2), 'pair.highMul': v => '×' + (+v).toFixed(2), 'pair.slip': v => (v * 100).toFixed(1) + '%' };
 const edSec = (title, body, open) => `<details class="es" ${open ? 'open' : ''}><summary>${title}</summary><div class="esb">${body}</div></details>`;
 
-// ---------- the Venues tab ----------
-function edClubList() {
-  const styleName = st => (LS_FEEL[st] || { name: st }).name;
-  return `<div class="elist">${ED.clubs.map((c, i) => `<div class="erow"><button class="erow-main" data-club="${i}"><i class="esw" style="background:linear-gradient(${c.look.sky[0]} 0 50%, ${c.look.court.court} 50%)"></i><span><b>${esc(c.name)}</b><small>${venueStyles(c).length ? esc(venueStyles(c).map(styleName).join(', ')) : 'hosts no styles yet'}${i === 0 ? ' · the first match is here' : ''}</small></span></button>
-    <button class="eic" data-mv="${i}" data-d="-1" ${i ? '' : 'disabled'} aria-label="Move up">↑</button><button class="eic" data-mv="${i}" data-d="1" ${i < ED.clubs.length - 1 ? '' : 'disabled'} aria-label="Move down">↓</button></div>`).join('')}</div>
-    <div class="actions"><button class="btn" id="ed-addclub">+ Add a venue</button></div>
-    <p class="hint">Each venue is a court with its opponents. Play builds every match itself, then holds it at a venue that hosts the song’s style. The first venue also holds First Serve, the scripted first match.</p>
-    ${(() => { if (!ED.paywall) ED.paywall = { dailyMinutes: 15, price: '', url: '' }; if (ED.paywall.dailyMinutes == null) ED.paywall.dailyMinutes = 15; if (!ED.paywall.paddleEnv) ED.paywall.paddleEnv = 'sandbox'; const o = { obj: ED };
-      return edSec('Paid version', EF.select('Free play a day', 'paywall.dailyMinutes', { 5: '5 minutes', 10: '10 minutes', 15: '15 minutes', 20: '20 minutes', 30: '30 minutes', 45: '45 minutes', 60: 'An hour', 0: 'No limit (everything free)' }, { ...o, num: true })
-        + EF.text('Price shown', 'paywall.price', { ...o, max: 20, ph: '$14.99' })
-        + EF.select('Paddle mode', 'paywall.paddleEnv', { sandbox: 'Sandbox (testing: no real money)', live: 'Live (real payments)' }, o)
-        + EF.text('Paddle client-side token', 'paywall.paddleToken', { ...o, max: 80, ph: 'test_… or live_…' })
-        + EF.text('Paddle price ID', 'paywall.priceId', { ...o, max: 60, ph: 'pri_…' })
-        + EF.text('Purchase server address', 'paywall.server', { ...o, max: 200, ph: 'https://fretball-server.you.workers.dev' })
-        + `<div class="actions"><button class="btn" id="ed-ownerpw">${ED.paywall.ownerHash ? 'Change owner password…' : 'Set owner password…'}</button></div><p class="hint">${ED.paywall.ownerHash ? 'An owner password is set.' : 'No owner password yet.'} It unlocks the full version on any device, for you.</p>`
-        + `<p class="hint">Everything is free for this many minutes of match play a day (a match is never cut short). Buying takes the limit away. With all three Paddle settings and the server filled in, buying opens Paddle’s checkout over the game, and your server confirms the payment.</p>`, false); })()}`;
+// ---------- the paid version (in More) ----------
+function edPaywallSec() {
+  if (!ED.paywall) ED.paywall = { dailyMinutes: 15, price: '', url: '' }; if (ED.paywall.dailyMinutes == null) ED.paywall.dailyMinutes = 15; if (!ED.paywall.paddleEnv) ED.paywall.paddleEnv = 'sandbox'; const o = { obj: ED };
+  return `<div data-base="">${edSec('Paid version', EF.select('Free play a day', 'paywall.dailyMinutes', { 5: '5 minutes', 10: '10 minutes', 15: '15 minutes', 20: '20 minutes', 30: '30 minutes', 45: '45 minutes', 60: 'An hour', 0: 'No limit (everything free)' }, { ...o, num: true })
+    + EF.text('Price shown', 'paywall.price', { ...o, max: 20, ph: '$14.99' })
+    + EF.select('Paddle mode', 'paywall.paddleEnv', { sandbox: 'Sandbox (testing: no real money)', live: 'Live (real payments)' }, o)
+    + EF.text('Paddle client-side token', 'paywall.paddleToken', { ...o, max: 80, ph: 'test_… or live_…' })
+    + EF.text('Paddle price ID', 'paywall.priceId', { ...o, max: 60, ph: 'pri_…' })
+    + EF.text('Purchase server address', 'paywall.server', { ...o, max: 200, ph: 'https://fretball-server.you.workers.dev' })
+    + `<div class="actions"><button class="btn" id="ed-ownerpw">${ED.paywall.ownerHash ? 'Change owner password…' : 'Set owner password…'}</button></div><p class="hint">${ED.paywall.ownerHash ? 'An owner password is set.' : 'No owner password yet.'} It unlocks the full version on any device, for you.</p>`
+    + `<p class="hint">Everything is free for this many minutes of match play a day (a match is never cut short). Buying takes the limit away. With all three Paddle settings and the server filled in, buying opens Paddle’s checkout over the game, and your server confirms the payment.</p>`, false)}</div>`;
 }
 const WEATHER = [['none', 'Clear'], ['rain', 'Rain'], ['snow', 'Snow'], ['storm', 'Storm'], ['mist', 'Mist']];
 // (the club whose look is being edited: the Courts tab's club)
@@ -5043,40 +5119,40 @@ function edLookControls(c) {
     <div class="erowf">${EF.color('Ground', 'look.ground', o)}${EF.check('Texture', 'look.texture', o)}${L.texture ? EF.color('Texture colour', 'look.ground2', o) : ''}</div>
     <h4>The court</h4><div class="erowf">${EF.color('Court', 'look.court.court', o)}${EF.color('Kitchen', 'look.court.kitchen', o)}${EF.color('Around it', 'look.court.around', o)}${EF.color('In front', 'look.court.front', o)}</div>`;
 }
-// New chords per match: chords no earlier scripted match has used (each one's tones start with the
-// board up, and a hang the first time). A chord is its root and type, so C major in a G song is the same C major.
-function edClubEditor() {
-  const c = edClub(), base = `clubs.${EDV.club}.`, on = venueStyles(c);
-  const styles = Object.keys(GROOVES).map(st => `<label class="echeck"><input type="checkbox" data-vstyle="${st}" ${on.includes(st) ? 'checked' : ''}> ${esc((LS_FEEL[st] || { name: st }).name)}</label>`).join('');
-  const first = c.matches.map(m => `<div class="erow"><div class="erow-main"><span class="enum">★</span><span><b>${esc(m.title)}</b><small>The scripted first match: every new player starts here</small></span></div></div>`).join('');
-  return `<button class="eback" id="ed-clubs">← All venues</button>
-    <div data-base="${base}">
-    ${edSec('Name', EF.text('Venue name', 'name', { obj: c, max: 24 }) + EF.text('Where it is', 'place', { obj: c, max: 40 }) + EF.text('One line about it', 'blurb', { obj: c, max: 80 }), true)}
-    <button class="btn wide-btn" data-designcourt="${EDV.club}">🎨 Design this venue’s court →</button>
-    ${edSec('Styles it hosts', `<div class="echecks">${styles}</div><p class="hint">Play holds a match here when its song is in one of these styles. A style no venue hosts can play anywhere.</p>`, true)}
-    ${edSec('Opponents', EF.text('Their name', 'pair.name', { obj: c, max: 24 }) + EF.text('How they play (on the card)', 'pair.style', { obj: c, max: 40 })
-      + EF.range('Spikes', 'pair.attackMul', .3, 2.5, .05, { obj: c, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('Saving your spikes', 'pair.saveMul', .3, 2.5, .05, { obj: c, fmt: v => '×' + (+v).toFixed(2) })
-      + EF.range('Cracking into pop-ups', 'pair.pressMul', .3, 2.5, .05, { obj: c, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('How high they hit', 'pair.highMul', .4, 1.8, .05, { obj: c, fmt: v => '×' + (+v).toFixed(2) })
-      + EF.range('Misses', 'pair.slip', 0, .2, .005, { obj: c, fmt: v => (v * 100).toFixed(1) + '%' })
-      + '<p class="hint">These make this venue’s pair harder or easier than the player’s level alone would.</p>')}
+// ---------- Courts → Details: the court's name, its price in coins, its opponents ----------
+const edCoins = v => (+v ? (+v).toLocaleString() + ' coins' : 'Free');
+function edCourtDetails(ci) {
+  const c = ED.clubs[ci], o = { obj: c };
+  if (c.price == null) c.price = ci === 0 ? 0 : (COURT_PRICE[c.id] ?? 100 * ci);
+  const first = c.matches.map(m => `<div class="erow"><div class="erow-main"><span class="enum">★</span><span><b>${esc(m.title)}</b><small>The scripted first match: every new player plays it first</small></span></div></div>`).join('');
+  return `<div data-base="clubs.${ci}.">
+    ${edSec('Name', EF.text('Court name', 'name', { obj: c, max: 24 }) + EF.text('Where it is', 'place', { obj: c, max: 40 }) + EF.text('One line about it', 'blurb', { obj: c, max: 80 }), true)}
+    ${edSec('Price', ci === 0 ? '<p class="hint">The first court in the list is free: every player owns it and starts here. Move another court to the top to make it the free one.</p>'
+      : EF.range('Coins to buy it', 'price', 0, 2000, 10, { obj: c, fmt: edCoins }) + '<p class="hint">Players earn coins in every match (about 15 to 35 a match: more for a win, for each ball they land and for each winner). Any song and any level can be played on any court: what a court costs is what makes it special.</p>', true)}
+    ${edSec('Opponents', EF.text('Their name', 'pair.name', o) + EF.text('How they play (on the card)', 'pair.style', { ...o, max: 40 })
+      + EF.range('Spikes', 'pair.attackMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('Saving your spikes', 'pair.saveMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) })
+      + EF.range('Cracking into pop-ups', 'pair.pressMul', .3, 2.5, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) }) + EF.range('How high they hit', 'pair.highMul', .4, 1.8, .05, { ...o, fmt: v => '×' + (+v).toFixed(2) })
+      + EF.range('Misses', 'pair.slip', 0, .2, .005, { ...o, fmt: v => (v * 100).toFixed(1) + '%' })
+      + '<p class="hint">These make this court’s pair harder or easier than the player’s level alone would.</p>')}
     </div>
     ${c.matches.length ? edSec('The first match', first, true) : ''}
-    <div class="actions"><button class="btn" id="ed-delclub" ${ED.clubs.length > 1 ? '' : 'disabled'}>Delete this venue</button></div>`;
+    <h4>In the shop</h4><p class="hint">Courts appear in the shop in this order.</p>
+    <div class="ebtns"><button class="btn" id="ed-mvcourt" data-d="-1" ${ci ? '' : 'disabled'}>↑ Earlier</button><button class="btn" id="ed-mvcourt2" data-d="1" ${ci < ED.clubs.length - 1 ? '' : 'disabled'}>↓ Later</button></div>
+    <div class="actions"><button class="btn" id="ed-addclub">+ Add a court</button><button class="btn" id="ed-delclub" ${ED.clubs.length > 1 ? '' : 'disabled'}>Delete this court</button></div>`;
 }
-
 // ---------- the Tracks tab ----------
 // ---------- the panel ----------
 let CLUBS_DEFAULT = () => FILE_DATA.clubs;
 function edRender() {
   const el = document.getElementById('editor'); if (!el) return;
   const sc = el.querySelector('.ebody'), top = sc ? sc.scrollTop : 0, tab = EDV.tab;
-  const body = tab === 'tour' ? (EDV.club === null ? edClubList() : edClubEditor()) : tab === 'court' ? edCourtPanel() : tab === 'art' ? edArtPanel() : tab === 'tracks' ? (EDV.track === null ? edTrackList() : edTrackEditor()) : edMore();
+  const body = tab === 'court' ? edCourtPanel() : tab === 'art' ? edArtPanel() : tab === 'tracks' ? (EDV.track === null ? edTrackList() : edTrackEditor()) : edMore();
   el.classList.toggle('collapsed', !SC.panel); el.classList.toggle('wide', tab === 'tracks');
   el.innerHTML = `<header class="ehead"><h2>Fretball Editor</h2>
       <div class="ebtns"><button class="btn" id="ed-test">Play-test</button><button class="btn primary" id="ed-publish" ${pubBusy ? 'disabled' : ''}>${pubBusy ? 'Publishing…' : 'Publish'}</button><button class="btn" id="ed-hide" title="Hide the panel" aria-label="Hide the panel">◧</button></div>
       ${EDV.pubConfirm ? `<div class="pubconfirm"><p>Publish to the live game? Players get it within a minute or two. (Play-tested it?)</p><div class="ebtns"><button class="btn primary" id="pub-go">Publish now</button><button class="btn" id="pub-cancel">Cancel</button></div></div>` : ''}
       <p class="estatus" id="ed-status">${artSaving ? 'Saving…' : pubBusy ? 'Publishing…' : pubReady() ? (pubUnpublished() ? 'Saved in this browser. Not published yet.' : `Published (#${PUB.lastRev}). No changes since.`) : EDV.saved ? 'No changes yet.' : 'Saved in this browser. Not published yet.'}</p>
-      <div class="seg etabs">${[['tour', 'Venues'], ['court', 'Courts'], ['art', 'Art'], ['tracks', 'Library'], ['more', 'More']].map(([k, n]) => `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-pressed="${tab === k}">${n}</button>`).join('')}</div></header>
+      <div class="seg etabs">${[['court', 'Courts'], ['art', 'Art'], ['tracks', 'Library'], ['more', 'More']].map(([k, n]) => `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-pressed="${tab === k}">${n}</button>`).join('')}</div></header>
     <div class="ebody">${body}</div>`;
   el.querySelector('.ebody').scrollTop = top;
   edMini(); edPreview(); edLayout();
@@ -5098,7 +5174,7 @@ function edLayout() {
   STAGE_INSET = open && !sheet ? Math.min(innerWidth * .9, el.offsetWidth) * VW / Math.max(1, innerWidth) : 0;
   STAGE_INSET_B = open && sheet ? el.offsetHeight * VH / Math.max(1, innerHeight) : 0;
   const m = document.getElementById('edmini'); if (m) { m.style.left = open && !sheet ? el.offsetWidth + 10 + 'px' : '10px'; }
-  if (EDVIEW.on && SC.mode !== 'environment') cv.style.cursor = SC.mode === 'paint' ? 'crosshair' : 'default'; else cv.style.cursor = '';
+  if (EDVIEW.on && !scPanelOnly()) cv.style.cursor = SC.mode === 'paint' ? 'crosshair' : 'default'; else cv.style.cursor = '';
 }
 // ---------- Courts: arrange your art, paint, or set the built-in environment ----------
 const thumb = (a, cls = '') => `<span class="athumb ${cls}"><img src="${a.src}" alt=""></span>`;
@@ -5130,9 +5206,10 @@ function edCourtPanel() {
       <label class="ef"><span>Size <b data-pv="size">${SC.brush.size}</b></span><input type="range" id="sc-psize" min="1" max="80" value="${SC.brush.size}"></label>
       <div class="st-pal">${PALETTE.map(cl => `<button class="sw ${!SC.brush.erase && cl.toLowerCase() === SC.brush.color.toLowerCase() ? 'on' : ''}" data-pcol="${cl}" style="background:${cl}" aria-label="Colour ${cl}"></button>`).join('')}<label class="sw pick" aria-label="Any colour"><input id="sc-pcolor" type="color" value="${SC.brush.color}"></label></div>
       <div class="ebtns" style="margin-top:12px">${SC.confirm === 'clearpaint' ? '<button class="btn danger-btn" id="sc-clearpaint2">Clear all the paint</button><button class="btn" id="sc-cancel">Keep it</button>' : '<button class="btn" id="sc-clearpaint">Clear paint…</button>'}</div>`;
-  } else body += `<div data-base="clubs.${ci}.">${edLookControls(c)}</div>`;
-  return `<label class="ef"><span>Venue</span><select id="cc-club">${ED.clubs.map((x, i) => `<option value="${i}" ${i === ci ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label>
-    <div class="modegroup"><span>The court</span><div class="seg etabs">${[['arrange', 'Arrange'], ['paint', 'Paint'], ['environment', 'Environment']].map(([k, n]) => `<button data-scmode="${k}" class="${SC.mode === k ? 'on' : ''}">${n}</button>`).join('')}</div></div>
+  } else if (SC.mode === 'details') body += edCourtDetails(ci);
+  else body += `<div data-base="clubs.${ci}.">${edLookControls(c)}</div>`;
+  return `<label class="ef"><span>Court</span><select id="cc-club">${ED.clubs.map((x, i) => `<option value="${i}" ${i === ci ? 'selected' : ''}>${esc(x.name)}${i === 0 ? ' (free)' : ` (${edCoins(x.price ?? COURT_PRICE[x.id] ?? 100 * i)})`}</option>`).join('')}</select></label>
+    <div class="modegroup"><span>The court</span><div class="seg etabs">${[['details', 'Details'], ['arrange', 'Arrange'], ['paint', 'Paint'], ['environment', 'Environment']].map(([k, n]) => `<button data-scmode="${k}" class="${SC.mode === k ? 'on' : ''}">${n}</button>`).join('')}</div></div>
     <div class="ebtns" style="margin:10px 0"><button class="btn" id="sc-undo" ${SC.undo.length ? '' : 'disabled'}>↶ Undo</button><button class="btn" id="sc-redo" ${SC.redo.length ? '' : 'disabled'}>↷ Redo</button><button class="btn primary" id="sc-test">▶ Test this court</button></div>
     ${body}`;
 }
@@ -5151,8 +5228,9 @@ function edArtPanel() {
 }
 function edMore() {
   return `${pubPanel()}
+    ${edPaywallSec()}
     <h4>Download the game file</h4><p class="hint">The whole game as one file, with your work built in: for hosting somewhere else, or as an extra backup.</p><button class="btn" id="ed-download">Download index.html</button>
-    <h4>Back up your work</h4><p class="hint">A backup file holds everything: venues, tracks and all your art, courts and painting. Keep it somewhere safe (a cloud drive, email to yourself).</p>
+    <h4>Back up your work</h4><p class="hint">A backup file holds everything: courts, tracks and all your art and painting. Keep it somewhere safe (a cloud drive, email to yourself).</p>
     <div class="ebtns"><button class="btn" id="ed-backup">Download backup</button><label class="btn">Load a backup<input type="file" id="ed-loadfile" accept=".json,application/json" hidden></label></div>
     ${EDV.pendingImport ? `<div class="danger"><p><b>${esc(EDV.pendingImport.label)}</b></p><div class="ebtns"><button class="btn primary" id="imp-merge">Add its art to mine</button><button class="btn danger-btn" id="imp-replace">Replace everything with it</button><button class="btn" id="imp-cancel">Cancel</button></div><p class="hint">“Add its art” keeps all your work, adds its drawings, and adds its courts where yours are empty.</p></div>` : ''}
     <button class="linkbtn" id="ed-paste" style="margin-top:8px">Paste an older text backup</button>
@@ -5162,7 +5240,7 @@ function edMore() {
 }
 // What the screen behind the panel shows: the club's court, live.
 function edPreview() {
-  const c = EDV.tab === 'court' ? ED.clubs[Math.min(EDV.court || 0, ED.clubs.length - 1)] : EDV.tab === 'tour' ? (edClub() || ED.clubs[0]) : null;
+  const c = EDV.tab === 'court' ? ED.clubs[Math.min(EDV.court || 0, ED.clubs.length - 1)] : null;
   LOOK_PREVIEW = c ? c.look : null; if (c) THEME = c.id;
 }
 // ---------- shrinking the art for the file (same pixels, fewer bytes) ----------
@@ -5249,14 +5327,15 @@ function edClick(e) {
   if (edArtClick(b, id, d)) return;
   if (EDV.tab === 'tracks' && lsClick(b, id, d)) return;
   if (d.tab) { EDV.tab = d.tab; EDV.confirm = null; if (EDV.playing) { stopBacking(); EDV.playing = false; } }
-  else if (d.club !== undefined) { EDV.club = +d.club; }
-  else if (id === 'ed-clubs') { EDV.club = null; }
-  else if (d.mv !== undefined) { const i = +d.mv, j = i + +d.d; [ED.clubs[i], ED.clubs[j]] = [ED.clubs[j], ED.clubs[i]]; edSave(); }
+  else if (id === 'ed-mvcourt' || id === 'ed-mvcourt2') { const i = Math.min(EDV.court || 0, ED.clubs.length - 1), j = i + +d.d; if (j < 0 || j >= ED.clubs.length) return; [ED.clubs[i], ED.clubs[j]] = [ED.clubs[j], ED.clubs[i]]; EDV.court = j; edSave(); }
   else if (id === 'ed-ownerpw') { const a = prompt('New owner password (at least 8 characters, not one you use elsewhere):'); if (!a) return; if (a.length < 8) { alert('Use at least 8 characters.'); return; } if (prompt('Type it again:') !== a) { alert('Those didn’t match.'); return; } ownerHash(a).then(h => { ED.paywall.ownerHash = h; edSave(); edRender(); toast('Owner password set. Publish to use it on the live site.'); }); return; }
-  else if (id === 'ed-addclub') { const base = edClone(ED.clubs[ED.clubs.length - 1]), cid = edUid(edSlug('club')); base.id = cid; base.name = 'New Venue'; base.place = 'Somewhere new'; base.blurb = '';
+  else if (id === 'ed-addclub') { const last = ED.clubs[ED.clubs.length - 1], base = edClone(last), cid = edUid(edSlug('court')); base.id = cid; base.name = 'New Court'; base.place = 'Somewhere new'; base.blurb = ''; delete base.styles;
+    base.price = Math.round(((last.price ?? 100 * (ED.clubs.length - 1)) + 100) / 10) * 10;
     base.look = { ...edClone(base.look), weather: { type: 'none', amount: .5, wind: 0 } };
-    base.matches = []; ED.clubs.push(base); EDV.club = ED.clubs.length - 1; edSave(); }
-  else if (id === 'ed-delclub') { if (EDV.confirm === 'club') { ED.clubs.splice(EDV.club, 1); EDV.club = null; EDV.confirm = null; edSave(); } else { EDV.confirm = 'club'; b.textContent = 'Tap again to delete it for good'; return; } }
+    base.matches = []; ED.clubs.push(base); EDV.court = ED.clubs.length - 1; SC.mode = 'details'; SC.sel = null; edSave(); }
+  else if (id === 'ed-delclub') { if (EDV.confirm === 'club') { const i = Math.min(EDV.court || 0, ED.clubs.length - 1), gone = ED.clubs.splice(i, 1)[0];
+      if (gone.matches.length && ED.clubs[0]) ED.clubs[0].matches = [...gone.matches, ...ED.clubs[0].matches];   // (First Serve stays in the game)
+      EDV.court = Math.max(0, i - 1); EDV.confirm = null; edSave(); } else { EDV.confirm = 'club'; b.textContent = 'Tap again to delete it for good'; return; } }
   else if (d.preset !== undefined) { const src = CLUBS_DEFAULT()[+d.preset].look, L = edLookClub().look; for (const k of ['sky', 'horizon', 'sun', 'stars', 'clouds', 'ground', 'ground2', 'court']) L[k] = edClone(src[k]); edSave(); }
   else if (d.skyband) { const L = edLookClub().look; if (+d.skyband > 0) L.sky.push(L.sky[L.sky.length - 1]); else L.sky.pop(); edSave(); }
   else if (id === 'ed-deltrack') { if (EDV.confirm === 'track') { const tid = t.id; ED.tracks.splice(EDV.track, 1); ED.clubs.forEach(cl => cl.matches.forEach(m => { m.tracks = m.tracks.filter(x => x !== tid); if (!m.tracks.length) m.tracks = [ED.tracks[0].id]; })); EDV.track = null; EDV.confirm = null; if (EDV.playing) { stopBacking(); EDV.playing = false; } edSave(); } else { EDV.confirm = 'track'; b.textContent = 'Tap again to delete it for good'; return; } }
@@ -5274,9 +5353,7 @@ function edClick(e) {
   edRender();
 }
 function edChange(e) {
-  const el = e.target, c = edClub();
   if (edArtChange(e)) return;
-  if (el.dataset.vstyle) { const cur = venueStyles(c); c.styles = el.checked ? [...new Set([...cur, el.dataset.vstyle])] : cur.filter(x => x !== el.dataset.vstyle); edSave(); edRender(); return; }   // (a venue's styles)
   edInput(e);
 }
 async function openEditor() {
@@ -5319,7 +5396,7 @@ const adminTop = which => `<header class="adm-top"><h1>Fretball admin</h1>
 function openAdminHome() {
   adminPage(`<div class="adm">${adminTop('')}
     <div class="adm-hub">
-      <a class="adm-door red" href="#admin/editor"><i aria-hidden="true">✎</i><b>Editor</b><span>Build the venues, their courts and art, and the backing tracks. Play-test it, then publish.</span></a>
+      <a class="adm-door red" href="#admin/editor"><i aria-hidden="true">✎</i><b>Editor</b><span>Build the courts and their art, and the backing tracks. Play-test it, then publish.</span></a>
       <a class="adm-door" href="#admin/analytics"><i aria-hidden="true">●</i><b>Analytics</b><span>See who’s playing right now, who comes back, and which matches players get stuck on.</span></a>
       <a class="adm-door" href="#admin/marketing"><i aria-hidden="true">▶</i><b>Marketing</b><span>Record clips for TikTok, Reels and YouTube: the game plays itself, with no score or buttons in the way.</span></a>
     </div></div>`, 'Fretball admin');
@@ -5708,7 +5785,7 @@ async function trailerScene(id) {
   }
   // the first match, from scratch: nothing known, so the first new note hangs
   PROG.items = {}; PROG.known = {}; PROG.seen = {};
-  startTourMatch(CLUBS[0].matches[0].id); await new Promise(r => setTimeout(r, 400)); await playNow();
+  startTourMatch(firstServe().id); await new Promise(r => setTimeout(r, 400)); await playNow();
 }
 function trailerPluck(midi) { try { playTones([midi], ctx.currentTime + .01, 0, 1.3, .3); } catch {} }
 function trailerBot() {   // plays the right note, a moment after each ball arrives, like a confident player (and, in a hang, like someone finding it)
@@ -5777,8 +5854,7 @@ else FBA.track('app_open');   // (playing, not editing: a visit)
 /* ---------- Art and Courts: the clicks, sliders and files ---------- */
 function edArtClick(b, id, d) {
   const s = scScene(), o = scObj();
-  if (d.designcourt !== undefined) { EDV.tab = 'court'; EDV.court = +d.designcourt; SC.sel = null; SC.mode = 'environment'; scFit(); }
-  else if (d.scmode) { SC.mode = d.scmode; SC.confirm = null; if (scPainting() || SC.mode === 'environment') SC.sel = null; }
+  if (d.scmode) { SC.mode = d.scmode; SC.confirm = null; if (scPainting() || scPanelOnly()) SC.sel = null; }
   else if (id === 'ed-hide') { SC.panel = false; if (EDV.tab !== 'court') EDV.tab = 'court'; }
   else if (id === 'ed-show') { SC.panel = true; }
   else if (id === 'sc-undo') scUndo(); else if (id === 'sc-redo') scRedo();
@@ -5866,7 +5942,7 @@ function edStageImport(raw, label) {   // check it, then ask how to bring it in
   const d = raw && raw.kind === 'fretball-backup' ? raw.data : raw;
   if (!d || !Array.isArray(d.clubs) || !Array.isArray(d.tracks) || !d.clubs.length) { toast('That isn’t a Fretball backup.'); return; }
   const art = d.art && d.art.assets ? d.art : ART_EMPTY(), na = Object.keys(art.assets).length, ns = Object.keys(art.scenes || {}).length;
-  EDV.pendingImport = { d, art, label: `${label}: ${d.clubs.length} venue${d.clubs.length === 1 ? '' : 's'}, ${d.tracks.length} tracks, ${na} drawing${na === 1 ? '' : 's'}, ${ns} decorated court${ns === 1 ? '' : 's'}.` };
+  EDV.pendingImport = { d, art, label: `${label}: ${d.clubs.length} court${d.clubs.length === 1 ? '' : 's'}, ${d.tracks.length} tracks, ${na} drawing${na === 1 ? '' : 's'}, ${ns} decorated court${ns === 1 ? '' : 's'}.` };
   EDV.tab = 'more'; edRender();
 }
 function edDoImport(replace) {
@@ -6096,7 +6172,7 @@ function edTrackEditor() {
         <span class="ebtns"><button class="btn" id="ls-addbar">+ Bar</button><button class="btn" id="ed-dupbars" ${t.chords.length <= 32 ? '' : 'disabled'}>Repeat it all</button>${EDV.typing ? '' : '<button class="btn" id="ls-typeopen">✎ Type the chart</button>'}</span></div>
     </div>
     ${EDV.bar !== null && !EDV.typing ? lsBarEditor(t) : EDV.typing ? '' : '<p class="hint" style="text-align:center">Tap a bar to change its chord.</p>'}
-    <p class="hint">${used.length ? `Play can pick this for any match once a player’s ready for its chords. It’s also in: ${used.map(esc).join(' · ')}` : 'Play can pick this for any match once a player’s ready for its chords, at a venue that hosts its style.'}</p>
+    <p class="hint">${used.length ? `Play can pick this for any match once a player’s ready for its chords. It’s also in: ${used.map(esc).join(' · ')}` : 'Play can pick this for any match once a player’s ready for its chords, on whichever court they’re playing.'}</p>
     <div class="actions"><button class="btn" id="ed-deltrack" ${ED.tracks.length > 1 ? '' : 'disabled'}>Delete this track</button></div>`;
 }
 // ---------- wiring ----------
